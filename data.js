@@ -3,14 +3,112 @@ window.PORTFOLIO = {
     {
       id:"cards-analyzer", group:"featured", order:1, kind:"Projet personnel", status:"En cours",
       title:"Cards Analyzer", subtitle:"Banc d’acquisition optique multi-éclairage",
+      role:"Concepteur système / développeur logiciel & vision",
       period:"Depuis mai 2026",
       summary:"Un système complet d’acquisition haute résolution qui relie mécanique, optique, éclairage, ROS 2/C++, backend TypeScript et interface web.",
       tags:["ROS 2","C++20","Vision","TypeScript","FreeCAD"],
       facts:["Prototype V1 avancé","9 groupes lumineux","Arducam 64 MP"],
-      context:"Projet de R&D systèmes & vision destiné à analyser des cartes de collection dans des conditions d’acquisition contrôlées. Une architecture initialement très automatisée a volontairement été réduite à une V1 permettant de qualifier d’abord la mécanique, l’optique, la synchronisation et le pipeline de traitement.",
-      work:["Conception du banc mécanique sous FreeCAD et fabrication additive du prototype.","Architecture logicielle modulaire ROS 2/C++ + NestJS/TypeScript + React.","Backend libcamera persistant avec preview et captures analytiques haute résolution.","Pilotage de neuf groupes lumineux via PCA9685/I²C et profils YAML d’acquisition.","Pipeline RAW Bayer, corrections photométriques et premières étapes de localisation géométrique."],
-      results:["Prototype mécanique et électronique construit.","Acquisition haute résolution pilotable et reproductible.","Orchestration complète entre ROS 2, backend et interface web.","Premiers traitements photométriques et géométriques opérationnels."],
-      limits:"L’analyse finale automatisée des défauts de surface n’est pas encore qualifiée. La géométrie des bords et des coins reste expérimentale ; les étapes mécaniques plus ambitieuses sont différées jusqu’à validation suffisante de l’acquisition."
+      context:"Projet personnel de R&D systèmes & vision destiné à analyser visuellement des cartes de collection dans des conditions d’acquisition contrôlées et reproductibles. La réflexion initiale envisageait une station fortement automatisée — déplacement sur rails, acquisition par tuiles, retournement et alimentation depuis des racks — puis le périmètre a volontairement été réduit à une V1 permettant de qualifier d’abord la mécanique, l’optique, l’acquisition et le traitement.",
+      objective:[
+        "Maîtriser le positionnement de la carte et de la caméra.",
+        "Contrôler les conditions lumineuses et synchroniser précisément lumière et acquisition.",
+        "Produire des captures haute résolution reproductibles, traçables et configurables par profils.",
+        "Construire progressivement les corrections photométriques et la localisation géométrique nécessaires à l’analyse de surface."
+      ],
+      architecture:["Carte / support","Éclairage 9 groupes","Arducam 64 MP","ROS 2 / C++","NestJS / TypeScript","React"],
+      sections:[
+        {
+          title:"Conception système & mécanique",
+          text:"Le prototype est pensé comme un banc d’acquisition complet plutôt qu’une simple caméra montée au-dessus d’une carte.",
+          bullets:[
+            "Conception d’une enceinte optique, d’un support de carte, d’un positionnement réglable de la caméra et des interfaces d’assemblage.",
+            "Architecture mécanique modulaire séparant coque optique, structure porteuse de caméra et électronique.",
+            "Conception du support coulissant de carte, des supports électroniques et du cheminement des câbles.",
+            "CAO sous FreeCAD, adaptation des grandes pièces aux contraintes d’impression et ajout de renforts.",
+            "Fabrication additive du prototype et itérations d’assemblage."
+          ]
+        },
+        {
+          title:"Optique & éclairage",
+          text:"Une photographie unique ne révèle pas correctement tous les défauts d’une carte brillante, texturée ou holographique. La V1 multiplie donc les conditions d’éclairage de manière contrôlée.",
+          bullets:[
+            "Arducam 64 MP sur Raspberry Pi 5 pour les captures analytiques haute résolution.",
+            "Un éclairage global diffus complété par huit éclairages directionnels.",
+            "Neuf groupes lumineux pilotables : un global et huit directions réparties sur deux angles.",
+            "Travail sur les diffuseurs, les orientations de lumière et la reproductibilité des séquences."
+          ]
+        },
+        {
+          title:"Architecture logicielle",
+          text:"La chaîne est découpée pour isoler la logique métier des adaptateurs matériels et permettre de qualifier séparément chaque sous-système.",
+          bullets:[
+            "Architecture modulaire associant ROS 2 / C++, NestJS / TypeScript et React / TypeScript.",
+            "Composants dédiés à la caméra, l’éclairage, l’acquisition, la calibration, le traitement d’image, les workflows de scan et le bringup.",
+            "Séparation entre logique métier testable et adaptateurs matériels ou ROS lorsque pertinent.",
+            "Contrats versionnés pour les sessions d’acquisition, données RAW, artefacts de calibration et géométrie."
+          ]
+        },
+        {
+          title:"Caméra & acquisition",
+          text:"L’acquisition doit garantir qu’une image correspond réellement à l’état lumineux et aux paramètres demandés, pas seulement qu’un fichier a été produit.",
+          bullets:[
+            "Backend libcamera persistant, avec gestion distincte de la preview et des captures analytiques.",
+            "Contrôle de l’exposition, du gain, de la balance des blancs, du focus et des phases de warm-up.",
+            "Garde-fous temporels vérifiant qu’une frame capturée a commencé son exposition après la commande lumineuse correspondante.",
+            "Écritures asynchrones des images et synchronisation avant publication d’une session exploitable."
+          ]
+        },
+        {
+          title:"Éclairage & orchestration",
+          text:"Les séquences d’acquisition sont configurées plutôt que codées en dur, afin de pouvoir comparer et reproduire des conditions expérimentales.",
+          bullets:[
+            "Abstraction d’éclairage et backend PCA9685 / I²C testable sans matériel physique.",
+            "Gestion des intensités, états complets ou partiels et délais de stabilisation.",
+            "Profils YAML décrivant éclairages, intensités, exposition, temporisations et captures.",
+            "Séquences asynchrones avec progression, annulation, gestion des erreurs et captures dark."
+          ]
+        },
+        {
+          title:"Traitement d’image",
+          text:"Le traitement progresse par étapes qualifiées, en conservant séparément méthodes établies, candidates et rejetées.",
+          bullets:[
+            "Pipeline RAW Bayer et traitements CFA.",
+            "Mise en place progressive de corrections photométriques, notamment dark / flat.",
+            "Premières étapes de localisation géométrique de la carte.",
+            "Qualification séparée de méthodes candidates pour les bords et les coins afin d’éviter de figer prématurément une approche."
+          ]
+        },
+        {
+          title:"Backend & interface",
+          text:"La couche applicative permet de piloter le banc, suivre l’état des acquisitions et exposer les fonctions ROS à une interface utilisateur.",
+          bullets:[
+            "API NestJS / Fastify avec intégration ROS via rclnodejs.",
+            "WebSocket pour le suivi d’état et de progression.",
+            "Interface React / Vite pour piloter les acquisitions et visualiser leur déroulement."
+          ]
+        }
+      ],
+      results:[
+        "Prototype V1 mécanique et électronique construit autour d’un dôme d’acquisition.",
+        "Chaîne multi-éclairage à neuf groupes intégrée.",
+        "Acquisition haute résolution pilotable et reproductible.",
+        "Orchestration complète entre ROS 2, backend et interface web.",
+        "Gestion de profils d’acquisition, captures dark et provenance des sessions.",
+        "Premiers traitements photométriques et géométriques opérationnels."
+      ],
+      validated:[
+        "Architecture du banc et intégration mécanique de la V1.",
+        "Pilotage caméra / éclairage et séquences d’acquisition.",
+        "Profils d’acquisition et orchestration des sessions.",
+        "Chaîne RAW et premières corrections photométriques."
+      ],
+      experimental:[
+        "Localisation finale des bords et coins.",
+        "Qualification automatisée des défauts de surface.",
+        "Architecture mécanique plus ambitieuse avec alimentation / retournement automatiques."
+      ],
+      limits:"Le projet est un prototype V1 avancé en cours. La détection finale et la qualification automatisée des défauts de surface ne sont pas encore établies. La géométrie des bords et des coins reste expérimentale, et certaines décisions de la future automatisation mécanique sont volontairement différées.",
+      environment:["C++20","ROS 2 Jazzy","rclcpp","libcamera","OpenCV","RAW Bayer RGGB","Raspberry Pi 5","Arducam 64 MP","PCA9685","I²C","NestJS","TypeScript","Fastify","rclnodejs","WebSocket","React","Vite","JSON","YAML","FreeCAD","KiCad","PrusaSlicer","Impression 3D","Tests / qualification","Agents IA"]
     },
     {
       id:"quant-platform", group:"featured", order:2, kind:"Projet personnel", status:"En cours",
