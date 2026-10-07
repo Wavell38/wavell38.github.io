@@ -109,8 +109,8 @@
     const factHtml=(p.facts||[]).map((f,i)=>'<div><span>'+['État','Repère','Point clé'][i]+'</span><strong>'+esc(f)+'</strong></div>').join('');
     const tones=['slate','slate','amber','violet','blue','green','purple','cyan'];
     const arch=(p.architecture||[]).map((x,i)=>
-      '<div class="arch-node arch-'+tones[i%tones.length]+'"><div class="arch-icon">'+archIcon(i)+'</div><strong>'+esc(x)+'</strong></div>'
-    ).join('<div class="arch-arrow" aria-hidden="true">›</div>');
+      '<div class="arch-node arch-step-'+i+' arch-'+tones[i%tones.length]+'"><div class="arch-icon">'+archIcon(i)+'</div><strong>'+esc(x)+'</strong></div>'
+    ).join('');
     const sections=(p.sections||[]).map((s,i)=>
       '<section class="case-section" id="work-'+(i+1)+'"><div class="case-index"><span>Travaux réalisés</span>'+String(i+1).padStart(2,'0')+'</div>'+
       '<div class="case-copy"><h2>'+esc(s.title)+'</h2>'+(s.text?'<p class="case-lede">'+esc(s.text)+'</p>':'')+list(s.bullets||[])+'</div></section>'
