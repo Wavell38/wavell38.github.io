@@ -55,3 +55,121 @@ footer{max-width:var(--max);margin:30px auto 0;padding:30px 28px 50px;border-top
 #context,#objective,#architecture,[id^="work-"],#validation,#results,#limits,#stack{scroll-margin-top:110px}
 @media(max-width:1379px){.case-toc{display:none}}
 @media(max-width:900px){.arch-node{width:140px;min-width:140px}.case-index span{display:none}}
+
+/* V3 — minimal scroll rail, technical lists, colored system chain */
+.title-accent{color:#49aef8;text-shadow:0 0 28px rgba(73,174,248,.10)}
+
+.case-toc{
+  right:10px;
+  width:168px;
+  padding:12px 10px 12px 0;
+  border-left:0;
+  font-size:.69rem;
+}
+.case-toc::after{
+  content:"";
+  position:absolute;
+  right:5px;
+  top:12px;
+  bottom:12px;
+  width:1px;
+  background:linear-gradient(180deg,transparent,rgba(119,145,169,.32) 8%,rgba(119,145,169,.32) 92%,transparent);
+}
+.toc-project{display:none}
+.toc-group{margin:9px 0}
+.toc-heading{
+  padding:0 18px 2px 0;
+  text-align:right;
+  opacity:.12;
+  font-size:.54rem;
+  letter-spacing:.14em;
+  color:#a9b6c2;
+}
+.toc-group.active-group .toc-heading{opacity:.62;color:#dbe6ee}
+.toc-link,
+.toc-link:not(.toc-work){
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 12px;
+  gap:9px;
+  align-items:center;
+  padding:4px 0;
+  color:#8493a0;
+}
+.toc-label{
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  opacity:.10;
+  transform:translateX(5px);
+  transition:opacity .18s ease,transform .18s ease,color .18s ease;
+}
+.toc-label b{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:650;color:inherit}
+.toc-dot{
+  grid-column:2;
+  width:7px;
+  height:7px;
+  justify-self:end;
+  position:relative;
+  z-index:2;
+  background:#536270;
+  opacity:.48;
+}
+.toc-link:hover .toc-label{opacity:.76;transform:none}
+.toc-link:hover .toc-dot{opacity:.85}
+.toc-link.active .toc-label{opacity:1;transform:none;color:#fff}
+.toc-link.active .toc-dot{
+  width:9px;height:9px;
+  opacity:1;
+  background:#54baff;
+  box-shadow:0 0 0 4px rgba(84,186,255,.10),0 0 16px rgba(84,186,255,.30)
+}
+
+/* system-flow: equal-sized nodes, compact icons and restrained color accents */
+.architecture-strip{margin-top:42px}
+.arch-flow{gap:7px;align-items:center;padding:4px 1px 14px}
+.arch-node{
+  width:118px;min-width:118px;height:92px;min-height:92px;
+  padding:12px 10px;
+  align-items:flex-start;
+  justify-content:space-between;
+  border-color:color-mix(in srgb,var(--node-color) 46%,var(--line));
+  background:linear-gradient(160deg,color-mix(in srgb,var(--node-color) 12%,transparent),rgba(255,255,255,.018));
+  box-shadow:inset 0 0 24px color-mix(in srgb,var(--node-color) 4%,transparent);
+}
+.arch-node strong{min-height:auto;font-size:.76rem;line-height:1.25}
+.arch-icon{
+  width:29px;height:29px;border-radius:8px;
+  display:grid;place-items:center;
+  background:color-mix(in srgb,var(--node-color) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--node-color) 38%,transparent);
+  color:var(--node-color)
+}
+.arch-icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.arch-arrow{width:15px;min-width:15px;color:#506170;font-size:.9rem}
+.arch-slate{--node-color:#9bb0c4}.arch-amber{--node-color:#f2bc5b}.arch-violet{--node-color:#c178f6}.arch-blue{--node-color:#55aef5}.arch-green{--node-color:#4fd4a7}.arch-purple{--node-color:#a47af3}.arch-cyan{--node-color:#55d2ec}
+
+/* technical lists: less "document bullet list", more scan-friendly engineering rows */
+.case-copy ul,.objective-box ul,.evidence-card ul{
+  list-style:none;
+  padding-left:0;
+}
+.case-copy li,.objective-box li,.evidence-card li{
+  position:relative;
+  padding:9px 0 9px 22px;
+  margin:0;
+  border-top:1px solid rgba(120,145,169,.12);
+}
+.case-copy li:first-child,.objective-box li:first-child,.evidence-card li:first-child{border-top:0}
+.case-copy li::before,.objective-box li::before,.evidence-card li::before{
+  content:"";
+  position:absolute;
+  left:0;top:1.18em;
+  width:9px;height:1px;
+  background:var(--accent);
+  opacity:.78
+}
+.evidence-card.experimental li::before{background:var(--warm)}
+.case-copy li+li,.objective-box li+li,.evidence-card li+li{margin-top:0}
+
+@media(max-width:1379px){.case-toc{display:none}}
