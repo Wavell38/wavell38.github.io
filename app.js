@@ -37,18 +37,75 @@
       '</div>';
   }
 
+  function tocHtml(p){
+    const work = (p.sections||[]).map((s,i)=>
+      '<a class="toc-link toc-work" href="#work-'+(i+1)+'" data-target="work-'+(i+1)+'" data-group="work">'+
+      '<span class="toc-dot"></span><span class="toc-num">'+String(i+1).padStart(2,'0')+'</span><span>'+esc(s.title)+'</span></a>'
+    ).join('');
+    return '<aside class="case-toc" aria-label="Sommaire du projet">'+
+      '<div class="toc-project">'+esc(p.title)+'</div>'+
+      '<div class="toc-group" data-group-block="overview"><div class="toc-heading">Vue d’ensemble</div>'+
+        '<a class="toc-link" href="#context" data-target="context" data-group="overview"><span class="toc-dot"></span><span>Contexte</span></a>'+
+        '<a class="toc-link" href="#objective" data-target="objective" data-group="overview"><span class="toc-dot"></span><span>Objectif</span></a>'+
+        '<a class="toc-link" href="#architecture" data-target="architecture" data-group="overview"><span class="toc-dot"></span><span>Chaîne système</span></a>'+
+      '</div>'+
+      '<div class="toc-group" data-group-block="work"><div class="toc-heading">Travaux réalisés</div>'+work+'</div>'+
+      '<div class="toc-group" data-group-block="outcome"><div class="toc-heading">Bilan</div>'+
+        '<a class="toc-link" href="#validation" data-target="validation" data-group="outcome"><span class="toc-dot"></span><span>Validation</span></a>'+
+        '<a class="toc-link" href="#results" data-target="results" data-group="outcome"><span class="toc-dot"></span><span>Résultats</span></a>'+
+        '<a class="toc-link" href="#limits" data-target="limits" data-group="outcome"><span class="toc-dot"></span><span>Limites</span></a>'+
+        '<a class="toc-link" href="#stack" data-target="stack" data-group="outcome"><span class="toc-dot"></span><span>Stack</span></a>'+
+      '</div>'+
+    '</aside>';
+  }
+
+  function setupScrollSpy(){
+    const toc = document.querySelector('.case-toc');
+    if(!toc) return;
+    const links = [...toc.querySelectorAll('.toc-link')];
+    const entries = links.map(link => ({
+      link,
+      el: document.getElementById(link.dataset.target),
+      group: link.dataset.group
+    })).filter(x=>x.el);
+
+    let ticking=false;
+    const update=()=>{
+      ticking=false;
+      const marker=190;
+      let active=entries[0];
+      for(const entry of entries){
+        if(entry.el.getBoundingClientRect().top <= marker) active=entry;
+        else break;
+      }
+      links.forEach(l=>l.classList.remove('active'));
+      toc.querySelectorAll('.toc-group').forEach(g=>g.classList.remove('active-group'));
+      if(active){
+        active.link.classList.add('active');
+        const group=toc.querySelector('[data-group-block="'+active.group+'"]');
+        if(group) group.classList.add('active-group');
+      }
+    };
+    window.addEventListener('scroll',()=>{
+      if(!ticking){ requestAnimationFrame(update); ticking=true; }
+    },{passive:true});
+    window.addEventListener('resize',update);
+    update();
+  }
+
   function renderCaseStudy(p, root){
     const factHtml=(p.facts||[]).map((f,i)=>'<div><span>'+['État','Repère','Point clé'][i]+'</span><strong>'+esc(f)+'</strong></div>').join('');
     const arch=(p.architecture||[]).map((x,i)=>'<div class="arch-node"><span>'+String(i+1).padStart(2,'0')+'</span><strong>'+esc(x)+'</strong></div>').join('<div class="arch-arrow">→</div>');
     const sections=(p.sections||[]).map((s,i)=>
-      '<section class="case-section" id="section-'+(i+1)+'">'+
-      '<div class="case-index">'+String(i+1).padStart(2,'0')+'</div>'+
+      '<section class="case-section" id="work-'+(i+1)+'">'+
+      '<div class="case-index"><span>Travaux réalisés</span>'+String(i+1).padStart(2,'0')+'</div>'+
       '<div class="case-copy"><h2>'+esc(s.title)+'</h2>'+(s.text?'<p class="case-lede">'+esc(s.text)+'</p>':'')+list(s.bullets||[])+'</div></section>'
     ).join('');
     const env=(p.environment||[]).map(x=>'<span>'+esc(x)+'</span>').join('');
     const links=(p.links||[]).length ? '<div class="project-links">'+p.links.map(l=>'<a class="btn secondary" href="'+esc(l[1])+'" target="_blank" rel="noreferrer">'+esc(l[0])+' ↗</a>').join('')+'</div>' : '';
 
     root.innerHTML =
+      tocHtml(p)+
       '<a class="project-back" href="./index.html#projets">← Retour aux projets</a>'+
       '<section class="project-hero case-hero">'+
         '<div class="case-kicker"><span>'+esc(p.kind)+'</span><span>'+esc(p.period)+'</span><span class="status">'+esc(p.status)+'</span></div>'+
@@ -60,19 +117,20 @@
       '</section>'+
       '<div class="case-study">'+
         '<section class="case-overview">'+
-          '<div><p class="eyebrow">Contexte</p><p class="case-intro">'+esc(p.context)+'</p></div>'+
-          '<div class="objective-box"><p class="eyebrow">Objectif V1</p>'+list(p.objective||[])+'</div>'+
+          '<div id="context"><p class="eyebrow">Contexte</p><p class="case-intro">'+esc(p.context)+'</p></div>'+
+          '<div id="objective" class="objective-box"><p class="eyebrow">Objectif V1</p>'+list(p.objective||[])+'</div>'+
         '</section>'+
-        '<section class="architecture-strip"><p class="eyebrow">Chaîne système</p><div class="arch-flow">'+arch+'</div></section>'+
+        '<section class="architecture-strip" id="architecture"><p class="eyebrow">Chaîne système</p><div class="arch-flow">'+arch+'</div></section>'+
         '<div class="case-sections">'+sections+'</div>'+
-        '<section class="evidence-section">'+
+        '<section class="evidence-section" id="validation">'+
           '<div class="evidence-card validated"><p class="eyebrow">Établi / validé dans la V1</p>'+list(p.validated||[])+'</div>'+
           '<div class="evidence-card experimental"><p class="eyebrow">Encore expérimental / différé</p>'+list(p.experimental||[])+'</div>'+
         '</section>'+
-        '<section class="case-section results-section"><div class="case-index">R</div><div class="case-copy"><h2>Résultats</h2>'+list(p.results||[])+'</div></section>'+
-        '<section class="case-section"><div class="case-index">L</div><div class="case-copy"><h2>Limites / état actuel</h2><p class="case-lede">'+esc(p.limits)+'</p></div></section>'+
-        '<section class="tech-environment"><div><p class="eyebrow">Environnement technique</p><h2>Stack & outils</h2></div><div class="tech-cloud">'+env+'</div></section>'+
+        '<section class="case-section results-section" id="results"><div class="case-index"><span>Bilan</span>R</div><div class="case-copy"><h2>Résultats</h2>'+list(p.results||[])+'</div></section>'+
+        '<section class="case-section" id="limits"><div class="case-index"><span>Bilan</span>L</div><div class="case-copy"><h2>Limites / état actuel</h2><p class="case-lede">'+esc(p.limits)+'</p></div></section>'+
+        '<section class="tech-environment" id="stack"><div><p class="eyebrow">Environnement technique</p><h2>Stack & outils</h2></div><div class="tech-cloud">'+env+'</div></section>'+
       '</div>';
+    setupScrollSpy();
   }
 
   function renderProject(){
