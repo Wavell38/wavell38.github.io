@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Portfolio de Vincent Grange — développement logiciel, systèmes, robotique et ingénierie assistée par agents IA." />
+  <title>Vincent Grange — Software, systèmes & robotique</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body data-page="home">
+  <div class="noise"></div>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="Accueil">
+      <span class="brand-mark">VG</span>
+      <span>Vincent Grange</span>
+    </a>
+    <nav>
+      <a href="#projets">Projets</a>
+      <a href="#experience">Expériences</a>
+      <a href="#approche">Approche</a>
+      <a class="nav-github" href="https://github.com/Wavell38" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Développeur logiciel · systèmes & robotique</p>
+        <h1>Je conçois des systèmes techniques qui relient <span>logiciel, matériel et expérimentation.</span></h1>
+        <p class="hero-lede">Socle professionnel en développement logiciel et architecture applicative, prolongé par des projets de robotique, vision, embarqué, mécanique et outillage agentique. Les projets présentés ici distinguent explicitement ce qui est conçu, testé, qualifié — et ce qui reste expérimental.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#projets">Voir les projets</a>
+          <a class="btn secondary" href="https://github.com/Wavell38" target="_blank" rel="noreferrer">Profil GitHub ↗</a>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Positionnement">
+        <div class="signal">
+          <span class="signal-index">01</span>
+          <div><strong>Software engineering</strong><small>Architecture, backend, systèmes distribués, performance</small></div>
+        </div>
+        <div class="signal">
+          <span class="signal-index">02</span>
+          <div><strong>Systèmes techniques</strong><small>ROS 2, capteurs, protocoles, vision, intégration logiciel-matériel</small></div>
+        </div>
+        <div class="signal">
+          <span class="signal-index">03</span>
+          <div><strong>Agentic engineering</strong><small>Cadrage, exécution bornée, reviews, qualification, anti-dérive</small></div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="projets" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Commencer ici</p>
+          <h2>Trois projets phares</h2>
+        </div>
+        <p>Trois angles complémentaires : système physique, architecture logicielle et méthode d’ingénierie.</p>
+      </div>
+      <div id="featured-grid" class="featured-grid"></div>
+    </section>
+
+    <section class="section compact-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">Portfolio</p><h2>Systèmes & robotique</h2></div>
+      </div>
+      <div id="systems-grid" class="project-grid"></div>
+    </section>
+
+    <section class="section compact-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">Portfolio</p><h2>Mécanique & prototypage</h2></div>
+      </div>
+      <div id="mechanical-grid" class="project-grid"></div>
+    </section>
+
+    <section id="experience" class="section">
+      <div class="section-heading">
+        <div><p class="eyebrow">Socle professionnel</p><h2>Expériences software</h2></div>
+        <p>Les projets récents élargissent le profil, mais le point de départ reste le développement logiciel : full-stack, architecture applicative, intégration et données.</p>
+      </div>
+      <div id="experience-grid" class="experience-grid"></div>
+    </section>
+
+    <section id="approche" class="section approach">
+      <div class="section-heading">
+        <div><p class="eyebrow">Fil conducteur</p><h2>Ce qui relie les projets</h2></div>
+      </div>
+      <div class="principles">
+        <article><span>01</span><h3>Comprendre le système</h3><p>Partir du problème réel, puis descendre ou remonter les couches : domaine, logiciel, protocoles, électronique, mécanique ou acquisition.</p></article>
+        <article><span>02</span><h3>Prototyper pour apprendre</h3><p>Construire une verticale suffisamment concrète pour confronter l’architecture au réel, mesurer ses limites et décider s’il faut continuer ou recadrer.</p></article>
+        <article><span>03</span><h3>Ne pas sur-vendre</h3><p>Un POC reste un POC. Les pages détaillent aussi les limites, les validations manquantes et les raisons d’arrêt ou de redesign.</p></article>
+        <article><span>04</span><h3>Utiliser les agents comme levier</h3><p>Le développement actuel délègue largement l’implémentation, tout en gardant les objectifs, arbitrages et décisions structurantes sous responsabilité humaine.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Vincent Grange · Software, systèmes & robotique</p>
+    <p><a href="https://github.com/Wavell38" target="_blank" rel="noreferrer">GitHub ↗</a></p>
+  </footer>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
