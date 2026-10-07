@@ -1,8 +1,23 @@
 (() => {
-  const data = window.PORTFOLIO?.projects || [];
+  const projects = window.PORTFOLIO?.projects || [];
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
-  const tags = arr => '<div class="tags">' + (arr||[]).map(t => '<span class="tag">'+esc(t)+'</span>').join('') + '</div>';
-  const list = a => '<ul>'+(a||[]).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
+  const list = items => '<ul>'+(items||[]).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
+
+  function techIcon(name){
+    const n=String(name||'').toLowerCase();
+    if(n.includes('ros')) return '<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="1.4"/><circle cx="12" cy="6" r="1.4"/><circle cx="18" cy="6" r="1.4"/><circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/><circle cx="6" cy="18" r="1.4"/><circle cx="12" cy="18" r="1.4"/><circle cx="18" cy="18" r="1.4"/></svg>';
+    if(n.includes('c++')) return '<svg viewBox="0 0 24 24"><path d="M8 7.2a5.8 5.8 0 1 0 0 9.6"/><path d="M14 9v6M11 12h6M20 9v6M17 12h6"/></svg>';
+    if(n.includes('typescript')) return '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 9h6M10 9v8M15 16.5c.7.5 1.5.7 2.2.7 1.1 0 1.8-.5 1.8-1.3 0-2-3.7-1-3.7-3.2 0-.9.8-1.6 2.1-1.6.7 0 1.3.2 1.8.5"/></svg>';
+    if(n.includes('vision')) return '<svg viewBox="0 0 24 24"><path d="M2.8 12s3.5-5 9.2-5 9.2 5 9.2 5-3.5 5-9.2 5-9.2-5-9.2-5z"/><circle cx="12" cy="12" r="2.4"/></svg>';
+    if(n.includes('freecad')) return '<svg viewBox="0 0 24 24"><path d="M12 2.8 20 7v10l-8 4.2L4 17V7z"/><path d="m4 7 8 4 8-4M12 11v10"/></svg>';
+    return '<svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg>';
+  }
+
+  function tags(arr, rich=false){
+    return '<div class="tags '+(rich?'tags-rich':'')+'">'+(arr||[]).map(t =>
+      '<span class="tag">'+(rich?'<span class="tag-icon">'+techIcon(t)+'</span>':'')+'<span>'+esc(t)+'</span></span>'
+    ).join('')+'</div>';
+  }
 
   function card(p, featured=false){
     return '<a class="card '+(featured?'featured':'')+'" href="./project.html?id='+encodeURIComponent(p.id)+'">'+
@@ -12,20 +27,20 @@
   }
 
   function renderHome(){
-    const set = (id, items, featured=false) => {
-      const el = document.getElementById(id); if(!el) return;
-      el.innerHTML = items.map(p=>card(p,featured)).join('');
+    const set=(id,items,featured=false)=>{
+      const el=document.getElementById(id); if(!el) return;
+      el.innerHTML=items.map(p=>card(p,featured)).join('');
     };
-    set('featured-grid', data.filter(p=>p.group==='featured').sort((a,b)=>(a.order||0)-(b.order||0)), true);
-    set('systems-grid', data.filter(p=>p.group==='systems'));
-    set('mechanical-grid', data.filter(p=>p.group==='mechanical'));
-    set('experience-grid', data.filter(p=>p.group==='experience'));
+    set('featured-grid',projects.filter(p=>p.group==='featured').sort((a,b)=>(a.order||0)-(b.order||0)),true);
+    set('systems-grid',projects.filter(p=>p.group==='systems'));
+    set('mechanical-grid',projects.filter(p=>p.group==='mechanical'));
+    set('experience-grid',projects.filter(p=>p.group==='experience'));
   }
 
-  function renderStandard(p, root){
+  function renderStandard(p,root){
     const factHtml=(p.facts||[]).map((f,i)=>'<div><span>'+['État','Repère','Point clé'][i%3]+'</span><strong>'+esc(f)+'</strong></div>').join('');
-    const links = (p.links||[]).length ? '<div class="project-links">'+p.links.map(l=>'<a class="btn secondary" href="'+esc(l[1])+'" target="_blank" rel="noreferrer">'+esc(l[0])+' ↗</a>').join('')+'</div>' : '';
-    root.innerHTML =
+    const links=(p.links||[]).length?'<div class="project-links">'+p.links.map(l=>'<a class="btn secondary" href="'+esc(l[1])+'" target="_blank" rel="noreferrer">'+esc(l[0])+' ↗</a>').join('')+'</div>':'';
+    root.innerHTML=
       '<a class="project-back" href="./index.html#projets">← Retour aux projets</a>'+
       '<section class="project-hero"><p class="eyebrow">'+esc(p.kind)+' · '+esc(p.period)+'</p><h1>'+esc(p.title)+'</h1><p class="project-summary">'+esc(p.subtitle)+'</p>'+tags(p.tags)+
       '<div class="project-facts">'+factHtml+'</div>'+links+'</section>'+
@@ -37,88 +52,87 @@
       '</div>';
   }
 
-  function tocHtml(p){
-    const work = (p.sections||[]).map((s,i)=>
-      '<a class="toc-link toc-work" href="#work-'+(i+1)+'" data-target="work-'+(i+1)+'" data-group="work">'+
-      '<span class="toc-dot"></span><span class="toc-num">'+String(i+1).padStart(2,'0')+'</span><span>'+esc(s.title)+'</span></a>'
-    ).join('');
-    return '<aside class="case-toc" aria-label="Sommaire du projet">'+
-      '<div class="toc-project">'+esc(p.title)+'</div>'+
-      '<div class="toc-group" data-group-block="overview"><div class="toc-heading">Vue d’ensemble</div>'+
-        '<a class="toc-link" href="#context" data-target="context" data-group="overview"><span class="toc-dot"></span><span>Contexte</span></a>'+
-        '<a class="toc-link" href="#objective" data-target="objective" data-group="overview"><span class="toc-dot"></span><span>Objectif</span></a>'+
-        '<a class="toc-link" href="#architecture" data-target="architecture" data-group="overview"><span class="toc-dot"></span><span>Chaîne système</span></a>'+
-      '</div>'+
-      '<div class="toc-group" data-group-block="work"><div class="toc-heading">Travaux réalisés</div>'+work+'</div>'+
-      '<div class="toc-group" data-group-block="outcome"><div class="toc-heading">Bilan</div>'+
-        '<a class="toc-link" href="#validation" data-target="validation" data-group="outcome"><span class="toc-dot"></span><span>Validation</span></a>'+
-        '<a class="toc-link" href="#results" data-target="results" data-group="outcome"><span class="toc-dot"></span><span>Résultats</span></a>'+
-        '<a class="toc-link" href="#limits" data-target="limits" data-group="outcome"><span class="toc-dot"></span><span>Limites</span></a>'+
-        '<a class="toc-link" href="#stack" data-target="stack" data-group="outcome"><span class="toc-dot"></span><span>Stack</span></a>'+
-      '</div>'+
-    '</aside>';
+  function projectTitle(p){
+    return p.id==='cards-analyzer' ? 'Cards <span class="title-accent">Analyzer</span>' : esc(p.title);
+  }
+
+  function archIcon(i){
+    const icons=[
+      '<svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 17h6"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M5 8h14l-1 11H6z"/><path d="M8 8V5h8v3"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4"/><path d="M8.5 14.5C6.9 13.4 6 11.6 6 9.5a6 6 0 0 1 12 0c0 2.1-.9 3.9-2.5 5"/></svg>',
+      '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><circle cx="12" cy="13" r="3"/><path d="M8 7l1.5-3h5L16 7"/></svg>',
+      '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></svg>',
+      '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M22 12h-3M12 22v-3M2 12h3"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M12 3l2 3 4-.3-.3 4 3 2-3 2 .3 4-4-.3-2 3-2-3-4 .3.3-4-3-2 3-2-.3-4 4 .3z"/><circle cx="12" cy="12" r="2.5"/></svg>',
+      '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 22h8M12 18v4"/></svg>'
+    ];
+    return icons[i]||icons[0];
+  }
+
+  function tocHtml(){
+    const items=[
+      ['Intro','top'],
+      ['Contexte','context'],
+      ['Chaîne','architecture'],
+      ['Travaux','work-1'],
+      ['Validation','validation'],
+      ['Résultats','results'],
+      ['Limites','limits']
+    ];
+    return '<aside class="case-toc" aria-label="Navigation du projet"><div class="toc-line"></div>'+
+      items.map(([label,target])=>'<a class="toc-link" href="#'+target+'" data-target="'+target+'"><span class="toc-label">'+label+'</span><span class="toc-dot"></span></a>').join('')+
+      '</aside>';
   }
 
   function setupScrollSpy(){
-    const toc = document.querySelector('.case-toc');
-    if(!toc) return;
-    const links = [...toc.querySelectorAll('.toc-link')];
-    const entries = links.map(link => ({
-      link,
-      el: document.getElementById(link.dataset.target),
-      group: link.dataset.group
-    })).filter(x=>x.el);
-
+    const toc=document.querySelector('.case-toc'); if(!toc) return;
+    const links=[...toc.querySelectorAll('.toc-link')];
+    const entries=links.map(link=>({link,el:document.getElementById(link.dataset.target)})).filter(x=>x.el);
     let ticking=false;
     const update=()=>{
       ticking=false;
       const marker=190;
       let active=entries[0];
       for(const entry of entries){
-        if(entry.el.getBoundingClientRect().top <= marker) active=entry;
-        else break;
+        if(entry.el.getBoundingClientRect().top<=marker) active=entry; else break;
       }
       links.forEach(l=>l.classList.remove('active'));
-      toc.querySelectorAll('.toc-group').forEach(g=>g.classList.remove('active-group'));
-      if(active){
-        active.link.classList.add('active');
-        const group=toc.querySelector('[data-group-block="'+active.group+'"]');
-        if(group) group.classList.add('active-group');
-      }
+      if(active) active.link.classList.add('active');
     };
-    window.addEventListener('scroll',()=>{
-      if(!ticking){ requestAnimationFrame(update); ticking=true; }
-    },{passive:true});
+    window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(update);ticking=true;}},{passive:true});
     window.addEventListener('resize',update);
     update();
   }
 
-  function renderCaseStudy(p, root){
+  function renderCaseStudy(p,root){
     const factHtml=(p.facts||[]).map((f,i)=>'<div><span>'+['État','Repère','Point clé'][i]+'</span><strong>'+esc(f)+'</strong></div>').join('');
-    const arch=(p.architecture||[]).map((x,i)=>'<div class="arch-node"><span>'+String(i+1).padStart(2,'0')+'</span><strong>'+esc(x)+'</strong></div>').join('<div class="arch-arrow">→</div>');
+    const tones=['slate','slate','amber','violet','blue','green','purple','cyan'];
+    const arch=(p.architecture||[]).map((x,i)=>
+      '<div class="arch-node arch-'+tones[i%tones.length]+'"><div class="arch-icon">'+archIcon(i)+'</div><strong>'+esc(x)+'</strong></div>'
+    ).join('<div class="arch-arrow" aria-hidden="true">›</div>');
     const sections=(p.sections||[]).map((s,i)=>
-      '<section class="case-section" id="work-'+(i+1)+'">'+
-      '<div class="case-index"><span>Travaux réalisés</span>'+String(i+1).padStart(2,'0')+'</div>'+
+      '<section class="case-section" id="work-'+(i+1)+'"><div class="case-index"><span>Travaux réalisés</span>'+String(i+1).padStart(2,'0')+'</div>'+
       '<div class="case-copy"><h2>'+esc(s.title)+'</h2>'+(s.text?'<p class="case-lede">'+esc(s.text)+'</p>':'')+list(s.bullets||[])+'</div></section>'
     ).join('');
     const env=(p.environment||[]).map(x=>'<span>'+esc(x)+'</span>').join('');
-    const links=(p.links||[]).length ? '<div class="project-links">'+p.links.map(l=>'<a class="btn secondary" href="'+esc(l[1])+'" target="_blank" rel="noreferrer">'+esc(l[0])+' ↗</a>').join('')+'</div>' : '';
+    const links=(p.links||[]).length?'<div class="project-links">'+p.links.map(l=>'<a class="btn secondary" href="'+esc(l[1])+'" target="_blank" rel="noreferrer">'+esc(l[0])+' ↗</a>').join('')+'</div>':'';
 
-    root.innerHTML =
-      tocHtml(p)+
+    root.innerHTML=
+      tocHtml()+
       '<a class="project-back" href="./index.html#projets">← Retour aux projets</a>'+
-      '<section class="project-hero case-hero">'+
+      '<section class="project-hero case-hero" id="top">'+
         '<div class="case-kicker"><span>'+esc(p.kind)+'</span><span>'+esc(p.period)+'</span><span class="status">'+esc(p.status)+'</span></div>'+
-        '<h1>'+esc(p.title)+'</h1>'+
+        '<h1>'+projectTitle(p)+'</h1>'+
         '<p class="project-summary">'+esc(p.subtitle)+'</p>'+
         '<p class="project-role">'+esc(p.role||'')+'</p>'+
-        tags(p.tags)+
+        tags(p.tags,true)+
         '<div class="project-facts">'+factHtml+'</div>'+links+
       '</section>'+
       '<div class="case-study">'+
-        '<section class="case-overview">'+
-          '<div id="context"><p class="eyebrow">Contexte</p><p class="case-intro">'+esc(p.context)+'</p></div>'+
-          '<div id="objective" class="objective-box"><p class="eyebrow">Objectif V1</p>'+list(p.objective||[])+'</div>'+
+        '<section class="case-overview" id="context">'+
+          '<div><p class="eyebrow">Contexte</p><p class="case-intro">'+esc(p.context)+'</p></div>'+
+          '<div class="objective-box"><p class="eyebrow">Objectif V1</p>'+list(p.objective||[])+'</div>'+
         '</section>'+
         '<section class="architecture-strip" id="architecture"><p class="eyebrow">Chaîne système</p><div class="arch-flow">'+arch+'</div></section>'+
         '<div class="case-sections">'+sections+'</div>'+
@@ -134,11 +148,11 @@
   }
 
   function renderProject(){
-    const root = document.getElementById('project-root'); if(!root) return;
-    const id = new URLSearchParams(location.search).get('id');
-    const p = data.find(x=>x.id===id);
-    if(!p){ root.innerHTML='<section class="project-hero"><p class="eyebrow">404</p><h1>Projet introuvable</h1><p class="project-summary">Revenez à la page principale du portfolio.</p><a class="btn secondary" href="./index.html">← Retour</a></section>'; return; }
-    document.title = p.title + ' — Vincent Grange';
+    const root=document.getElementById('project-root'); if(!root) return;
+    const id=new URLSearchParams(location.search).get('id');
+    const p=projects.find(x=>x.id===id);
+    if(!p){root.innerHTML='<section class="project-hero"><p class="eyebrow">404</p><h1>Projet introuvable</h1><p class="project-summary">Revenez à la page principale du portfolio.</p><a class="btn secondary" href="./index.html">← Retour</a></section>';return;}
+    document.title=p.title+' — Vincent Grange';
     if(p.sections) renderCaseStudy(p,root); else renderStandard(p,root);
   }
 

@@ -173,3 +173,140 @@ footer{max-width:var(--max);margin:30px auto 0;padding:30px 28px 50px;border-top
 .case-copy li+li,.objective-box li+li,.evidence-card li+li{margin-top:0}
 
 @media(max-width:1379px){.case-toc{display:none}}
+
+/* Cards Analyzer template refinement — compact rail, icon tags, vivid system chain */
+.title-accent{color:#49aef8;text-shadow:0 0 30px rgba(73,174,248,.14)}
+
+.tags-rich{gap:8px;margin-top:18px}
+.tags-rich .tag{
+  min-height:35px;
+  border-radius:9px;
+  padding:6px 11px 6px 8px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(180deg,rgba(83,143,206,.08),rgba(255,255,255,.018));
+  border-color:#2d4d6c;
+  color:#d9e5ef;
+  font-size:.75rem
+}
+.tag-icon{
+  width:21px;height:21px;border-radius:6px;
+  display:grid;place-items:center;
+  color:#62b7ff;
+  background:rgba(70,150,230,.09)
+}
+.tag-icon svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+
+/* minimal section rail inspired by an engineering slide index */
+.case-toc{
+  position:fixed;
+  right:18px;top:50%;transform:translateY(-50%);
+  z-index:30;
+  width:108px;
+  padding:10px 0;
+  border:0;
+  font-size:.66rem;
+  line-height:1;
+}
+.toc-line{
+  position:absolute;right:5px;top:17px;bottom:17px;width:1px;
+  background:rgba(100,132,160,.30)
+}
+.toc-link{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 11px !important;
+  gap:8px;
+  align-items:center;
+  min-height:34px;
+  padding:0;
+  color:#758695
+}
+.toc-label{
+  text-align:right;
+  white-space:nowrap;
+  opacity:.34;
+  transform:none;
+  transition:opacity .18s ease,color .18s ease
+}
+.toc-dot{
+  grid-column:2;
+  justify-self:end;
+  width:7px;height:7px;border-radius:50%;
+  border:1px solid #617383;
+  background:var(--bg);
+  opacity:.9;
+  position:relative;z-index:2;
+  transition:.18s ease
+}
+.toc-link:hover .toc-label{opacity:.78;color:#c8d4df}
+.toc-link.active .toc-label{opacity:1;color:#f2f7fb}
+.toc-link.active .toc-dot{
+  width:8px;height:8px;
+  border-color:#56b9ff;
+  background:#56b9ff;
+  box-shadow:0 0 0 3px rgba(86,185,255,.10),0 0 13px rgba(86,185,255,.32)
+}
+
+/* visual system chain */
+.architecture-strip{margin-top:44px;padding-top:29px}
+.arch-flow{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  overflow-x:auto;
+  padding:5px 1px 14px
+}
+.arch-node{
+  --node-color:#8ca1b5;
+  width:105px;min-width:105px;height:78px;min-height:78px;
+  border-radius:10px;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:flex-start;
+  border:1px solid color-mix(in srgb,var(--node-color) 52%,#21303e);
+  background:linear-gradient(145deg,color-mix(in srgb,var(--node-color) 13%,#0d131a),#0e151d 72%);
+  box-shadow:inset 0 0 20px color-mix(in srgb,var(--node-color) 5%,transparent)
+}
+.arch-icon{
+  width:27px;height:27px;border-radius:7px;
+  display:grid;place-items:center;
+  color:var(--node-color);
+  background:color-mix(in srgb,var(--node-color) 12%,transparent)
+}
+.arch-icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.arch-node strong{font-size:.73rem;line-height:1.18;min-height:auto;color:#e5edf4}
+.arch-arrow{
+  width:12px;min-width:12px;
+  align-self:center;
+  display:grid;place-items:center;
+  color:#4eaef0;
+  font-size:1.15rem
+}
+.arch-slate{--node-color:#91a8c0}
+.arch-amber{--node-color:#f0ba58}
+.arch-violet{--node-color:#c078f4}
+.arch-blue{--node-color:#58aff8}
+.arch-green{--node-color:#49d0a0}
+.arch-purple{--node-color:#a576ef}
+.arch-cyan{--node-color:#53cee7}
+
+/* lists behave like technical rows instead of default bullets */
+.case-copy ul,.objective-box ul,.evidence-card ul{list-style:none;padding-left:0}
+.case-copy li,.objective-box li,.evidence-card li{
+  position:relative;margin:0;padding:9px 0 9px 20px;
+  border-top:1px solid rgba(118,143,166,.11)
+}
+.case-copy li:first-child,.objective-box li:first-child,.evidence-card li:first-child{border-top:0}
+.case-copy li::before,.objective-box li::before,.evidence-card li::before{
+  content:"";position:absolute;left:0;top:1.18em;width:8px;height:1px;background:#5dc7c0;opacity:.82
+}
+.evidence-card.experimental li::before{background:var(--warm)}
+.case-copy li+li,.objective-box li+li,.evidence-card li+li{margin-top:0}
+
+#top,#context,#architecture,[id^="work-"],#validation,#results,#limits,#stack{scroll-margin-top:100px}
+@media(max-width:1320px){.case-toc{display:none}}
+@media(max-width:900px){.arch-node{width:112px;min-width:112px}}
