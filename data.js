@@ -88,14 +88,21 @@ window.PORTFOLIO = {
         }
       ],
       results:[
-        "Prototype V1 mécanique et électronique construit autour d’un dôme d’acquisition.",
-        "Chaîne multi-éclairage à neuf groupes intégrée.",
-        "Acquisition haute résolution pilotable et reproductible.",
-        "Orchestration complète entre ROS 2, backend et interface web.",
-        "Gestion de profils d’acquisition, captures dark et provenance des sessions.",
-        "Premiers traitements photométriques et géométriques opérationnels."
+        "Prototype V1 mécanique et électronique construit, avec conception CAO, fabrication additive et intégration du banc.",
+        "Caméra haute résolution et neuf groupes lumineux pilotés, avec contrôles temporels liant la capture à la condition lumineuse.",
+        "Profils YAML, séquencement, annulation, captures RAW, métadonnées et publication de sessions implémentés.",
+        "Chaîne RAW avec correction dark et application d’un flat-field compatible intégrée au chemin nominal.",
+        "Orchestration ROS 2 / NestJS / React pour piloter les acquisitions, la preview et le suivi d’exécution.",
+        "Repères géométriques, vue de localisation, localisateur grossier et raffineur pleine résolution développés."
       ],
-      limits:"Le projet est un prototype V1 avancé en cours. La détection finale et la qualification automatisée des défauts de surface ne sont pas encore établies. La géométrie des bords et des coins reste expérimentale, et certaines décisions de la future automatisation mécanique sont volontairement différées.",
+      limits:"La V1 sait acquérir et préparer les données de manière traçable ; la qualification géométrique précise et l’analyse finale des défauts restent à aboutir.",
+      limitsItems:[
+        "Coins et CardBoundary complet non qualifiés ; géométrie encore hors du runner nominal et politique de distorsion ouverte.",
+        "Rectification appliquée, registration multi-captures, cartes multi-lumières et détection finale des défauts encore prévues.",
+        "Le parcours Web reste centré sur l’acquisition ; la visualisation analytique complète n’est pas finalisée.",
+        "Rails, capture par tuiles, retournement et alimentation automatique restent des pistes exploratoires hors V1.",
+        "Pas de qualification globale complète à HEAD : certaines suites dépendantes de l’environnement n’ont pas été rejouées intégralement."
+      ],
       environment:["C++20","ROS 2 Jazzy","rclcpp","libcamera","OpenCV","RAW Bayer RGGB","Raspberry Pi 5","Arducam 64 MP","PCA9685","I²C","NestJS","TypeScript","Fastify","rclnodejs","WebSocket","React","Vite","JSON","YAML","FreeCAD","KiCad","PrusaSlicer","Impression 3D","Tests / qualification","Agents IA"],
       environmentGroups:[
         {title:"Cœur logiciel & robotique",items:["C++20","ROS 2 Jazzy","rclcpp","rclnodejs"]},

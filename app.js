@@ -278,13 +278,27 @@
           "</div>" +
         "</section>" +
         '<div class="case-sections">' + sections + "</div>" +
-        '<section class="case-section results-section" id="results">' +
-          '<div class="case-index"><span>Bilan</span>R</div>' +
-          '<div class="case-copy"><h2>Résultats</h2>' + list(project.results || []) + "</div>" +
+        '<section class="outcome-results" id="results">' +
+          '<div class="outcome-heading">' +
+            '<p class="eyebrow">Bilan</p>' +
+            '<h2>Résultats</h2>' +
+            '<p>Ce que la V1 démontre aujourd’hui.</p>' +
+          '</div>' +
+          '<div class="result-grid">' +
+            (project.results || []).map((item, index) =>
+              '<article class="result-item"><span>' + String(index + 1).padStart(2, "0") + '</span><p>' + esc(item) + '</p></article>'
+            ).join("") +
+          '</div>' +
         "</section>" +
-        '<section class="case-section" id="limits">' +
-          '<div class="case-index"><span>Bilan</span>L</div>' +
-          '<div class="case-copy"><h2>Limites / état actuel</h2><p class="case-lede">' + esc(project.limits) + "</p></div>" +
+        '<section class="outcome-limits" id="limits">' +
+          '<div class="limits-summary">' +
+            '<p class="eyebrow">Frontière actuelle</p>' +
+            '<h2>Limites / état actuel</h2>' +
+            '<p>' + esc(project.limits) + '</p>' +
+          '</div>' +
+          '<div class="limits-list">' +
+            (project.limitsItems || []).map(item => '<div class="limit-item"><span></span><p>' + esc(item) + '</p></div>').join("") +
+          '</div>' +
         "</section>" +
         '<section class="tech-environment" id="stack">' +
           '<div><p class="eyebrow">Environnement technique</p><h2>Stack & outils</h2></div>' +
