@@ -279,14 +279,14 @@
         "</section>" +
         '<div class="case-sections">' + sections + "</div>" +
         '<section class="outcome-results" id="results">' +
-          '<div class="outcome-heading">' +
+          '<div class="results-summary">' +
             '<p class="eyebrow">Bilan</p>' +
             '<h2>Résultats</h2>' +
             '<p>Ce que la V1 démontre aujourd’hui.</p>' +
           '</div>' +
-          '<div class="result-grid">' +
-            (project.results || []).map((item, index) =>
-              '<article class="result-item"><span>' + String(index + 1).padStart(2, "0") + '</span><p>' + esc(item) + '</p></article>'
+          '<div class="result-list">' +
+            (project.results || []).map(item =>
+              '<div class="result-item"><span></span><p>' + esc(item) + '</p></div>'
             ).join("") +
           '</div>' +
         "</section>" +
