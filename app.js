@@ -16,27 +16,39 @@
   function techIcon(name) {
     const value = String(name || "").toLowerCase();
 
-    if (value.includes("ros")) {
-      return '<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="1.4"/><circle cx="12" cy="6" r="1.4"/><circle cx="18" cy="6" r="1.4"/><circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/><circle cx="6" cy="18" r="1.4"/><circle cx="12" cy="18" r="1.4"/><circle cx="18" cy="18" r="1.4"/></svg>';
-    }
+    const icons = {
+      robot: '<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="1.4"/><circle cx="12" cy="6" r="1.4"/><circle cx="18" cy="6" r="1.4"/><circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/><circle cx="6" cy="18" r="1.4"/><circle cx="12" cy="18" r="1.4"/><circle cx="18" cy="18" r="1.4"/></svg>',
+      code: '<svg viewBox="0 0 24 24"><path d="m9 7-5 5 5 5M15 7l5 5-5 5M13 4l-2 16"/></svg>',
+      cube: '<svg viewBox="0 0 24 24"><path d="M12 2.8 20 7v10l-8 4.2L4 17V7z"/><path d="m4 7 8 4 8-4M12 11v10"/></svg>',
+      eye: '<svg viewBox="0 0 24 24"><path d="M2.8 12s3.5-5 9.2-5 9.2 5 9.2 5-3.5 5-9.2 5-9.2-5-9.2-5z"/><circle cx="12" cy="12" r="2.4"/></svg>',
+      chip: '<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>',
+      database: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></svg>',
+      network: '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="m7 11 10-4M7 13l10 4"/></svg>',
+      gauge: '<svg viewBox="0 0 24 24"><path d="M4 16a8 8 0 1 1 16 0"/><path d="m12 13 4-4"/><path d="M7 18h10"/></svg>',
+      layers: '<svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>',
+      git: '<svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="9" r="2"/><path d="M6 7v10M8 7c6 0 4 2 8 2"/></svg>',
+      check: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16.5 8.5"/></svg>',
+      terminal: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M12 16h5"/></svg>',
+      web: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>',
+      camera: '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><circle cx="12" cy="13" r="3"/><path d="M8 7l1.5-3h5L16 7"/></svg>',
+      tool: '<svg viewBox="0 0 24 24"><path d="M14 5a5 5 0 0 0-6 6L3 16l5 5 5-5a5 5 0 0 0 6-6l-3 3-4-4z"/></svg>',
+    };
 
-    if (value.includes("c++")) {
-      return '<svg viewBox="0 0 24 24"><path d="M8 7.2a5.8 5.8 0 1 0 0 9.6"/><path d="M14 9v6M11 12h6M20 9v6M17 12h6"/></svg>';
-    }
-
-    if (value.includes("typescript")) {
-      return '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 9h6M10 9v8M15 16.5c.7.5 1.5.7 2.2.7 1.1 0 1.8-.5 1.8-1.3 0-2-3.7-1-3.7-3.2 0-.9.8-1.6 2.1-1.6.7 0 1.3.2 1.8.5"/></svg>';
-    }
-
-    if (value.includes("vision")) {
-      return '<svg viewBox="0 0 24 24"><path d="M2.8 12s3.5-5 9.2-5 9.2 5 9.2 5-3.5 5-9.2 5-9.2-5-9.2-5z"/><circle cx="12" cy="12" r="2.4"/></svg>';
-    }
-
-    if (value.includes("freecad")) {
-      return '<svg viewBox="0 0 24 24"><path d="M12 2.8 20 7v10l-8 4.2L4 17V7z"/><path d="m4 7 8 4 8-4M12 11v10"/></svg>';
-    }
-
-    return '<svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg>';
+    if (value.includes("ros")) return icons.robot;
+    if (value.includes("vision") || value.includes("opencv") || value.includes("aruco")) return icons.eye;
+    if (value.includes("freecad") || value.includes("blender") || value.includes("techdraw") || value.includes("mécanique") || value.includes("cyclo") || value.includes("roulement") || value.includes("petg")) return icons.cube;
+    if (value.includes("raspberry") || value.includes("rp2040") || value.includes("pio") || value.includes("spi") || value.includes("usb") || value.includes("imu") || value.includes("pca9685") || value.includes("servo") || value.includes("kicad")) return icons.chip;
+    if (value.includes("postgres") || value.includes("mongo") || value.includes("csv") || value.includes("etl")) return icons.database;
+    if (value.includes("mavlink") || value.includes("mesh") || value.includes("streaming")) return icons.network;
+    if (value.includes("performance") || value.includes("profiling")) return icons.gauge;
+    if (value.includes("architecture") || value.includes("agentic")) return icons.layers;
+    if (value === "git") return icons.git;
+    if (value.includes("review") || value.includes("qualification")) return icons.check;
+    if (value.includes("prompt archiver")) return icons.terminal;
+    if (value.includes("react") || value.includes("nest") || value.includes("electron") || value.includes("puppeteer") || value.includes("symfony") || value.includes("twig")) return icons.web;
+    if (value.includes("ardupilot")) return icons.tool;
+    if (value.includes("camera")) return icons.camera;
+    return icons.code;
   }
 
   function tags(items, rich = false) {
@@ -59,7 +71,7 @@
       '<div class="card-meta"><span>' + esc(project.kind) + "</span><span>" + esc(project.status) + "</span></div>" +
       "<h3>" + esc(project.title) + "</h3>" +
       "<p>" + esc(project.summary) + "</p>" +
-      tags(project.tags) +
+      tags(project.tags, true) +
       '<div class="card-link">Voir le projet →</div></a>'
     );
   }
@@ -126,7 +138,6 @@
       ["Intro", "top"],
       ["Contexte", "context"],
       ["Travaux", "work-1"],
-      ["Validation", "validation"],
       ["Résultats", "results"],
       ["Limites", "limits"],
     ];
@@ -267,16 +278,6 @@
           "</div>" +
         "</section>" +
         '<div class="case-sections">' + sections + "</div>" +
-        '<section class="evidence-section" id="validation">' +
-          '<div class="evidence-card validated">' +
-            '<p class="eyebrow">Établi / validé dans la V1</p>' +
-            list(project.validated || []) +
-          "</div>" +
-          '<div class="evidence-card experimental">' +
-            '<p class="eyebrow">Encore expérimental / différé</p>' +
-            list(project.experimental || []) +
-          "</div>" +
-        "</section>" +
         '<section class="case-section results-section" id="results">' +
           '<div class="case-index"><span>Bilan</span>R</div>' +
           '<div class="case-copy"><h2>Résultats</h2>' + list(project.results || []) + "</div>" +

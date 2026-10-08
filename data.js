@@ -95,17 +95,6 @@ window.PORTFOLIO = {
         "Gestion de profils d’acquisition, captures dark et provenance des sessions.",
         "Premiers traitements photométriques et géométriques opérationnels."
       ],
-      validated:[
-        "Architecture du banc et intégration mécanique de la V1.",
-        "Pilotage caméra / éclairage et séquences d’acquisition.",
-        "Profils d’acquisition et orchestration des sessions.",
-        "Chaîne RAW et premières corrections photométriques."
-      ],
-      experimental:[
-        "Localisation finale des bords et coins.",
-        "Qualification automatisée des défauts de surface.",
-        "Architecture mécanique plus ambitieuse avec alimentation / retournement automatiques."
-      ],
       limits:"Le projet est un prototype V1 avancé en cours. La détection finale et la qualification automatisée des défauts de surface ne sont pas encore établies. La géométrie des bords et des coins reste expérimentale, et certaines décisions de la future automatisation mécanique sont volontairement différées.",
       environment:["C++20","ROS 2 Jazzy","rclcpp","libcamera","OpenCV","RAW Bayer RGGB","Raspberry Pi 5","Arducam 64 MP","PCA9685","I²C","NestJS","TypeScript","Fastify","rclnodejs","WebSocket","React","Vite","JSON","YAML","FreeCAD","KiCad","PrusaSlicer","Impression 3D","Tests / qualification","Agents IA"],
       environmentGroups:[

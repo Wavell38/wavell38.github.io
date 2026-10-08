@@ -382,6 +382,28 @@ main {
   stroke-linejoin: round;
 }
 
+.card .tags-rich {
+  margin-top: 20px;
+  gap: 6px;
+}
+
+.card .tags-rich .tag {
+  min-height: 30px;
+  padding: 5px 8px 5px 6px;
+  gap: 6px;
+  font-size: 0.69rem;
+}
+
+.card .tags-rich .tag-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.card .tags-rich .tag-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
 /* Homepage principles */
 .principles {
   display: grid;
@@ -587,8 +609,7 @@ main {
 
 /* Case study: technical list style */
 .case-copy ul,
-.objective-box ul,
-.evidence-card ul {
+.objective-box ul {
   margin: 0;
   padding-left: 0;
   list-style: none;
@@ -596,8 +617,7 @@ main {
 }
 
 .case-copy li,
-.objective-box li,
-.evidence-card li {
+.objective-box li {
   position: relative;
   margin: 0;
   padding: 9px 0 9px 20px;
@@ -605,14 +625,12 @@ main {
 }
 
 .case-copy li:first-child,
-.objective-box li:first-child,
-.evidence-card li:first-child {
+.objective-box li:first-child {
   border-top: 0;
 }
 
 .case-copy li::before,
-.objective-box li::before,
-.evidence-card li::before {
+.objective-box li::before {
   content: "";
   position: absolute;
   top: 1.18em;
@@ -621,10 +639,6 @@ main {
   height: 1px;
   background: #5dc7c0;
   opacity: 0.82;
-}
-
-.evidence-card.experimental li::before {
-  background: var(--warm);
 }
 
 /* Case study: work sections */
@@ -676,35 +690,8 @@ main {
 }
 
 .results-section {
-  margin-top: 10px;
+  margin-top: 26px;
   border-top: 1px solid var(--line);
-}
-
-/* Case study: validation */
-.evidence-section {
-  margin: 40px 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.evidence-card {
-  padding: 25px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--bg2);
-}
-
-.evidence-card.validated {
-  box-shadow: inset 3px 0 0 var(--accent);
-}
-
-.evidence-card.experimental {
-  box-shadow: inset 3px 0 0 var(--warm);
-}
-
-.evidence-card.experimental .eyebrow {
-  color: var(--warm);
 }
 
 /* Case study: stack */
@@ -864,7 +851,6 @@ main {
   .principles,
   .project-facts,
   .case-overview,
-  .evidence-section,
   .tech-environment {
     grid-template-columns: 1fr;
   }
