@@ -15,7 +15,6 @@ window.PORTFOLIO = {
         "Produire des captures haute résolution reproductibles, traçables et configurables par profils.",
         "Construire progressivement les corrections photométriques et la localisation géométrique nécessaires à l’analyse de surface."
       ],
-      architecture:["Carte","Support","Éclairage","Caméra","Acquisition","Photométrie","Géométrie","API / UI"],
       sections:[
         {
           title:"Conception système & mécanique",
