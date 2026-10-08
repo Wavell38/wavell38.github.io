@@ -80,7 +80,7 @@
       ['Résultats','results'],
       ['Limites','limits']
     ];
-    return '<aside class="case-toc" aria-label="Navigation du projet"><div class="toc-line"></div>'+
+    return '<aside class="case-toc" aria-label="Navigation du projet">'+
       items.map(([label,target])=>'<a class="toc-link" href="#'+target+'" data-target="'+target+'"><span class="toc-label">'+label+'</span><span class="toc-dot"></span></a>').join('')+
       '</aside>';
   }
@@ -139,7 +139,7 @@
     const tones=['slate','slate','amber','violet','blue','green','purple','cyan'];
     const arch=(p.architecture||[]).map((x,i)=>
       '<div class="arch-node arch-'+tones[i%tones.length]+'"><div class="arch-icon">'+archIcon(i)+'</div><strong>'+esc(x)+'</strong></div>'
-    ).join('');
+    ).join('<span class="arch-chevron" aria-hidden="true">›</span>');
     const sections=(p.sections||[]).map((s,i)=>
       '<section class="case-section" id="work-'+(i+1)+'"><div class="case-index"><span>Travaux réalisés</span>'+String(i+1).padStart(2,'0')+'</div>'+
       '<div class="case-copy"><h2>'+esc(s.title)+'</h2>'+(s.text?'<p class="case-lede">'+esc(s.text)+'</p>':'')+list(s.bullets||[])+'</div></section>'
@@ -162,7 +162,7 @@
           '<div><p class="eyebrow">Contexte</p><p class="case-intro">'+esc(p.context)+'</p></div>'+
           '<div class="objective-box"><p class="eyebrow">Objectif V1</p>'+list(p.objective||[])+'</div>'+
         '</section>'+
-        '<section class="architecture-strip" id="architecture"><p class="eyebrow">Chaîne système</p><div class="arch-flow">'+arch+'</div></section>'+
+        '<section class="architecture-strip" id="architecture"><p class="eyebrow">Chaîne système</p><div class="arch-viewport" tabindex="0"><div class="arch-flow">'+arch+'</div></div></section>'+
         '<div class="case-sections">'+sections+'</div>'+
         '<section class="evidence-section" id="validation">'+
           '<div class="evidence-card validated"><p class="eyebrow">Établi / validé dans la V1</p>'+list(p.validated||[])+'</div>'+

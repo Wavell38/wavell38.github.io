@@ -567,3 +567,110 @@ footer{max-width:var(--max);margin:30px auto 0;padding:30px 28px 50px;border-top
   .arch-flow{gap:17px 20px}
   .arch-node,.arch-node[class*="arch-step-"]{max-width:100%}
 }
+
+/* V6 — one-line auto-panning system chain + dot-only project rail */
+.case-toc::after,
+.case-toc .toc-line{
+  content:none !important;
+  display:none !important;
+}
+
+/* keep the right navigation intentionally sparse */
+.case-toc{
+  width:108px;
+  right:18px;
+}
+.case-toc .toc-link,
+.case-toc .toc-link:not(.toc-work){
+  height:30px;
+  min-height:30px;
+}
+.case-toc .toc-dot{
+  width:8px;
+  height:8px;
+  min-width:8px;
+  min-height:8px;
+  border-radius:50%;
+}
+
+/* system chain: always one line; automatically pans only when it overflows */
+.arch-viewport{
+  position:relative;
+  width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  outline:none;
+  padding:3px 0 10px;
+}
+.arch-viewport::-webkit-scrollbar{display:none}
+.arch-viewport.is-overflowing{
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);
+}
+.arch-flow{
+  display:inline-flex !important;
+  flex-wrap:nowrap !important;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  width:max-content;
+  min-width:max-content;
+  overflow:visible !important;
+  padding:3px 18px 5px;
+  will-change:transform;
+}
+.arch-node,
+.arch-node[class*="arch-step-"]{
+  position:relative;
+  flex:0 0 auto;
+  display:inline-flex;
+  width:max-content;
+  min-width:108px;
+  max-width:220px;
+  min-height:54px;
+  height:auto;
+  padding:9px 13px;
+  gap:10px;
+  align-items:center;
+  justify-content:flex-start;
+  flex-direction:row;
+  grid-column:auto !important;
+  grid-row:auto !important;
+}
+.arch-node::after,
+.arch-node.arch-next::after,
+.arch-node.arch-wrap-down::after{
+  content:none !important;
+}
+.arch-node strong{
+  white-space:normal;
+  overflow-wrap:anywhere;
+  line-height:1.18;
+}
+.arch-chevron{
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  width:13px;
+  color:#55b7f5;
+  font-size:1.35rem;
+  line-height:1;
+  opacity:.9;
+  transform:translateY(-1px)
+}
+
+@media(max-width:600px){
+  .arch-flow{
+    display:inline-flex !important;
+    flex-wrap:nowrap !important;
+    min-width:max-content;
+  }
+  .arch-node,
+  .arch-node[class*="arch-step-"]{
+    max-width:205px;
+    grid-column:auto !important;
+    grid-row:auto !important;
+  }
+}
