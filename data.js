@@ -111,7 +111,29 @@ window.PORTFOLIO = {
         {title:"Données & configuration",items:["JSON","YAML"]},
         {title:"CAO & prototypage",items:["FreeCAD","KiCad","PrusaSlicer","Impression 3D"]},
         {title:"Qualité & méthode",items:["Tests / qualification","Agents IA"]}
-      ]
+      ],
+      media:{
+        hero:{
+          src:"./assets/cards-analyzer/prototype.jpg",
+          alt:"Prototype V1 réel de Cards Analyzer : dôme optique, structure caméra, éclairages et câblage intégrés.",
+          caption:"Prototype V1 — vue d’ensemble réelle"
+        },
+        galleryAfterSection:2,
+        gallery:[
+          {
+            src:"./assets/cards-analyzer/cao.jpg",
+            alt:"Vue CAO FreeCAD de l’ensemble mécanique de Cards Analyzer.",
+            title:"Conception mécanique",
+            caption:"Vue d’ensemble FreeCAD des sous-ensembles mécaniques."
+          },
+          {
+            src:"./assets/cards-analyzer/cablage.jpg",
+            alt:"Détail réel du câblage et des modules de commande montés sur la structure de Cards Analyzer.",
+            title:"Intégration électronique",
+            caption:"Modules de commande et cheminement du câblage sur la structure."
+          }
+        ]
+      }
     },
     {
       id:"quant-platform", group:"featured", order:2, kind:"Projet personnel", status:"En cours",

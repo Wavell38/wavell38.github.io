@@ -118,6 +118,7 @@
         tags(project.tags) +
         '<div class="project-facts">' + facts + "</div>" +
         links +
+        renderHeroMedia(project) +
       "</section>" +
       '<div class="project-content">' +
         '<section class="detail-section"><h2>Contexte</h2><div><p>' + esc(project.context) + "</p></div></section>" +
@@ -225,6 +226,47 @@
     );
   }
 
+  function renderHeroMedia(project) {
+    const media = project.media?.hero;
+    if (!media) return "";
+
+    return (
+      '<figure class="case-hero-media">' +
+        '<div class="case-hero-media-image">' +
+          '<img src="' + esc(media.src) + '" alt="' + esc(media.alt || "") + '" loading="eager" decoding="async">' +
+        '</div>' +
+        (media.caption ? '<figcaption>' + esc(media.caption) + '</figcaption>' : "") +
+      '</figure>'
+    );
+  }
+
+  function renderMediaGallery(project) {
+    const items = project.media?.gallery || [];
+    if (!items.length) return "";
+
+    return (
+      '<section class="project-media-break" aria-label="Visuels du projet">' +
+        '<div class="media-break-heading">' +
+          '<p class="eyebrow">Du modèle au prototype</p>' +
+          '<p>Deux repères visuels réels, sans reconstruction du matériel.</p>' +
+        '</div>' +
+        '<div class="project-media-grid">' +
+          items.map((item, index) =>
+            '<figure class="project-media-card media-' + index + '">' +
+              '<div class="project-media-image">' +
+                '<img src="' + esc(item.src) + '" alt="' + esc(item.alt || "") + '" loading="lazy" decoding="async">' +
+              '</div>' +
+              '<figcaption>' +
+                '<strong>' + esc(item.title || "") + '</strong>' +
+                '<span>' + esc(item.caption || "") + '</span>' +
+              '</figcaption>' +
+            '</figure>'
+          ).join("") +
+        '</div>' +
+      '</section>'
+    );
+  }
+
   function renderCaseStudy(project, root) {
     const factLabels = ["État", "Repère", "Point clé"];
     const facts = (project.facts || [])
@@ -233,17 +275,23 @@
       )
       .join("");
 
+    const mediaGallery = renderMediaGallery(project);
+    const mediaAfterSection = project.media?.galleryAfterSection || 0;
+
     const sections = (project.sections || [])
-      .map((section, index) =>
-        '<section class="case-section" id="work-' + (index + 1) + '">' +
-          '<div class="case-index"><span>Travaux réalisés</span>' + String(index + 1).padStart(2, "0") + "</div>" +
-          '<div class="case-copy">' +
-            "<h2>" + esc(section.title) + "</h2>" +
-            (section.text ? '<p class="case-lede">' + esc(section.text) + "</p>" : "") +
-            list(section.bullets || []) +
-          "</div>" +
-        "</section>"
-      )
+      .map((section, index) => {
+        const sectionHtml =
+          '<section class="case-section" id="work-' + (index + 1) + '">' +
+            '<div class="case-index"><span>Travaux réalisés</span>' + String(index + 1).padStart(2, "0") + "</div>" +
+            '<div class="case-copy">' +
+              "<h2>" + esc(section.title) + "</h2>" +
+              (section.text ? '<p class="case-lede">' + esc(section.text) + "</p>" : "") +
+              list(section.bullets || []) +
+            "</div>" +
+          "</section>";
+
+        return sectionHtml + (mediaGallery && index + 1 === mediaAfterSection ? mediaGallery : "");
+      })
       .join("");
 
     const links = (project.links || []).length
