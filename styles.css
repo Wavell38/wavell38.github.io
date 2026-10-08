@@ -674,3 +674,49 @@ footer{max-width:var(--max);margin:30px auto 0;padding:30px 28px 50px;border-top
     grid-row:auto !important;
   }
 }
+
+/* V7 — robust auto-pan driven by scrollLeft, with edge fades */
+.arch-viewport{
+  position:relative;
+  overflow-x:auto !important;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
+}
+.arch-viewport::-webkit-scrollbar{display:none}
+.arch-viewport.is-overflowing{
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
+}
+.arch-viewport::before,
+.arch-viewport::after{
+  content:"";
+  position:sticky;
+  z-index:8;
+  top:0;
+  width:30px;
+  height:64px;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .18s ease;
+}
+.arch-viewport::before{
+  float:left;
+  left:0;
+  margin-right:-30px;
+  background:linear-gradient(90deg,var(--bg) 0,rgba(9,13,18,.88) 28%,rgba(9,13,18,0) 100%);
+}
+.arch-viewport::after{
+  float:right;
+  right:0;
+  margin-left:-30px;
+  background:linear-gradient(270deg,var(--bg) 0,rgba(9,13,18,.88) 28%,rgba(9,13,18,0) 100%);
+}
+.arch-viewport.can-left::before{opacity:1}
+.arch-viewport.can-right::after{opacity:1}
+.arch-flow{
+  transform:none !important;
+  will-change:auto !important;
+}

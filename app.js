@@ -106,21 +106,61 @@
   }
 
   function setupArchitectureFlow(){
-    const flow=document.querySelector('.arch-flow');
-    if(!flow) return;
-    const nodes=[...flow.querySelectorAll('.arch-node')];
-    const update=()=>{
-      nodes.forEach(n=>n.classList.remove('arch-next','arch-wrap-down'));
-      for(let i=0;i<nodes.length-1;i++){
-        const current=nodes[i];
-        const next=nodes[i+1];
-        if(next.offsetTop>current.offsetTop+4) current.classList.add('arch-wrap-down');
-        else current.classList.add('arch-next');
-      }
+    const viewport=document.querySelector('.arch-viewport');
+    if(!viewport) return;
+
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let raf=0;
+    let last=0;
+    let direction=1;
+    let paused=false;
+    let holdUntil=0;
+
+    const metrics=()=>{
+      const max=Math.max(0,viewport.scrollWidth-viewport.clientWidth);
+      viewport.classList.toggle('is-overflowing',max>4);
+      viewport.classList.toggle('can-left',viewport.scrollLeft>2);
+      viewport.classList.toggle('can-right',viewport.scrollLeft<max-2);
+      return max;
     };
-    requestAnimationFrame(update);
-    window.addEventListener('resize',update,{passive:true});
-    if('ResizeObserver' in window) new ResizeObserver(update).observe(flow);
+
+    const tick=(now)=>{
+      const max=metrics();
+      if(!last) last=now;
+      const dt=Math.min(40,now-last);
+      last=now;
+
+      if(!reduced && !paused && max>4 && now>=holdUntil){
+        const progress=Math.max(0,Math.min(1,viewport.scrollLeft/max));
+        const ease=.28+.72*Math.sin(Math.PI*progress);
+        const speed=20*ease;
+        viewport.scrollLeft += direction*speed*(dt/1000);
+
+        if(viewport.scrollLeft>=max-1){
+          viewport.scrollLeft=max;
+          direction=-1;
+          holdUntil=now+900;
+        }else if(viewport.scrollLeft<=1){
+          viewport.scrollLeft=0;
+          direction=1;
+          holdUntil=now+900;
+        }
+        metrics();
+      }
+      raf=requestAnimationFrame(tick);
+    };
+
+    const pause=()=>{paused=true};
+    const play=()=>{paused=false;last=performance.now()};
+    viewport.addEventListener('mouseenter',pause);
+    viewport.addEventListener('mouseleave',play);
+    viewport.addEventListener('focusin',pause);
+    viewport.addEventListener('focusout',play);
+    viewport.addEventListener('scroll',metrics,{passive:true});
+    window.addEventListener('resize',metrics,{passive:true});
+
+    metrics();
+    raf=requestAnimationFrame(tick);
   }
 
   function renderEnvironment(p){
