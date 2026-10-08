@@ -550,8 +550,8 @@ main {
 /* Case study: header and overview */
 .case-hero {
   position: relative;
-  min-height: 560px;
-  padding: 44px 0 72px;
+  min-height: 530px;
+  padding: 44px 0 63px;
   overflow: hidden;
 }
 

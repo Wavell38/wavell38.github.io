@@ -114,7 +114,7 @@ window.PORTFOLIO = {
       ],
       media:{
         hero:{
-          src:"./assets/cards-analyzer/prototype.jpg",
+          src:"./assets/cards-analyzer/prototype.png",
           alt:"Prototype V1 réel de Cards Analyzer : dôme optique, structure caméra, éclairages et câblage intégrés.",
           caption:"Prototype V1 — vue d’ensemble réelle"
         }
