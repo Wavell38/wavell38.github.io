@@ -668,6 +668,16 @@ main {
   padding: 12px 0 0 8px;
 }
 
+.objective-list:has(> li:only-child) {
+  grid-template-columns: 1fr;
+  padding-left: 0;
+  list-style: none;
+}
+
+.objective-list li:only-child {
+  padding-left: 0;
+}
+
 .objective-list li:nth-child(n + 3) {
   border-top: 1px solid var(--line);
 }
@@ -829,6 +839,13 @@ main {
 
 .project-figure--illustration img {
   opacity: 1;
+}
+
+/* Trim the transparent margins of the Pure Illusion illustration at display time. */
+.project-figure--illustration img[src="./assets/pure-illusion/illustration.png"] {
+  aspect-ratio: 2.2;
+  object-fit: cover;
+  object-position: center 45%;
 }
 
 /* Case study: outcomes */
