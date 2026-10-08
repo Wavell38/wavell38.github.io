@@ -93,6 +93,42 @@ test('context, objectives and lead media can appear independently', () => {
   assert.match(photo, /class="toc-label">Aperçu<\/span>/);
 });
 
+test('standalone lead precedes context without changing the default layout', () => {
+  const fields = { context: 'Contexte', media: { lead: { src: 'assembly.png' } } };
+  const standard = render(fields);
+  assert.match(standard, /case-overview-intro--illustrated/);
+  assert.ok(standard.indexOf('id="context"') < standard.indexOf('src="assembly.png"'));
+
+  const standalone = render({ ...fields, media: { ...fields.media, leadPlacement: 'before-context' } });
+  assert.ok(standalone.indexOf('id="top"') < standalone.indexOf('src="assembly.png"'));
+  assert.ok(standalone.indexOf('src="assembly.png"') < standalone.indexOf('id="context"'));
+  assert.equal((standalone.match(/src="assembly.png"/g) || []).length, 1);
+  assert.doesNotMatch(standalone, /case-overview-intro--illustrated/);
+  assertNavigationTargets(standalone);
+
+  const onlyLead = render({ media: { ...fields.media, leadPlacement: 'before-context' } });
+  assert.match(onlyLead, /project-figure--lead/);
+  assert.doesNotMatch(onlyLead, /case-study|case-overview|href="#context"/);
+  const missingLead = render({ media: { leadPlacement: 'before-context', lead: { src: ' ' } } });
+  assert.doesNotMatch(missingLead, /project-figure|case-study|case-overview/);
+});
+
+test('technical images link to originals and share the two-media section limit', () => {
+  const html = render({ sections: [{ media: [
+    { type: 'document', src: 'drawing.png?x="y"', alt: '<Disque>', caption: '<Plan>', width: 2339, height: 1653 },
+    { src: 'photo.png', alt: 'Photo' },
+    { type: 'document', src: 'extra.png' },
+  ] }] });
+  assert.match(html, /href="drawing.png\?x=&quot;y&quot;" target="_blank" rel="noreferrer"/);
+  assert.match(html, /project-figure--document/);
+  assert.match(html, /<img src="drawing.png\?x=&quot;y&quot;" alt="&lt;Disque&gt;" width="2339" height="1653"/);
+  assert.match(html, /<figcaption>&lt;Plan&gt;<\/figcaption>/);
+  assert.match(html, /<img src="photo.png"/);
+  assert.doesNotMatch(html, /<iframe|<object|<embed|extra.png|case-section-text|Ouvrir le PDF/);
+  assert.equal((html.match(/<figure /g) || []).length, 2);
+  assertNavigationTargets(html);
+});
+
 test('all combinations of optional blocks retain only valid navigation links', () => {
   const blocks = [
     ['context', { context: 'Contexte' }],

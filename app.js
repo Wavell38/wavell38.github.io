@@ -132,9 +132,13 @@
   }
 
   function projectTitle(project) {
-    return project.id === "cards-analyzer"
-      ? 'Cards <span class="title-accent">Analyzer</span>'
-      : esc(project.title);
+    const title = String(project.title || "");
+    const accent = project.titleAccent;
+    const index = hasText(accent) ? title.indexOf(accent) : -1;
+    if (index < 0) return esc(title);
+
+    return esc(title.slice(0, index)) + '<span class="title-accent">' + esc(accent) + '</span>' +
+      esc(title.slice(index + accent.length));
   }
 
   function tocHtml(items) {
@@ -232,11 +236,17 @@
   function renderProjectFigure(media, lead = false) {
     if (!hasText(media?.src)) return "";
 
-    return (
-      '<figure class="project-figure' + (lead ? ' project-figure--lead' : '') + '">' +
-        '<img src="' + esc(media.src) + '" alt="' + esc(media.alt || "") + '"' +
+    const documentImage = media.type === "document";
+    const image = '<img src="' + esc(media.src) + '" alt="' + esc(media.alt || "") + '"' +
           (media.width && media.height ? ' width="' + esc(media.width) + '" height="' + esc(media.height) + '"' : '') +
-          ' loading="' + (lead ? 'eager' : 'lazy') + '" decoding="async">' +
+          ' loading="' + (lead ? 'eager' : 'lazy') + '" decoding="async">';
+
+    return (
+      '<figure class="project-figure' + (lead ? ' project-figure--lead' : '') +
+        (documentImage ? ' project-figure--document' : '') + '">' +
+        (documentImage
+          ? '<a href="' + esc(media.src) + '" target="_blank" rel="noreferrer" title="Ouvrir le plan en taille originale">' + image + '</a>'
+          : image) +
         (media.caption ? '<figcaption>' + esc(media.caption) + '</figcaption>' : "") +
       '</figure>'
     );
@@ -250,6 +260,8 @@
     const hasContext = hasText(project.context);
     const hasLimits = hasText(project.limits);
     const leadMedia = renderProjectFigure(project.media?.lead, true);
+    const leadBeforeContext = project.media?.leadPlacement === "before-context";
+    const overviewMedia = leadBeforeContext ? "" : leadMedia;
     const environment = renderEnvironment(project);
     const factLabels = ["État", "Repère", "Point clé"];
     const facts = (project.facts || [])
@@ -292,13 +304,13 @@
       })
       .join("");
 
-    const introduction = hasContext || leadMedia
-      ? '<div class="case-overview-intro' + (hasContext && leadMedia ? ' case-overview-intro--illustrated' : '') + '">' +
+    const introduction = hasContext || overviewMedia
+      ? '<div class="case-overview-intro' + (hasContext && overviewMedia ? ' case-overview-intro--illustrated' : '') + '">' +
           (hasContext
             ? '<div class="case-context"><p class="eyebrow">' + esc(label('context', 'Contexte')) + '</p>' +
               '<p class="case-intro">' + esc(project.context) + '</p></div>'
             : '') +
-          leadMedia +
+          overviewMedia +
         '</div>'
       : '';
 
@@ -359,14 +371,17 @@
     const links = (project.links || []).length
       ? '<div class="project-links">' +
         project.links
-          .map(link => '<a class="btn secondary" href="' + esc(link[1]) + '" target="_blank" rel="noreferrer">' + esc(link[0]) + " ↗</a>")
+          .map(link => '<a class="project-forward" href="' + esc(link[1]) + '" target="_blank" rel="noreferrer">' + esc(link[0]) + " ↗</a>")
           .join("") +
         "</div>"
       : "";
 
     root.innerHTML =
       tocHtml(navigation) +
-      '<a class="project-back" href="./index.html#projets">← Retour aux projets</a>' +
+      '<div class="project-navigation">' +
+        '<a class="project-back" href="./index.html#projets">← Retour aux projets</a>' +
+        links +
+      '</div>' +
       '<section class="project-hero case-hero" id="top">' +
         '<div class="case-hero-copy">' +
           '<div class="case-kicker"><span>' + esc(project.kind) + "</span><span>" + esc(project.period) + '</span><span class="status">' + esc(project.status) + "</span></div>" +
@@ -375,9 +390,9 @@
           (hasText(project.role) ? '<p class="project-role">' + esc(project.role) + "</p>" : '') +
           (textItems(project.tags).length ? tags(textItems(project.tags), true) : '') +
           (facts ? '<div class="project-facts">' + facts + "</div>" : '') +
-          links +
         "</div>" +
       "</section>" +
+      (leadBeforeContext ? leadMedia : '') +
       (content ? '<div class="case-study">' + content + '</div>' : '');
 
     setupScrollSpy();

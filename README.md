@@ -37,7 +37,11 @@ Les blocs sans contenu sont omis, ainsi que leurs liens de navigation :
 
 - `context`, `objective` et `media.lead` sont indépendants ; leur conteneur disparaît si les trois sont vides.
 - `sections` ignore les entrées sans texte, puces ni média ; un titre seul ne suffit pas. Chaque section accepte
-  `media: [{ src, alt, width, height, caption? }]`, avec au plus deux images affichées dans l’ordre du tableau.
+  `media: [{ src, alt, width, height, caption? }]`, avec au plus deux médias affichés dans l’ordre du tableau.
+  Pour un plan exporté en image, ajouter `type: "document"` : l’image conserve ses couleurs d’origine
+  et un clic ouvre le fichier en taille originale dans un nouvel onglet.
+- `media.leadPlacement: "before-context"` place le visuel principal après le hero, avant Contexte / Objectif.
+  Sans cette option, il reste à côté du contexte. Il est indépendant des deux médias autorisés par section.
 - `results` doit contenir au moins un résultat ; un intitulé ou `resultsIntro` seul ne crée pas de bloc.
 - Les limites apparaissent si `limits` ou `limitsItems` contient du texte.
 - Les groupes `environmentGroups` sans éléments sont ignorés. En l’absence de groupe rempli, `environment`
@@ -46,3 +50,6 @@ Les blocs sans contenu sont omis, ainsi que leurs liens de navigation :
 Les chaînes vides ou composées uniquement d’espaces sont ignorées dans ces contenus.
 
 Vérification du template, sans dépendance : `node --test tests/project-template.test.cjs`.
+
+Le contenu du projet Réducteur cycloïdal dans `data.js` est maintenu à partir de
+`assets/cycloidal-reducer/reducteur-cycloidal-portfolio.md`, source de vérité éditoriale.
