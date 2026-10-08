@@ -262,23 +262,18 @@
       )
       .join("");
 
-    const mediaGallery = renderMediaGallery(project);
-    const mediaAfterSection = project.media?.galleryAfterSection || 0;
-
     const sections = (project.sections || [])
-      .map((section, index) => {
-        const sectionHtml =
-          '<section class="case-section" id="work-' + (index + 1) + '">' +
-            '<div class="case-index"><span>Travaux réalisés</span>' + String(index + 1).padStart(2, "0") + "</div>" +
-            '<div class="case-copy">' +
-              "<h2>" + esc(section.title) + "</h2>" +
-              (section.text ? '<p class="case-lede">' + esc(section.text) + "</p>" : "") +
-              list(section.bullets || []) +
-            "</div>" +
-          "</section>";
-
-        return sectionHtml + (mediaGallery && index + 1 === mediaAfterSection ? mediaGallery : "");
-      })
+      .map((section, index) =>
+        '<section class="case-section" id="work-' + (index + 1) + '">' +
+          '<div class="case-index"><span>Travaux réalisés</span>' + String(index + 1).padStart(2, "0") + "</div>" +
+          '<div class="case-copy">' +
+            "<h2>" + esc(section.title) + "</h2>" +
+            (section.text ? '<p class="case-lede">' + esc(section.text) + "</p>" : "") +
+            list(section.bullets || []) +
+            renderSectionMedia(section) +
+          "</div>" +
+        "</section>"
+      )
       .join("");
 
     const links = (project.links || []).length
