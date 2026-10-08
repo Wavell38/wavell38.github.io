@@ -243,6 +243,7 @@
 
     return (
       '<figure class="project-figure' + (lead ? ' project-figure--lead' : '') +
+        (media.type === "illustration" ? ' project-figure--illustration' : '') +
         (documentImage ? ' project-figure--document' : '') + '">' +
         (documentImage
           ? '<a href="' + esc(media.src) + '" target="_blank" rel="noreferrer" title="Ouvrir le plan en taille originale">' + image + '</a>'

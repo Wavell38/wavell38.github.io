@@ -576,9 +576,6 @@ main {
   padding: 44px 0 63px;
 }
 
-.case-hero-copy {
-}
-
 .case-hero-copy .project-facts {
   margin-top: 48px;
 }
@@ -822,6 +819,15 @@ main {
 }
 
 .project-figure--document img {
+  opacity: 1;
+}
+
+.project-figure--illustration {
+  width: min(100%, 420px);
+  padding: 16px;
+}
+
+.project-figure--illustration img {
   opacity: 1;
 }
 

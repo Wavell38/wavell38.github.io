@@ -149,14 +149,92 @@ window.PORTFOLIO = {
     {
       id:"quant-platform", group:"featured", order:2, kind:"Projet personnel", status:"En cours",
       title:"Plateforme de recherche quantitative", subtitle:"Backtest, exécution simulée & performance",
+      titleAccent:"quantitative",
+      role:"Développeur logiciel / architecture & performance",
       period:"Depuis juin 2026",
       summary:"Un projet software centré sur la reproductibilité, la performance et la modélisation explicite de l’exécution, du portefeuille et du risque.",
       tags:["Rust","Python","Architecture","Performance","Profiling"],
-      facts:["Python → Rust","Streaming borné","Campagnes multi-jours"],
-      context:"Projet de R&D logicielle visant à rejouer des données de marché historiques et exécuter des stratégies dans un environnement simulé reproductible. Une première verticale Python a servi à qualifier le domaine avant migration vers Rust après mesure des limites de performance.",
-      work:["Replay de carnet L2, trades, prix de référence/index et financement.","Modélisation des ordres, fills, frais, positions et état du portefeuille.","Streaming borné et isolation de l’état entre campagnes.","Qualification expérimentale du moteur tiers avant extension de l’architecture.","Benchmarks temps/mémoire, profiling et adaptation de la concurrence entre workers."],
-      results:["Prototype Python fonctionnel puis runtime Rust qualifié progressivement.","Replay reproductible et streaming borné validé sur des campagnes longues.","Identification d’une source majeure de rétention mémoire et adaptation de la capacité par worker.","Base technique prête pour une bibliothèque de stratégies paramétrables."],
-      limits:"Projet de recherche logicielle en cours ; il ne s’agit pas d’une plateforme de trading prête pour production et aucun résultat technique n’est présenté comme une preuve de performance financière."
+      facts:["R&D en cours","Python → Rust","Streaming borné"],
+      context:"Projet personnel de R&D logicielle visant à rejouer des données de marché historiques, exécuter des stratégies dans un environnement simulé et comparer leurs comportements dans des conditions reproductibles. Une première implémentation Python a permis de qualifier le domaine et les règles d’exécution. Les limites mesurées en benchmark ont ensuite conduit à reprendre le runtime en Rust, avec une qualification systématique des dépendances, des performances et de la mémoire.",
+      objective:[
+        "Construire un environnement de backtest déterministe et performant pour des campagnes longues, avec modélisation explicite des données de marché, de l’exécution, du portefeuille et du risque.",
+        "Automatiser à terme des campagnes régulières et reproductibles pour réévaluer les stratégies face aux conditions de marché courantes.",
+        "Développer une évaluation graduée pour sélectionner les stratégies les plus adaptées, en conserver plusieurs et ajuster automatiquement leurs paramètres lorsque nécessaire.",
+        "Faire coexister à terme des stratégies en test simulé et des stratégies utilisées en réel après validation approfondie, avec une adaptation continue fondée sur ces réévaluations."
+      ],
+      sections:[
+        {
+          title:"Modélisation & replay de marché",
+          bullets:[
+            "Représentation des données historiques : carnet d’ordres L2, trades, prix de référence/index et événements de financement.",
+            "Construction d’un pipeline de replay reproductible."
+          ]
+        },
+        {
+          title:"Exécution simulée & portefeuille",
+          bullets:[
+            "Modélisation des ordres, fills, frais et positions.",
+            "Gestion de l’état du portefeuille et de sa restauration.",
+            "Qualification des règles d’exécution et des contraintes de risque.",
+            "Isolation de l’état entre plusieurs campagnes."
+          ]
+        },
+        {
+          title:"Migration Python → Rust",
+          bullets:[
+            "Première verticale fonctionnelle en Python pour qualifier le domaine.",
+            "Benchmarks des limites de temps d’exécution, puis reprise du runtime en Rust.",
+            "Qualification du moteur tiers par verticales expérimentales avant extension de l’architecture."
+          ]
+        },
+        {
+          title:"Streaming & campagnes longues",
+          bullets:[
+            "Streaming borné pour éviter le chargement intégral de longues périodes de données.",
+            "Conservation de l’ordre des événements et des groupes de même timestamp.",
+            "Séparation entre résolution du marché et cadence de décision de la stratégie.",
+            "Campagnes sur des moteurs fraîchement instanciés pour vérifier la reproductibilité."
+          ]
+        },
+        {
+          title:"Performance & mémoire",
+          bullets:[
+            "Benchmarks du temps d’exécution, de la mémoire et de la concurrence entre workers.",
+            "Profilage de la croissance mémoire et identification de la rétention de blocs de données encodés comme source importante de cette croissance.",
+            "Définition de limites de concurrence adaptées à la machine de développement."
+          ]
+        },
+        {
+          title:"Bibliothèque de stratégies",
+          bullets:[
+            "Préparation d’une bibliothèque de stratégies paramétrables.",
+            "Séparation des outils génériques des stratégies elles-mêmes.",
+            "Préparation de campagnes de comparaison et d’optimisation."
+          ]
+        }
+      ],
+      results:[
+        "Première plateforme Python fonctionnelle pour qualifier le domaine, puis runtime Rust qualifié progressivement.",
+        "Replay reproductible avec vérification de l’état des ordres, des positions et des données de marché.",
+        "Streaming borné validé sur des campagnes multi-jours.",
+        "Profiling ayant identifié un goulot de rétention mémoire et permis d’adapter la concurrence.",
+        "Base technique prête pour des stratégies paramétrables."
+      ],
+      limits:"Projet de recherche logicielle en cours, non présenté comme une plateforme de trading prête pour production. Les campagnes automatiques récurrentes, la sélection adaptative, l’ajustement automatique des paramètres et le passage en réel restent des étapes futures. Les résultats techniques ne constituent pas une validation financière ni une preuve de rentabilité de stratégies.",
+      environmentGroups:[
+        {title:"Langages & runtime",items:["Rust","Cargo","Python","Moteurs de backtest"]},
+        {title:"Données & architecture",items:["Données L2 / marché","Architecture modulaire"]},
+        {title:"Validation & mesure",items:["Tests automatisés","pytest","Ruff","Profiling temps/mémoire"]},
+        {title:"Développement",items:["Git","Agents IA"]}
+      ],
+      media:{
+        lead:{
+          type:"illustration",
+          src:"./assets/plateforme-quantitative/Pipeline-futuriste.png",
+          alt:"Illustration conceptuelle d’un pipeline reliant données de marché, backtest, simulation et stratégies.",
+          width:1448, height:1086
+        }
+      }
     },
     {
       id:"agentic-workflow", group:"featured", order:3, kind:"R&D transverse", status:"En évolution",
