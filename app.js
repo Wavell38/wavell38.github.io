@@ -231,8 +231,8 @@
     if (!media) return "";
 
     return (
-      '<figure class="case-hero-media">' +
-        '<div class="case-hero-media-image">' +
+      '<figure class="case-hero-visual">' +
+        '<div class="case-hero-visual-image">' +
           '<img src="' + esc(media.src) + '" alt="' + esc(media.alt || "") + '" loading="eager" decoding="async">' +
         '</div>' +
         (media.caption ? '<figcaption>' + esc(media.caption) + '</figcaption>' : "") +
@@ -240,30 +240,17 @@
     );
   }
 
-  function renderMediaGallery(project) {
-    const items = project.media?.gallery || [];
-    if (!items.length) return "";
+  function renderSectionMedia(section) {
+    const media = section.media;
+    if (!media) return "";
 
     return (
-      '<section class="project-media-break" aria-label="Visuels du projet">' +
-        '<div class="media-break-heading">' +
-          '<p class="eyebrow">Du modèle au prototype</p>' +
-          '<p>Deux repères visuels réels, sans reconstruction du matériel.</p>' +
+      '<figure class="section-media">' +
+        '<div class="section-media-image">' +
+          '<img src="' + esc(media.src) + '" alt="' + esc(media.alt || "") + '" loading="lazy" decoding="async">' +
         '</div>' +
-        '<div class="project-media-grid">' +
-          items.map((item, index) =>
-            '<figure class="project-media-card media-' + index + '">' +
-              '<div class="project-media-image">' +
-                '<img src="' + esc(item.src) + '" alt="' + esc(item.alt || "") + '" loading="lazy" decoding="async">' +
-              '</div>' +
-              '<figcaption>' +
-                '<strong>' + esc(item.title || "") + '</strong>' +
-                '<span>' + esc(item.caption || "") + '</span>' +
-              '</figcaption>' +
-            '</figure>'
-          ).join("") +
-        '</div>' +
-      '</section>'
+        (media.caption ? '<figcaption>' + esc(media.caption) + '</figcaption>' : "") +
+      '</figure>'
     );
   }
 
@@ -306,13 +293,16 @@
       tocHtml() +
       '<a class="project-back" href="./index.html#projets">← Retour aux projets</a>' +
       '<section class="project-hero case-hero" id="top">' +
-        '<div class="case-kicker"><span>' + esc(project.kind) + "</span><span>" + esc(project.period) + '</span><span class="status">' + esc(project.status) + "</span></div>" +
-        "<h1>" + projectTitle(project) + "</h1>" +
-        '<p class="project-summary">' + esc(project.subtitle) + "</p>" +
-        '<p class="project-role">' + esc(project.role || "") + "</p>" +
-        tags(project.tags, true) +
-        '<div class="project-facts">' + facts + "</div>" +
-        links +
+        '<div class="case-hero-copy">' +
+          '<div class="case-kicker"><span>' + esc(project.kind) + "</span><span>" + esc(project.period) + '</span><span class="status">' + esc(project.status) + "</span></div>" +
+          "<h1>" + projectTitle(project) + "</h1>" +
+          '<p class="project-summary">' + esc(project.subtitle) + "</p>" +
+          '<p class="project-role">' + esc(project.role || "") + "</p>" +
+          tags(project.tags, true) +
+          '<div class="project-facts">' + facts + "</div>" +
+          links +
+        "</div>" +
+        renderHeroMedia(project) +
       "</section>" +
       '<div class="case-study">' +
         '<section class="case-overview" id="context">' +

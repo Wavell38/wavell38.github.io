@@ -25,7 +25,12 @@ window.PORTFOLIO = {
             "Conception du support coulissant de carte, des supports électroniques et du cheminement des câbles.",
             "CAO sous FreeCAD, adaptation des grandes pièces aux contraintes d’impression et ajout de renforts.",
             "Fabrication additive du prototype et itérations d’assemblage."
-          ]
+          ],
+          media:{
+            src:"./assets/cards-analyzer/cao.jpg",
+            alt:"Vue CAO FreeCAD de l’ensemble mécanique de Cards Analyzer.",
+            caption:"Vue d’ensemble FreeCAD des sous-ensembles mécaniques."
+          }
         },
         {
           title:"Optique & éclairage",
@@ -65,7 +70,12 @@ window.PORTFOLIO = {
             "Gestion des intensités, états complets ou partiels et délais de stabilisation.",
             "Profils YAML décrivant éclairages, intensités, exposition, temporisations et captures.",
             "Séquences asynchrones avec progression, annulation, gestion des erreurs et captures dark."
-          ]
+          ],
+          media:{
+            src:"./assets/cards-analyzer/cablage.jpg",
+            alt:"Détail réel du câblage et des modules de commande montés sur la structure de Cards Analyzer.",
+            caption:"Détail d’intégration électronique et cheminement du câblage."
+          }
         },
         {
           title:"Traitement d’image",
@@ -117,22 +127,7 @@ window.PORTFOLIO = {
           src:"./assets/cards-analyzer/prototype.jpg",
           alt:"Prototype V1 réel de Cards Analyzer : dôme optique, structure caméra, éclairages et câblage intégrés.",
           caption:"Prototype V1 — vue d’ensemble réelle"
-        },
-        galleryAfterSection:2,
-        gallery:[
-          {
-            src:"./assets/cards-analyzer/cao.jpg",
-            alt:"Vue CAO FreeCAD de l’ensemble mécanique de Cards Analyzer.",
-            title:"Conception mécanique",
-            caption:"Vue d’ensemble FreeCAD des sous-ensembles mécaniques."
-          },
-          {
-            src:"./assets/cards-analyzer/cablage.jpg",
-            alt:"Détail réel du câblage et des modules de commande montés sur la structure de Cards Analyzer.",
-            title:"Intégration électronique",
-            caption:"Modules de commande et cheminement du câblage sur la structure."
-          }
-        ]
+        }
       }
     },
     {
