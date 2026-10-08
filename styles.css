@@ -565,9 +565,11 @@ main {
 
 .case-overview {
   margin-bottom: 24px;
+  padding-bottom: 34px;
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 20px;
+  border-bottom: 1px solid var(--line);
 }
 
 .case-intro {
