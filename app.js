@@ -105,17 +105,45 @@
     update();
   }
 
+  function setupArchitectureFlow(){
+    const flow=document.querySelector('.arch-flow');
+    if(!flow) return;
+    const nodes=[...flow.querySelectorAll('.arch-node')];
+    const update=()=>{
+      nodes.forEach(n=>n.classList.remove('arch-next','arch-wrap-down'));
+      for(let i=0;i<nodes.length-1;i++){
+        const current=nodes[i];
+        const next=nodes[i+1];
+        if(next.offsetTop>current.offsetTop+4) current.classList.add('arch-wrap-down');
+        else current.classList.add('arch-next');
+      }
+    };
+    requestAnimationFrame(update);
+    window.addEventListener('resize',update,{passive:true});
+    if('ResizeObserver' in window) new ResizeObserver(update).observe(flow);
+  }
+
+  function renderEnvironment(p){
+    if(p.environmentGroups?.length){
+      return '<div class="tech-groups">'+p.environmentGroups.map(group=>
+        '<section class="tech-group"><h3>'+esc(group.title)+'</h3><div class="tech-cloud">'+
+        group.items.map(x=>'<span>'+esc(x)+'</span>').join('')+
+        '</div></section>'
+      ).join('')+'</div>';
+    }
+    return '<div class="tech-cloud">'+(p.environment||[]).map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>';
+  }
+
   function renderCaseStudy(p,root){
     const factHtml=(p.facts||[]).map((f,i)=>'<div><span>'+['État','Repère','Point clé'][i]+'</span><strong>'+esc(f)+'</strong></div>').join('');
     const tones=['slate','slate','amber','violet','blue','green','purple','cyan'];
     const arch=(p.architecture||[]).map((x,i)=>
-      '<div class="arch-node arch-step-'+i+' arch-'+tones[i%tones.length]+'"><div class="arch-icon">'+archIcon(i)+'</div><strong>'+esc(x)+'</strong></div>'
+      '<div class="arch-node arch-'+tones[i%tones.length]+'"><div class="arch-icon">'+archIcon(i)+'</div><strong>'+esc(x)+'</strong></div>'
     ).join('');
     const sections=(p.sections||[]).map((s,i)=>
       '<section class="case-section" id="work-'+(i+1)+'"><div class="case-index"><span>Travaux réalisés</span>'+String(i+1).padStart(2,'0')+'</div>'+
       '<div class="case-copy"><h2>'+esc(s.title)+'</h2>'+(s.text?'<p class="case-lede">'+esc(s.text)+'</p>':'')+list(s.bullets||[])+'</div></section>'
     ).join('');
-    const env=(p.environment||[]).map(x=>'<span>'+esc(x)+'</span>').join('');
     const links=(p.links||[]).length?'<div class="project-links">'+p.links.map(l=>'<a class="btn secondary" href="'+esc(l[1])+'" target="_blank" rel="noreferrer">'+esc(l[0])+' ↗</a>').join('')+'</div>':'';
 
     root.innerHTML=
@@ -142,9 +170,10 @@
         '</section>'+
         '<section class="case-section results-section" id="results"><div class="case-index"><span>Bilan</span>R</div><div class="case-copy"><h2>Résultats</h2>'+list(p.results||[])+'</div></section>'+
         '<section class="case-section" id="limits"><div class="case-index"><span>Bilan</span>L</div><div class="case-copy"><h2>Limites / état actuel</h2><p class="case-lede">'+esc(p.limits)+'</p></div></section>'+
-        '<section class="tech-environment" id="stack"><div><p class="eyebrow">Environnement technique</p><h2>Stack & outils</h2></div><div class="tech-cloud">'+env+'</div></section>'+
+        '<section class="tech-environment" id="stack"><div><p class="eyebrow">Environnement technique</p><h2>Stack & outils</h2></div>'+renderEnvironment(p)+'</section>'+
       '</div>';
     setupScrollSpy();
+    setupArchitectureFlow();
   }
 
   function renderProject(){

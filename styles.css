@@ -474,3 +474,96 @@ footer{max-width:var(--max);margin:30px auto 0;padding:30px 28px 50px;border-top
   }
   .arch-step-7::after{content:none}
 }
+
+/* V5 — natural system flow, no rail line, categorized stack */
+.case-toc .toc-line{display:none}
+
+/* Flow cards size themselves to content; no horizontal slider. */
+.arch-flow{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:flex-start;
+  gap:18px 22px;
+  overflow:visible;
+  padding:6px 2px 10px;
+}
+.arch-node,
+.arch-node[class*="arch-step-"]{
+  position:relative;
+  display:inline-flex;
+  flex:0 0 auto;
+  width:max-content;
+  min-width:104px;
+  max-width:185px;
+  height:auto;
+  min-height:54px;
+  padding:9px 13px;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  grid-column:auto;
+  grid-row:auto;
+}
+.arch-node strong{white-space:normal}
+.arch-node::after{content:none}
+.arch-node.arch-next::after{
+  content:"›";
+  position:absolute;
+  right:-16px;
+  top:50%;
+  transform:translateY(-52%);
+  color:#55b7f5;
+  font-size:1.22rem;
+  line-height:1;
+  opacity:.9
+}
+.arch-node.arch-wrap-down::after{
+  content:"⌄";
+  position:absolute;
+  left:50%;
+  right:auto;
+  bottom:-18px;
+  top:auto;
+  transform:translateX(-50%);
+  color:#55b7f5;
+  font-size:1rem;
+  line-height:1;
+  opacity:.85
+}
+
+/* Stack grouped by technical role. */
+.tech-environment{grid-template-columns:220px 1fr;align-items:start}
+.tech-groups{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px 28px
+}
+.tech-group{
+  min-width:0;
+  padding-top:2px
+}
+.tech-group h3{
+  margin:0 0 9px;
+  color:#8294a4;
+  font-size:.68rem;
+  font-weight:760;
+  text-transform:uppercase;
+  letter-spacing:.12em
+}
+.tech-group .tech-cloud{gap:7px}
+.tech-group .tech-cloud span{
+  border-radius:7px;
+  padding:6px 9px;
+  background:rgba(255,255,255,.018)
+}
+@media(max-width:900px){
+  .tech-environment{grid-template-columns:1fr}
+  .tech-groups{grid-template-columns:1fr 1fr}
+}
+@media(max-width:620px){
+  .tech-groups{grid-template-columns:1fr}
+  .arch-flow{gap:17px 20px}
+  .arch-node,.arch-node[class*="arch-step-"]{max-width:100%}
+}

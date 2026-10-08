@@ -108,7 +108,15 @@ window.PORTFOLIO = {
         "Architecture mécanique plus ambitieuse avec alimentation / retournement automatiques."
       ],
       limits:"Le projet est un prototype V1 avancé en cours. La détection finale et la qualification automatisée des défauts de surface ne sont pas encore établies. La géométrie des bords et des coins reste expérimentale, et certaines décisions de la future automatisation mécanique sont volontairement différées.",
-      environment:["C++20","ROS 2 Jazzy","rclcpp","libcamera","OpenCV","RAW Bayer RGGB","Raspberry Pi 5","Arducam 64 MP","PCA9685","I²C","NestJS","TypeScript","Fastify","rclnodejs","WebSocket","React","Vite","JSON","YAML","FreeCAD","KiCad","PrusaSlicer","Impression 3D","Tests / qualification","Agents IA"]
+      environment:["C++20","ROS 2 Jazzy","rclcpp","libcamera","OpenCV","RAW Bayer RGGB","Raspberry Pi 5","Arducam 64 MP","PCA9685","I²C","NestJS","TypeScript","Fastify","rclnodejs","WebSocket","React","Vite","JSON","YAML","FreeCAD","KiCad","PrusaSlicer","Impression 3D","Tests / qualification","Agents IA"],
+      environmentGroups:[
+        {title:"Cœur logiciel & robotique",items:["C++20","ROS 2 Jazzy","rclcpp","rclnodejs"]},
+        {title:"Acquisition & vision",items:["libcamera","OpenCV","RAW Bayer RGGB","Raspberry Pi 5","Arducam 64 MP","PCA9685","I²C"]},
+        {title:"Backend & interface",items:["NestJS","TypeScript","Fastify","WebSocket","React","Vite"]},
+        {title:"Données & configuration",items:["JSON","YAML"]},
+        {title:"CAO & prototypage",items:["FreeCAD","KiCad","PrusaSlicer","Impression 3D"]},
+        {title:"Qualité & méthode",items:["Tests / qualification","Agents IA"]}
+      ]
     },
     {
       id:"quant-platform", group:"featured", order:2, kind:"Projet personnel", status:"En cours",
