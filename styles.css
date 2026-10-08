@@ -549,17 +549,10 @@ main {
 
 /* Case study: header and overview */
 .case-hero {
-  position: relative;
-  min-height: 530px;
   padding: 44px 0 63px;
-  overflow: hidden;
 }
 
 .case-hero-copy {
-  position: relative;
-  z-index: 2;
-  width: min(64%, 640px);
-  min-width: 0;
 }
 
 .case-hero-copy .project-facts {
@@ -599,52 +592,91 @@ main {
   padding: 58px 0 100px;
 }
 
+.case-study > :first-child,
+.objective-box:first-child,
+.case-section-media:first-child {
+  margin-top: 0;
+}
+
 .case-overview {
   margin-bottom: 24px;
   padding-bottom: 34px;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 20px;
   border-bottom: 1px solid var(--line);
+}
+
+.case-overview-intro {
+  display: grid;
+  align-items: center;
+  gap: 28px;
+}
+
+.case-context {
+  min-width: 0;
+}
+
+.case-overview-intro > .project-figure {
+  margin-top: 0;
 }
 
 .case-intro {
   max-width: 700px;
+  margin: 0;
   color: #bcc8d3;
   font-size: 1.08rem;
 }
 
 .objective-box {
+  margin-top: 32px;
   padding: 24px;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--bg2);
 }
 
+.objective-list {
+  margin: 0;
+  padding-left: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 44px;
+  list-style: decimal-leading-zero;
+  color: var(--muted);
+}
+
+.objective-list li {
+  padding: 12px 0 0 8px;
+}
+
+.objective-list li:nth-child(n + 3) {
+  border-top: 1px solid var(--line);
+}
+
+.objective-list li::marker {
+  color: var(--accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+}
+
 /* Case study: technical list style */
-.case-copy ul,
-.objective-box ul {
+.case-copy ul {
   margin: 0;
   padding-left: 0;
   list-style: none;
   color: var(--muted);
 }
 
-.case-copy li,
-.objective-box li {
+.case-copy li {
   position: relative;
   margin: 0;
   padding: 9px 0 9px 20px;
   border-top: 1px solid rgba(118, 143, 166, 0.11);
 }
 
-.case-copy li:first-child,
-.objective-box li:first-child {
+.case-copy li:first-child {
   border-top: 0;
 }
 
-.case-copy li::before,
-.objective-box li::before {
+.case-copy li::before {
   content: "";
   position: absolute;
   top: 1.18em;
@@ -703,102 +735,66 @@ main {
   max-width: 820px;
 }
 
+.case-copy,
+.case-section-text {
+  min-width: 0;
+}
 
-/* Case study: optional project media */
-.case-hero-visual {
-  position: absolute;
-  top: -18px;
-  right: -86px;
-  bottom: -54px;
-  z-index: 1;
-  width: 64%;
+.case-section-media {
+  width: min(100%, 280px);
+  margin: 30px auto 0;
+  display: grid;
+  gap: 16px;
+}
+
+.case-section-media > .project-figure {
+  width: 100%;
   margin: 0;
-  overflow: hidden;
-  pointer-events: none;
 }
 
-.case-hero-visual-image {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
+@media (min-width: 901px) {
+  .case-overview-intro--illustrated {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: 40px;
+  }
+
+  .case-section-body--illustrated {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    align-items: start;
+    gap: 28px;
+  }
+
+  .case-section-body--illustrated > .case-section-media {
+    margin: 0;
+  }
 }
 
-.case-hero-visual-image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      90deg,
-      var(--bg) 0%,
-      rgba(9, 13, 18, 0.96) 12%,
-      rgba(9, 13, 18, 0.70) 31%,
-      rgba(9, 13, 18, 0.22) 54%,
-      rgba(9, 13, 18, 0.02) 76%
-    ),
-    linear-gradient(
-      180deg,
-      var(--bg) 0%,
-      rgba(9, 13, 18, 0.10) 15%,
-      rgba(9, 13, 18, 0.02) 70%,
-      var(--bg) 100%
-    );
-  box-shadow: inset 0 0 76px rgba(9, 13, 18, 0.58);
+
+/* Optional figures shared by project templates */
+.project-figure {
+  width: min(100%, 300px);
+  margin: 30px auto 0;
 }
 
-.case-hero-visual img {
-  width: 100%;
-  height: 100%;
-  min-height: 560px;
+.project-figure--lead {
+  width: min(100%, 500px);
+  margin-top: 40px;
+}
+
+.project-figure img {
   display: block;
-  object-fit: contain;
-  object-position: center right;
-  opacity: 0.88;
-}
-
-.case-hero-visual figcaption {
-  display: none;
-}
-
-.section-media {
-  margin: 26px 0 0;
-  overflow: hidden;
-  border-radius: 13px;
-  background: #080d12;
-}
-
-.section-media-image {
-  position: relative;
-  height: 300px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-
-.section-media-image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, var(--bg) 0%, transparent 10%, transparent 90%, var(--bg) 100%),
-    linear-gradient(180deg, transparent 76%, var(--bg) 100%);
-  opacity: 0.58;
-}
-
-.section-media img {
   width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
+  height: auto;
+  border-radius: 12px;
+  opacity: 0.9;
 }
 
-.section-media figcaption {
-  padding: 9px 4px 0;
-  color: #778895;
-  font-size: 0.72rem;
+.project-figure figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: center;
 }
 
 /* Case study: outcomes */
@@ -877,6 +873,10 @@ main {
   display: grid;
   grid-template-columns: minmax(230px, 0.82fr) minmax(0, 1.18fr);
   gap: 30px;
+}
+
+.outcome-limits--summary-only {
+  grid-template-columns: 1fr;
 }
 
 .limits-summary .eyebrow {
@@ -1012,48 +1012,11 @@ main {
 
 @media (max-width: 900px) {
   .case-hero {
-    min-height: auto;
     padding-bottom: 52px;
-    overflow: visible;
-  }
-
-  .case-hero-copy {
-    width: 100%;
   }
 
   .case-hero-copy .project-facts {
     margin-top: 40px;
-  }
-
-  .case-hero-visual {
-    position: relative;
-    top: auto;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    height: 350px;
-    margin: 24px 0 -28px;
-  }
-
-  .case-hero-visual-image {
-    position: relative;
-    height: 350px;
-  }
-
-  .case-hero-visual img {
-    min-height: 0;
-    height: 350px;
-    object-position: center;
-  }
-
-  .case-hero-visual-image::after {
-    background:
-      linear-gradient(90deg, var(--bg) 0%, transparent 12%, transparent 88%, var(--bg) 100%),
-      linear-gradient(180deg, var(--bg) 0%, transparent 10%, transparent 70%, var(--bg) 100%);
-  }
-
-  .section-media-image {
-    height: 260px;
   }
 
   nav a:not(.nav-github) {
@@ -1084,7 +1047,6 @@ main {
 
   .principles,
   .project-facts,
-  .case-overview,
   .tech-environment {
     grid-template-columns: 1fr;
   }
@@ -1113,6 +1075,11 @@ main {
 }
 
 @media (max-width: 620px) {
+  .objective-list li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .objective-list,
   .tech-groups {
     grid-template-columns: 1fr;
   }

@@ -13,6 +13,9 @@
   const list = items =>
     "<ul>" + (items || []).map(item => "<li>" + esc(item) + "</li>").join("") + "</ul>";
 
+  const hasText = value => typeof value === "string" && value.trim().length > 0;
+  const textItems = items => (Array.isArray(items) ? items : []).filter(hasText);
+
   function techIcon(name) {
     const value = String(name || "").toLowerCase();
 
@@ -118,8 +121,8 @@
         tags(project.tags) +
         '<div class="project-facts">' + facts + "</div>" +
         links +
-        renderHeroMedia(project) +
       "</section>" +
+      renderProjectFigure(project.media?.lead, true) +
       '<div class="project-content">' +
         '<section class="detail-section"><h2>Contexte</h2><div><p>' + esc(project.context) + "</p></div></section>" +
         '<section class="detail-section"><h2>Travaux réalisés</h2><div>' + list(project.work || []) + "</div></section>" +
@@ -134,21 +137,15 @@
       : esc(project.title);
   }
 
-  function tocHtml() {
-    const items = [
-      ["Intro", "top"],
-      ["Contexte", "context"],
-      ["Travaux", "work-1"],
-      ["Résultats", "results"],
-      ["Limites", "limits"],
-    ];
+  function tocHtml(items) {
+    if (items.length < 2) return "";
 
     return (
       '<aside class="case-toc" aria-label="Navigation du projet">' +
       items
         .map(([label, target]) =>
           '<a class="toc-link" href="#' + target + '" data-target="' + target + '">' +
-          '<span class="toc-label">' + label + '</span><span class="toc-dot"></span></a>'
+          '<span class="toc-label">' + esc(label) + '</span><span class="toc-dot"></span></a>'
         )
         .join("") +
       "</aside>"
@@ -202,15 +199,18 @@
   }
 
   function renderEnvironment(project) {
-    if (project.environmentGroups?.length) {
+    const groups = (Array.isArray(project.environmentGroups) ? project.environmentGroups : [])
+      .filter(group => group && textItems(group.items).length);
+
+    if (groups.length) {
       return (
         '<div class="tech-groups">' +
-        project.environmentGroups
+        groups
           .map(group =>
             '<section class="tech-group">' +
-              "<h3>" + esc(group.title) + "</h3>" +
+              (hasText(group.title) ? "<h3>" + esc(group.title) + "</h3>" : "") +
               '<div class="tech-cloud">' +
-                group.items.map(item => "<span>" + esc(item) + "</span>").join("") +
+                textItems(group.items).map(item => "<span>" + esc(item) + "</span>").join("") +
               "</div>" +
             "</section>"
           )
@@ -219,42 +219,38 @@
       );
     }
 
+    const items = textItems(project.environment);
+    if (!items.length) return "";
+
     return (
       '<div class="tech-cloud">' +
-      (project.environment || []).map(item => "<span>" + esc(item) + "</span>").join("") +
+      items.map(item => "<span>" + esc(item) + "</span>").join("") +
       "</div>"
     );
   }
 
-  function renderHeroMedia(project) {
-    const media = project.media?.hero;
-    if (!media) return "";
+  function renderProjectFigure(media, lead = false) {
+    if (!hasText(media?.src)) return "";
 
     return (
-      '<figure class="case-hero-visual">' +
-        '<div class="case-hero-visual-image">' +
-          '<img src="' + esc(media.src) + '" alt="' + esc(media.alt || "") + '" loading="eager" decoding="async">' +
-        '</div>' +
-        (media.caption ? '<figcaption>' + esc(media.caption) + '</figcaption>' : "") +
-      '</figure>'
-    );
-  }
-
-  function renderSectionMedia(section) {
-    const media = section.media;
-    if (!media) return "";
-
-    return (
-      '<figure class="section-media">' +
-        '<div class="section-media-image">' +
-          '<img src="' + esc(media.src) + '" alt="' + esc(media.alt || "") + '" loading="lazy" decoding="async">' +
-        '</div>' +
+      '<figure class="project-figure' + (lead ? ' project-figure--lead' : '') + '">' +
+        '<img src="' + esc(media.src) + '" alt="' + esc(media.alt || "") + '"' +
+          (media.width && media.height ? ' width="' + esc(media.width) + '" height="' + esc(media.height) + '"' : '') +
+          ' loading="' + (lead ? 'eager' : 'lazy') + '" decoding="async">' +
         (media.caption ? '<figcaption>' + esc(media.caption) + '</figcaption>' : "") +
       '</figure>'
     );
   }
 
   function renderCaseStudy(project, root) {
+    const label = (key, fallback) => hasText(project.labels?.[key]) ? project.labels[key] : fallback;
+    const objectives = textItems(project.objective);
+    const results = textItems(project.results);
+    const limitsItems = textItems(project.limitsItems);
+    const hasContext = hasText(project.context);
+    const hasLimits = hasText(project.limits);
+    const leadMedia = renderProjectFigure(project.media?.lead, true);
+    const environment = renderEnvironment(project);
     const factLabels = ["État", "Repère", "Point clé"];
     const facts = (project.facts || [])
       .map((fact, index) =>
@@ -262,19 +258,103 @@
       )
       .join("");
 
-    const sections = (project.sections || [])
-      .map((section, index) =>
-        '<section class="case-section" id="work-' + (index + 1) + '">' +
-          '<div class="case-index"><span>Travaux réalisés</span>' + String(index + 1).padStart(2, "0") + "</div>" +
+    const sections = (Array.isArray(project.sections) ? project.sections : [])
+      .filter(section => section)
+      .map(section => ({
+        ...section,
+        bullets: textItems(section.bullets),
+        media: (Array.isArray(section.media) ? section.media : [])
+          .filter(item => hasText(item?.src))
+          .slice(0, 2),
+      }))
+      .filter(section => hasText(section.text) || section.bullets.length || section.media.length)
+      .map((section, index) => {
+        const media = section.media;
+        const hasCopy = hasText(section.title) || hasText(section.text) || section.bullets.length;
+
+        return '<section class="case-section" id="work-' + (index + 1) + '">' +
+          '<div class="case-index"><span>' + esc(label('work', 'Travaux réalisés')) + '</span>' + String(index + 1).padStart(2, "0") + "</div>" +
           '<div class="case-copy">' +
-            "<h2>" + esc(section.title) + "</h2>" +
-            (section.text ? '<p class="case-lede">' + esc(section.text) + "</p>" : "") +
-            list(section.bullets || []) +
-            renderSectionMedia(section) +
+            '<div class="case-section-body' + (hasCopy && media.length ? ' case-section-body--illustrated' : '') + '">' +
+              (hasCopy
+                ? '<div class="case-section-text">' +
+                    (hasText(section.title) ? "<h2>" + esc(section.title) + "</h2>" : "") +
+                    (hasText(section.text) ? '<p class="case-lede">' + esc(section.text) + "</p>" : "") +
+                    (section.bullets.length ? list(section.bullets) : '') +
+                  '</div>'
+                : '') +
+              (media.length
+                ? '<div class="case-section-media">' + media.map(item => renderProjectFigure(item)).join('') + '</div>'
+                : '') +
+            '</div>' +
           "</div>" +
-        "</section>"
-      )
+        "</section>";
+      })
       .join("");
+
+    const introduction = hasContext || leadMedia
+      ? '<div class="case-overview-intro' + (hasContext && leadMedia ? ' case-overview-intro--illustrated' : '') + '">' +
+          (hasContext
+            ? '<div class="case-context"><p class="eyebrow">' + esc(label('context', 'Contexte')) + '</p>' +
+              '<p class="case-intro">' + esc(project.context) + '</p></div>'
+            : '') +
+          leadMedia +
+        '</div>'
+      : '';
+
+    const overview = introduction || objectives.length
+      ? '<section class="case-overview" id="context">' +
+          introduction +
+          (objectives.length
+            ? '<div class="objective-box"><h2 class="eyebrow">' + esc(label('objectives', 'Objectifs')) + '</h2>' +
+              '<ol class="objective-list">' + objectives.map(item => '<li>' + esc(item) + '</li>').join('') + '</ol></div>'
+            : '') +
+        '</section>'
+      : '';
+
+    const resultsBlock = results.length
+      ? '<section class="outcome-results" id="results">' +
+          '<div class="results-summary"><p class="eyebrow">Bilan</p>' +
+            '<h2>' + esc(label('results', 'Résultats')) + '</h2>' +
+            (hasText(project.resultsIntro) ? '<p>' + esc(project.resultsIntro) + '</p>' : '') +
+          '</div>' +
+          '<div class="result-list">' + results.map(item =>
+            '<div class="result-item"><span></span><p>' + esc(item) + '</p></div>'
+          ).join('') + '</div>' +
+        '</section>'
+      : '';
+
+    const limitsBlock = hasLimits || limitsItems.length
+      ? '<section class="outcome-limits' + (limitsItems.length ? '' : ' outcome-limits--summary-only') + '" id="limits">' +
+          '<div class="limits-summary"><p class="eyebrow">Frontière actuelle</p>' +
+            '<h2>' + esc(label('limits', 'Limites / état actuel')) + '</h2>' +
+            (hasLimits ? '<p>' + esc(project.limits) + '</p>' : '') +
+          '</div>' +
+          (limitsItems.length
+            ? '<div class="limits-list">' + limitsItems.map(item =>
+                '<div class="limit-item"><span></span><p>' + esc(item) + '</p></div>'
+              ).join('') + '</div>'
+            : '') +
+        '</section>'
+      : '';
+
+    const environmentBlock = environment
+      ? '<section class="tech-environment" id="stack">' +
+          '<div><p class="eyebrow">Environnement technique</p><h2>' + esc(label('environment', 'Stack & outils')) + '</h2></div>' +
+          environment +
+        '</section>'
+      : '';
+
+    const content = overview + (sections ? '<div class="case-sections">' + sections + '</div>' : '') +
+      resultsBlock + limitsBlock + environmentBlock;
+    const navigation = [['Intro', 'top']];
+    if (overview) navigation.push([
+      hasContext ? label('context', 'Contexte') : objectives.length ? label('objectives', 'Objectifs') : 'Aperçu',
+      'context',
+    ]);
+    if (sections) navigation.push([label('work', 'Travaux'), 'work-1']);
+    if (resultsBlock) navigation.push([label('results', 'Résultats'), 'results']);
+    if (limitsBlock) navigation.push([label('limits', 'Limites'), 'limits']);
 
     const links = (project.links || []).length
       ? '<div class="project-links">' +
@@ -285,59 +365,20 @@
       : "";
 
     root.innerHTML =
-      tocHtml() +
+      tocHtml(navigation) +
       '<a class="project-back" href="./index.html#projets">← Retour aux projets</a>' +
       '<section class="project-hero case-hero" id="top">' +
         '<div class="case-hero-copy">' +
           '<div class="case-kicker"><span>' + esc(project.kind) + "</span><span>" + esc(project.period) + '</span><span class="status">' + esc(project.status) + "</span></div>" +
           "<h1>" + projectTitle(project) + "</h1>" +
-          '<p class="project-summary">' + esc(project.subtitle) + "</p>" +
-          '<p class="project-role">' + esc(project.role || "") + "</p>" +
-          tags(project.tags, true) +
-          '<div class="project-facts">' + facts + "</div>" +
+          (hasText(project.subtitle) ? '<p class="project-summary">' + esc(project.subtitle) + "</p>" : '') +
+          (hasText(project.role) ? '<p class="project-role">' + esc(project.role) + "</p>" : '') +
+          (textItems(project.tags).length ? tags(textItems(project.tags), true) : '') +
+          (facts ? '<div class="project-facts">' + facts + "</div>" : '') +
           links +
         "</div>" +
-        renderHeroMedia(project) +
       "</section>" +
-      '<div class="case-study">' +
-        '<section class="case-overview" id="context">' +
-          "<div>" +
-            '<p class="eyebrow">Contexte</p>' +
-            '<p class="case-intro">' + esc(project.context) + "</p>" +
-          "</div>" +
-          '<div class="objective-box">' +
-            '<p class="eyebrow">Objectif V1</p>' +
-            list(project.objective || []) +
-          "</div>" +
-        "</section>" +
-        '<div class="case-sections">' + sections + "</div>" +
-        '<section class="outcome-results" id="results">' +
-          '<div class="results-summary">' +
-            '<p class="eyebrow">Bilan</p>' +
-            '<h2>Résultats</h2>' +
-            '<p>Ce que la V1 démontre aujourd’hui.</p>' +
-          '</div>' +
-          '<div class="result-list">' +
-            (project.results || []).map(item =>
-              '<div class="result-item"><span></span><p>' + esc(item) + '</p></div>'
-            ).join("") +
-          '</div>' +
-        "</section>" +
-        '<section class="outcome-limits" id="limits">' +
-          '<div class="limits-summary">' +
-            '<p class="eyebrow">Frontière actuelle</p>' +
-            '<h2>Limites / état actuel</h2>' +
-            '<p>' + esc(project.limits) + '</p>' +
-          '</div>' +
-          '<div class="limits-list">' +
-            (project.limitsItems || []).map(item => '<div class="limit-item"><span></span><p>' + esc(item) + '</p></div>').join("") +
-          '</div>' +
-        "</section>" +
-        '<section class="tech-environment" id="stack">' +
-          '<div><p class="eyebrow">Environnement technique</p><h2>Stack & outils</h2></div>' +
-          renderEnvironment(project) +
-        "</section>" +
-      "</div>";
+      (content ? '<div class="case-study">' + content + '</div>' : '');
 
     setupScrollSpy();
   }

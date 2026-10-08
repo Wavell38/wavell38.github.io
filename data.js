@@ -8,6 +8,8 @@ window.PORTFOLIO = {
       summary:"Un système complet d’acquisition haute résolution qui relie mécanique, optique, éclairage, ROS 2/C++, backend TypeScript et interface web.",
       tags:["ROS 2","C++20","Vision","TypeScript","FreeCAD"],
       facts:["Prototype V1 avancé","9 groupes lumineux","Arducam 64 MP"],
+      labels:{objectives:"Objectif V1"},
+      resultsIntro:"Ce que la V1 démontre aujourd’hui.",
       context:"Projet personnel de R&D systèmes & vision destiné à analyser visuellement des cartes de collection dans des conditions d’acquisition contrôlées et reproductibles. La réflexion initiale envisageait une station fortement automatisée — déplacement sur rails, acquisition par tuiles, retournement et alimentation depuis des racks — puis le périmètre a volontairement été réduit à une V1 permettant de qualifier d’abord la mécanique, l’optique, l’acquisition et le traitement.",
       objective:[
         "Maîtriser le positionnement de la carte et de la caméra.",
@@ -25,6 +27,18 @@ window.PORTFOLIO = {
             "Conception du support coulissant de carte, des supports électroniques et du cheminement des câbles.",
             "CAO sous FreeCAD, adaptation des grandes pièces aux contraintes d’impression et ajout de renforts.",
             "Fabrication additive du prototype et itérations d’assemblage."
+          ],
+          media:[
+            {
+              src:"./assets/cards-analyzer/cad-section.png",
+              alt:"Card Analyzer — vue CAO interne montrant l’organisation des sous-ensembles mécaniques.",
+              width:939, height:848
+            },
+            {
+              src:"./assets/cards-analyzer/drawer-open.png",
+              alt:"Prototype Card Analyzer — tiroir d’insertion de carte ouvert.",
+              width:1254, height:1254
+            }
           ]
         },
         {
@@ -55,7 +69,12 @@ window.PORTFOLIO = {
             "Contrôle de l’exposition, du gain, de la balance des blancs, du focus et des phases de warm-up.",
             "Garde-fous temporels vérifiant qu’une frame capturée a commencé son exposition après la commande lumineuse correspondante.",
             "Écritures asynchrones des images et synchronisation avant publication d’une session exploitable."
-          ]
+          ],
+          media:[{
+            src:"./assets/cards-analyzer/electronics-top.png",
+            alt:"Prototype Card Analyzer — vue rapprochée de l’électronique et du support caméra.",
+            width:1254, height:1254
+          }]
         },
         {
           title:"Éclairage & orchestration",
@@ -65,7 +84,12 @@ window.PORTFOLIO = {
             "Gestion des intensités, états complets ou partiels et délais de stabilisation.",
             "Profils YAML décrivant éclairages, intensités, exposition, temporisations et captures.",
             "Séquences asynchrones avec progression, annulation, gestion des erreurs et captures dark."
-          ]
+          ],
+          media:[{
+            src:"./assets/cards-analyzer/lighting-driver.png",
+            alt:"Prototype Card Analyzer — gros plan sur le module de pilotage et le câblage d’éclairage.",
+            width:1254, height:1254
+          }]
         },
         {
           title:"Traitement d’image",
@@ -113,10 +137,11 @@ window.PORTFOLIO = {
         {title:"Qualité & méthode",items:["Tests / qualification","Agents IA"]}
       ],
       media:{
-        hero:{
+        lead:{
           src:"./assets/cards-analyzer/prototype.png",
           alt:"Prototype V1 réel de Cards Analyzer : dôme optique, structure caméra, éclairages et câblage intégrés.",
-          caption:"Prototype V1 — vue d’ensemble réelle"
+          caption:"Prototype V1 — vue d’ensemble réelle",
+          width:1254, height:1254
         }
       }
     },
