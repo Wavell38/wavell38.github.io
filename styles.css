@@ -848,6 +848,13 @@ main {
   object-position: center 45%;
 }
 
+/* Keep the workflow's long title within narrow mobile viewports. */
+@media (max-width: 360px) {
+  .project-page:has(img[src="./assets/workflow-agentique/illustration.png"]) .project-hero h1 {
+    font-size: clamp(2.5rem, 13vw, 2.9rem);
+  }
+}
+
 /* Case study: outcomes */
 .outcome-results {
   margin-top: 42px;
