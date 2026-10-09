@@ -8,6 +8,7 @@
   --accent: #66e0d0;
   --accent2: #8bb8ff;
   --warm: #ffcb7d;
+  --future: #aaa4ff;
   --max: 1180px;
 }
 
@@ -870,24 +871,28 @@ main {
 }
 
 .results-summary h2,
-.limits-summary h2 {
+.limits-summary h2,
+.next-steps-summary h2 {
   margin-bottom: 14px;
   font-size: 1.55rem;
 }
 
 .results-summary > p:last-child,
-.limits-summary > p:last-child {
+.limits-summary > p:last-child,
+.next-steps-summary > p:last-child {
   margin: 0;
   color: #aebbc7;
 }
 
 .result-list,
-.limits-list {
+.limits-list,
+.next-steps-list {
   min-width: 0;
 }
 
 .result-item,
-.limit-item {
+.limit-item,
+.next-step-item {
   padding: 11px 0;
   display: grid;
   grid-template-columns: 12px 1fr;
@@ -896,12 +901,14 @@ main {
 }
 
 .result-item:last-child,
-.limit-item:last-child {
+.limit-item:last-child,
+.next-step-item:last-child {
   border-bottom: 0;
 }
 
 .result-item > span,
-.limit-item > span {
+.limit-item > span,
+.next-step-item > span {
   width: 6px;
   height: 6px;
   margin-top: 0.58em;
@@ -918,14 +925,21 @@ main {
   box-shadow: 0 0 0 3px rgba(255, 203, 125, 0.06);
 }
 
+.next-step-item > span {
+  background: var(--future);
+  box-shadow: 0 0 0 3px rgba(170, 164, 255, 0.08);
+}
+
 .result-item p,
-.limit-item p {
+.limit-item p,
+.next-step-item p {
   margin: 0;
   color: var(--muted);
   line-height: 1.46;
 }
 
-.outcome-limits {
+.outcome-limits,
+.outcome-next-steps {
   margin: 18px 0 8px;
   padding: 28px 0;
   display: grid;
@@ -933,12 +947,21 @@ main {
   gap: 30px;
 }
 
-.outcome-limits--summary-only {
+.outcome-limits--summary-only,
+.outcome-next-steps--summary-only {
   grid-template-columns: 1fr;
 }
 
 .limits-summary .eyebrow {
   color: var(--warm);
+}
+
+.outcome-next-steps {
+  border-top: 1px solid var(--line);
+}
+
+.next-steps-summary .eyebrow {
+  color: var(--future);
 }
 
 /* Case study: stack */
@@ -1057,6 +1080,7 @@ main {
 #validation,
 #results,
 #limits,
+#next-steps,
 #stack {
   scroll-margin-top: 100px;
 }
@@ -1127,7 +1151,8 @@ main {
   }
 
   .outcome-results,
-  .outcome-limits {
+  .outcome-limits,
+  .outcome-next-steps {
     grid-template-columns: 1fr;
   }
 }

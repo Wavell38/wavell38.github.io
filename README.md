@@ -28,6 +28,7 @@ Les intitulés peuvent être personnalisés avec `labels` ; une valeur absente o
 | `work` | Travaux réalisés (Travaux dans la navigation) |
 | `results` | Résultats |
 | `limits` | Limites / état actuel (Limites dans la navigation) |
+| `nextSteps` | Suite envisagée |
 | `environment` | Stack & outils |
 
 `resultsIntro` ajoute un texte facultatif sous le titre des résultats. Par exemple, Card Analyzer conserve
@@ -44,8 +45,14 @@ Les blocs sans contenu sont omis, ainsi que leurs liens de navigation :
   Sans cette option, il reste à côté du contexte. Il est indépendant des deux médias autorisés par section.
 - `results` doit contenir au moins un résultat ; un intitulé ou `resultsIntro` seul ne crée pas de bloc.
 - Les limites apparaissent si `limits` ou `limitsItems` contient du texte.
+- La suite envisagée apparaît après les limites et avant la stack si `nextSteps` (texte de présentation)
+  ou `nextStepsItems` (liste de pistes) contient du texte. Les deux champs sont facultatifs et indépendants ;
+  un intitulé `labels.nextSteps` seul ne crée ni section ni lien de navigation. Le titre reste indépendant
+  du numéro de version et les repères bleu-violet distinguent ces pistes des limites actuelles.
 - Les groupes `environmentGroups` sans éléments sont ignorés. En l’absence de groupe rempli, `environment`
   sert de liste de repli ; si les deux sont vides, le bloc technique disparaît.
+  Le lien « Stack & outils » ferme la navigation lorsqu’un bloc technique est affiché ; il devient actif
+  en bas de page même si la section est trop courte pour atteindre le seuil habituel du suivi de défilement.
 
 Les chaînes vides ou composées uniquement d’espaces sont ignorées dans ces contenus.
 

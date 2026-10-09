@@ -42,19 +42,24 @@ test('generic labels and optional result introduction', () => {
 test('custom labels and result introduction are escaped, including navigation', () => {
   const html = render({
     context: 'Contexte', objective: ['But'], sections: [{ text: 'Travail' }],
-    results: ['Livré'], limits: 'Limite', environment: ['JavaScript'],
+    results: ['Livré'], limits: 'Limite', nextSteps: '<Étudier>', nextStepsItems: ['<Mesurer>'], environment: ['JavaScript'],
     labels: {
       context: '<Contexte>', objectives: '<Objectifs>', work: '<Travaux>',
-      results: '<Résultats>', limits: '<Limites>', environment: '<Outils>',
+      results: '<Résultats>', limits: '<Limites>', nextSteps: '<Suite>', environment: '<Outils>',
     },
     resultsIntro: '<script>alert(1)</script>',
   });
-  for (const label of ['Contexte', 'Objectifs', 'Travaux', 'Résultats', 'Limites', 'Outils']) {
+  for (const label of ['Contexte', 'Objectifs', 'Travaux', 'Résultats', 'Limites', 'Suite', 'Outils']) {
     assert.ok(html.includes('&lt;' + label + '&gt;'));
     assert.ok(!html.includes('<' + label + '>'));
   }
   assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
   assert.match(html, /class="toc-label">&lt;Résultats&gt;/);
+  assert.match(html, /class="toc-label">&lt;Suite&gt;/);
+  assert.match(html, /class="toc-label">&lt;Outils&gt;/);
+  assert.match(html, /<p>&lt;Étudier&gt;<\/p>/);
+  assert.match(html, /<p>&lt;Mesurer&gt;<\/p>/);
+  assert.doesNotMatch(html, /<Étudier>|<Mesurer>/);
   assertNavigationTargets(html);
 });
 
@@ -67,13 +72,14 @@ test('empty label overrides fall back to generic labels', () => {
 test('absent or blank content leaves no body, navigation or empty blocks', () => {
   for (const fields of [{}, {
     context: '  ', objective: [null, '', ' '], results: ['', null], limits: '\n', limitsItems: [' '],
+    nextSteps: '\n', nextStepsItems: [null, '', ' '],
     environment: [''], environmentGroups: [null, { title: 'Vide', items: [' '] }],
     sections: [null, {}, { title: 'Titre seul', text: ' ', bullets: [''], media: [{ src: ' ' }] }],
     media: { lead: { src: ' ' } },
-    labels: { objectives: 'Personnalisé' }, resultsIntro: 'Ne suffit pas à créer un bloc',
+    labels: { objectives: 'Personnalisé', nextSteps: 'Version suivante', environment: 'Outils' }, resultsIntro: 'Ne suffit pas à créer un bloc',
   }]) {
     const html = render(fields);
-    assert.doesNotMatch(html, /class="case-study"|class="case-toc"|id="context"|id="results"|id="limits"|id="stack"/);
+    assert.doesNotMatch(html, /class="case-study"|class="case-toc"|id="context"|id="results"|id="limits"|id="next-steps"|id="stack"/);
     assert.doesNotMatch(html, /objective-box|case-sections|project-figure|tech-group/);
     assertNavigationTargets(html);
   }
@@ -136,9 +142,10 @@ test('all combinations of optional blocks retain only valid navigation links', (
     ['work-1', { sections: [{ title: 'Travail', bullets: ['Action'] }] }],
     ['results', { results: ['Livré'] }],
     ['limits', { limitsItems: ['Limite'] }],
+    ['next-steps', { nextStepsItems: ['Étudier'] }],
     ['stack', { environment: ['JavaScript'] }],
   ];
-  for (let mask = 0; mask < 64; mask++) {
+  for (let mask = 0; mask < 2 ** blocks.length; mask++) {
     const fields = {};
     const expected = new Set();
     blocks.forEach(([id, data], index) => {
@@ -147,6 +154,7 @@ test('all combinations of optional blocks retain only valid navigation links', (
     const html = render(fields);
     for (const id of new Set(blocks.map(([id]) => id))) {
       assert.equal(html.includes('id="' + id + '"'), expected.has(id), `mask ${mask}, ${id}`);
+      assert.equal(html.includes('href="#' + id + '"'), expected.has(id), `mask ${mask}, navigation ${id}`);
     }
     assertNavigationTargets(html);
   }
@@ -170,10 +178,12 @@ test('environment skips empty groups and falls back to the flat list', () => {
   const fallback = render({ environmentGroups: [{ title: 'Vide', items: [] }], environment: ['Rust'] });
   assert.match(fallback, /id="stack"/);
   assert.match(fallback, /<span>Rust<\/span>/);
+  assert.match(fallback, /href="#stack"/);
   assert.doesNotMatch(fallback, /Vide|class="tech-groups"/);
   const grouped = render({ environmentGroups: [null, { title: 'Vide' }, { title: 'Langage', items: ['', 'C++'] }], environment: ['Rust'] });
   assert.match(grouped, /<h3>Langage<\/h3>/);
   assert.match(grouped, /<span>C\+\+<\/span>/);
+  assert.match(grouped, /href="#stack"/);
   assert.doesNotMatch(grouped, /Vide|Rust|<span><\/span>/);
 });
 
@@ -194,4 +204,101 @@ test('limits accept a summary, items, or both without empty content columns', ()
   const both = render({ limits: 'Résumé', limitsItems: ['Point'] });
   assert.match(both, /<p>Résumé<\/p>/);
   assert.match(both, /<p>Point<\/p>/);
+});
+
+test('next steps accept a summary, items, or both independently of current limits', () => {
+  const summary = render({ nextSteps: 'Version à étudier' });
+  assert.match(summary, /outcome-next-steps--summary-only/);
+  assert.match(summary, /<p>Version à étudier<\/p>/);
+  assert.doesNotMatch(summary, /class="next-steps-list"|id="limits"|<p><\/p>/);
+  const items = render({ nextStepsItems: [null, ' ', 'Étude caméra'] });
+  assert.match(items, /class="next-steps-list"/);
+  assert.match(items, /<p>Étude caméra<\/p>/);
+  assert.doesNotMatch(items, /outcome-next-steps--summary-only|id="limits"|<p><\/p>/);
+  assert.equal((items.match(/class="next-step-item"/g) || []).length, 1);
+  const both = render({ nextSteps: 'Version à étudier', nextStepsItems: ['Étude caméra'] });
+  assert.match(both, /<p>Version à étudier<\/p>/);
+  assert.match(both, /<p>Étude caméra<\/p>/);
+  for (const html of [summary, items, both]) {
+    assert.match(html, /<h2>Suite envisagée<\/h2>/);
+    assert.match(html, /class="toc-label">Suite envisagée<\/span>/);
+    assertNavigationTargets(html);
+  }
+});
+
+test('next steps appear after current limits and before the technical stack', () => {
+  const html = render({
+    results: ['Livré'], limits: 'Constat actuel', nextStepsItems: ['À explorer'], environment: ['C++'],
+    labels: { nextSteps: ' ' },
+  });
+  assert.ok(html.indexOf('id="results"') < html.indexOf('id="limits"'));
+  assert.ok(html.indexOf('id="limits"') < html.indexOf('id="next-steps"'));
+  assert.ok(html.indexOf('id="next-steps"') < html.indexOf('id="stack"'));
+  assert.match(html, /<h2>Suite envisagée<\/h2>/);
+  assertNavigationTargets(html);
+});
+
+test('technical stack is the last navigation item and supports label fallback', () => {
+  const html = render({
+    limits: 'Constat', nextStepsItems: ['À explorer'], environment: ['C++'], labels: { environment: ' ' },
+  });
+  const navigation = html.match(/<aside class="case-toc"[\s\S]*?<\/aside>/)[0];
+  const targets = [...navigation.matchAll(/href="#([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(targets, ['top', 'limits', 'next-steps', 'stack']);
+  assert.match(navigation, /class="toc-label">Stack &amp; outils<\/span>/);
+  assertNavigationTargets(html);
+});
+
+test('scroll spy selects a short stack at page bottom and updates when scrolling back', () => {
+  const positions = { top: 0, limits: 900, stack: 1600 };
+  const active = new Set();
+  const handlers = {};
+  const frames = [];
+  const links = Object.keys(positions).map(target => ({
+    dataset: { target },
+    classList: { add: () => active.add(target), remove: () => active.delete(target) },
+  }));
+  const windowState = {
+    PORTFOLIO: { projects: [{ id: 'fixture', title: 'Test', sections: [], limits: 'Constat', environment: ['C++'] }] },
+    innerHeight: 900,
+    scrollY: 0,
+    addEventListener: (name, handler) => { handlers[name] = handler; },
+  };
+  const root = { innerHTML: '' };
+  const documentElement = { scrollHeight: 2000 };
+  vm.runInNewContext(source, {
+    window: windowState,
+    location: { search: '?id=fixture' },
+    URLSearchParams,
+    requestAnimationFrame: callback => frames.push(callback),
+    document: {
+      body: { dataset: { page: 'project' } },
+      documentElement,
+      querySelector: () => ({ querySelectorAll: () => links }),
+      getElementById: id => id === 'project-root' ? root : {
+        getBoundingClientRect: () => ({ top: positions[id] - windowState.scrollY }),
+      },
+    },
+  });
+  const scrollTo = position => {
+    windowState.scrollY = position;
+    handlers.scroll();
+    while (frames.length) frames.shift()();
+  };
+  assert.deepEqual([...active], ['top']);
+  scrollTo(1050);
+  assert.deepEqual([...active], ['limits']);
+  scrollTo(1100);
+  assert.ok(positions.stack - windowState.scrollY > 190);
+  assert.deepEqual([...active], ['stack']);
+  scrollTo(1050);
+  assert.deepEqual([...active], ['limits']);
+  scrollTo(1100);
+  windowState.innerHeight = 600;
+  handlers.resize();
+  assert.deepEqual([...active], ['limits']);
+  windowState.scrollY = 0;
+  documentElement.scrollHeight = windowState.innerHeight;
+  handlers.resize();
+  assert.deepEqual([...active], ['top']);
 });

@@ -183,6 +183,11 @@
         }
       }
 
+      if (entries.length && window.scrollY > 0 &&
+          window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1) {
+        active = entries[entries.length - 1];
+      }
+
       links.forEach(link => link.classList.remove("active"));
       if (active) active.link.classList.add("active");
     };
@@ -258,8 +263,10 @@
     const objectives = textItems(project.objective);
     const results = textItems(project.results);
     const limitsItems = textItems(project.limitsItems);
+    const nextStepsItems = textItems(project.nextStepsItems);
     const hasContext = hasText(project.context);
     const hasLimits = hasText(project.limits);
+    const hasNextSteps = hasText(project.nextSteps);
     const leadMedia = renderProjectFigure(project.media?.lead, true);
     const leadBeforeContext = project.media?.leadPlacement === "before-context";
     const overviewMedia = leadBeforeContext ? "" : leadMedia;
@@ -351,6 +358,20 @@
         '</section>'
       : '';
 
+    const nextStepsBlock = hasNextSteps || nextStepsItems.length
+      ? '<section class="outcome-next-steps' + (nextStepsItems.length ? '' : ' outcome-next-steps--summary-only') + '" id="next-steps">' +
+          '<div class="next-steps-summary"><p class="eyebrow">Perspectives</p>' +
+            '<h2>' + esc(label('nextSteps', 'Suite envisagée')) + '</h2>' +
+            (hasNextSteps ? '<p>' + esc(project.nextSteps) + '</p>' : '') +
+          '</div>' +
+          (nextStepsItems.length
+            ? '<div class="next-steps-list">' + nextStepsItems.map(item =>
+                '<div class="next-step-item"><span></span><p>' + esc(item) + '</p></div>'
+              ).join('') + '</div>'
+            : '') +
+        '</section>'
+      : '';
+
     const environmentBlock = environment
       ? '<section class="tech-environment" id="stack">' +
           '<div><p class="eyebrow">Environnement technique</p><h2>' + esc(label('environment', 'Stack & outils')) + '</h2></div>' +
@@ -359,7 +380,7 @@
       : '';
 
     const content = overview + (sections ? '<div class="case-sections">' + sections + '</div>' : '') +
-      resultsBlock + limitsBlock + environmentBlock;
+      resultsBlock + limitsBlock + nextStepsBlock + environmentBlock;
     const navigation = [['Intro', 'top']];
     if (overview) navigation.push([
       hasContext ? label('context', 'Contexte') : objectives.length ? label('objectives', 'Objectifs') : 'Aperçu',
@@ -368,6 +389,8 @@
     if (sections) navigation.push([label('work', 'Travaux'), 'work-1']);
     if (resultsBlock) navigation.push([label('results', 'Résultats'), 'results']);
     if (limitsBlock) navigation.push([label('limits', 'Limites'), 'limits']);
+    if (nextStepsBlock) navigation.push([label('nextSteps', 'Suite envisagée'), 'next-steps']);
+    if (environmentBlock) navigation.push([label('environment', 'Stack & outils'), 'stack']);
 
     const links = (project.links || []).length
       ? '<div class="project-links">' +

@@ -123,10 +123,13 @@ window.PORTFOLIO = {
       limits:"La V1 sait acquérir et préparer les données de manière traçable ; la qualification géométrique précise et l’analyse finale des défauts restent à aboutir.",
       limitsItems:[
         "Coins et CardBoundary complet non qualifiés ; géométrie encore hors du runner nominal et politique de distorsion ouverte.",
-        "Rectification appliquée, registration multi-captures, cartes multi-lumières et détection finale des défauts encore prévues.",
         "Le parcours Web reste centré sur l’acquisition ; la visualisation analytique complète n’est pas finalisée.",
-        "Rails, capture par tuiles, retournement et alimentation automatique restent des pistes exploratoires hors V1.",
         "Pas de qualification globale complète à HEAD : certaines suites dépendantes de l’environnement n’ont pas été rejouées intégralement."
+      ],
+      nextSteps:"Poursuivre la qualification progressive de la V1 avant d’engager une automatisation mécanique plus ambitieuse.",
+      nextStepsItems:[
+        "Rectification appliquée, registration multi-captures, cartes multi-lumières et détection finale des défauts encore prévues.",
+        "Rails, capture par tuiles, retournement et alimentation automatique restent des pistes exploratoires hors V1."
       ],
       environment:["C++20","ROS 2 Jazzy","rclcpp","libcamera","OpenCV","RAW Bayer RGGB","Raspberry Pi 5","Arducam 64 MP","PCA9685","I²C","NestJS","TypeScript","Fastify","rclnodejs","WebSocket","React","Vite","JSON","YAML","FreeCAD","KiCad","PrusaSlicer","Impression 3D","Tests / qualification","Agents IA"],
       environmentGroups:[
@@ -157,10 +160,7 @@ window.PORTFOLIO = {
       facts:["R&D en cours","Python → Rust","Streaming borné"],
       context:"Projet personnel de R&D logicielle visant à rejouer des données de marché historiques, exécuter des stratégies dans un environnement simulé et comparer leurs comportements dans des conditions reproductibles. Une première implémentation Python a permis de qualifier le domaine et les règles d’exécution. Les limites mesurées en benchmark ont ensuite conduit à reprendre le runtime en Rust, avec une qualification systématique des dépendances, des performances et de la mémoire.",
       objective:[
-        "Construire un environnement de backtest déterministe et performant pour des campagnes longues, avec modélisation explicite des données de marché, de l’exécution, du portefeuille et du risque.",
-        "Automatiser à terme des campagnes régulières et reproductibles pour réévaluer les stratégies face aux conditions de marché courantes.",
-        "Développer une évaluation graduée pour sélectionner les stratégies les plus adaptées, en conserver plusieurs et ajuster automatiquement leurs paramètres lorsque nécessaire.",
-        "Faire coexister à terme des stratégies en test simulé et des stratégies utilisées en réel après validation approfondie, avec une adaptation continue fondée sur ces réévaluations."
+        "Construire un environnement de backtest déterministe et performant pour des campagnes longues, avec modélisation explicite des données de marché, de l’exécution, du portefeuille et du risque."
       ],
       sections:[
         {
@@ -220,7 +220,13 @@ window.PORTFOLIO = {
         "Profiling ayant identifié un goulot de rétention mémoire et permis d’adapter la concurrence.",
         "Base technique prête pour des stratégies paramétrables."
       ],
-      limits:"Projet de recherche logicielle en cours, non présenté comme une plateforme de trading prête pour production. Les campagnes automatiques récurrentes, la sélection adaptative, l’ajustement automatique des paramètres et le passage en réel restent des étapes futures. Les résultats techniques ne constituent pas une validation financière ni une preuve de rentabilité de stratégies.",
+      limits:"Projet de recherche logicielle en cours, non présenté comme une plateforme de trading prête pour production. Les résultats techniques ne constituent pas une validation financière ni une preuve de rentabilité de stratégies.",
+      nextSteps:"La cible à long terme est une boucle automatisée de recherche et d’adaptation des stratégies aux conditions de marché. Ces capacités restent des étapes futures du projet.",
+      nextStepsItems:[
+        "Automatiser à terme des campagnes régulières et reproductibles pour réévaluer les stratégies face aux conditions de marché courantes.",
+        "Développer une évaluation graduée pour sélectionner les stratégies les plus adaptées, en conserver plusieurs et ajuster automatiquement leurs paramètres lorsque nécessaire.",
+        "Faire coexister à terme des stratégies en test simulé et des stratégies utilisées en réel après validation approfondie, avec une adaptation continue fondée sur ces réévaluations."
+      ],
       environmentGroups:[
         {title:"Langages & runtime",items:["Rust","Cargo","Python","Moteurs de backtest"]},
         {title:"Données & architecture",items:["Données L2 / marché","Architecture modulaire"]},
@@ -344,16 +350,130 @@ window.PORTFOLIO = {
       }
     },
     {
-      id:"camera-mapper", group:"systems", kind:"Robotique / vision", status:"V1 testée",
-      title:"Camera Mapper", subtitle:"Perception globale pour la Coupe de France de Robotique",
+      id:"camera-mapper", group:"systems", kind:"Robotique / vision", status:"V1 fonctionnelle",
+      title:"Camera Mapper", subtitle:"Perception globale de terrain",
+      titleAccent:"Mapper",
+      role:"Intégrateur robotique / développeur perception terrain",
       period:"Depuis mars 2026",
-      summary:"Caméra en hauteur, homographie, ArUco + mouvement, suivi multi-objets et world model sur Raspberry Pi 5.",
+      summary:"Caméra sur mât fixe à côté du terrain, homographie, ArUco + mouvement et world model temporel des robots et objets sur Raspberry Pi 5.",
       tags:["ROS 2","C++","OpenCV","ArUco","Raspberry Pi 5"],
-      facts:["Terrain 3 × 2 m","≈5–7 Hz observés","1 usage en compétition"],
-      context:"Module conçu en autonomie dans le contexte d’un projet collectif de robotique, avec l’objectif de produire un état global du terrain à partir d’une caméra placée sur un mât.",
-      work:["Architecture ROS 2 composable : acquisition → scène → world model.","Projection image→terrain par homographie.","Détection ArUco complétée par MOG2 et stabilisation par corrélation de phase.","Suivi temporel, fusion d’identités et publication d’un état persistant.","Intégration mécanique d’une caméra sur un mât d’environ 1,5 m."],
-      results:["Chaîne Caméra → Perception → World Model fonctionnelle.","Utilisation ponctuelle en compétition.","Identification claire des limites de cadence et de couverture d’une architecture mono-caméra."],
-      limits:"Prototype fonctionnel mais insuffisamment rapide et couvrant pour devenir un composant critique en match. Une V2 demanderait une reprise d’architecture, pas seulement des micro-optimisations."
+      facts:["V1 fonctionnelle","Terrain 3 × 2 m","Utilisation ponctuelle en compétition"],
+      // Editorial source: assets/camera-mapper/camera-mapper-portfolio.md
+      context:"Projet personnel conçu en autonomie dans le contexte collectif de la Coupe de France de Robotique. Une caméra sur un mât fixe d’environ 1,5 m, placé à côté du terrain, est associée à un Raspberry Pi 5 sous ROS 2. Le module transforme une vue oblique en positions métriques et fournit aux autres composants un état global des robots présents, des marqueurs identifiables et des objets / pièces de jeu détectables. Les interfaces de visualisation servent aux essais et au debug. La V1, utilisée ponctuellement en compétition, constitue une étape de validation ; ses limites de couverture et de cadence motivent une V2 à repenser.",
+      labels:{objectives:"Objectif"},
+      objective:[
+        "Construire la chaîne Caméra → interprétation de scène → projection terrain → suivi temporel → world model.",
+        "Fournir au robot un état exploitable des éléments présents et mobiles sur le terrain, notamment les robots suivis et les objets / pièces détectables.",
+        "Adapter cette chaîne aux ressources d’un Raspberry Pi 5 et aux contraintes mécaniques de l’installation."
+      ],
+      sections:[
+        {
+          title:"Architecture ROS 2 & acquisition",
+          text:"Une architecture C++ en composants composables, séparant acquisition caméra, interprétation de scène et world model.",
+          bullets:[
+            "Backend libcamera réel et backend synthétique.",
+            "Profils de configuration, launch files, messages personnalisés et communications intra-process.",
+            "Outils de visualisation et API HTTP / JSON / SSE pour les essais, le debug et l’observation du pipeline."
+          ]
+        },
+        {
+          title:"Calibration & projection terrain",
+          text:"Conversion des coordonnées image en coordonnées métriques sur un terrain de 3 × 2 m par homographie.",
+          bullets:[
+            "Profils physiques gauche/droite avec persistance des correspondances.",
+            "Prise en compte approximative de la hauteur des marqueurs.",
+            "Contrôles géométriques et filtrage des positions hors terrain."
+          ]
+        },
+        {
+          title:"Perception & suivi multi-objets",
+          text:"Détection ArUco des éléments portant un marqueur identifiable, complétée par MOG2 pour faire remonter des objets / pièces sans ArUco lorsque pertinent.",
+          bullets:[
+            "Stabilisation par corrélation de phase pour limiter l’effet des vibrations de la caméra.",
+            "Suivi multi-objets avec prédiction simple, confirmation de pistes et gestion des pertes temporaires.",
+            "Fusion avec les identités ArUco et garde-fous contre certaines associations ambiguës.",
+            "Objectif : fournir un état exploitable des robots et objets présents sur le terrain, au-delà de la visualisation caméra."
+          ]
+        },
+        {
+          title:"World model temporel",
+          text:"Un état temporel associant identifiant, classe, position, confiance et état de suivi.",
+          bullets:[
+            "Association des observations successives.",
+            "Conservation temporaire, expiration et publication de deltas.",
+            "Distinction entre robots suivis et marqueurs statiques.",
+            "Mise à disposition d’une représentation globale destinée aux autres composants du système robotique."
+          ]
+        },
+        {
+          title:"Optimisation sur Raspberry Pi 5",
+          bullets:[
+            "Réduction de résolution sur certaines étapes.",
+            "Cadences différenciées, régions d’intérêt (ROI) et traitement ArUco décimé.",
+            "Utilisation de la dernière image disponible et communications intra-process.",
+            "Analyse des limites de cadence ayant conduit à privilégier une future refonte plutôt que des micro-optimisations successives."
+          ]
+        },
+        {
+          title:"CAO & intégration mécanique",
+          text:"Intégration d’un mât fixe d’environ 1,5 m en profilé 20 × 20 mm, placé à côté du terrain.",
+          bullets:[
+            "Conception sous CAO du support de caméra en tête de mât.",
+            "Conception d’un support / boîtier pour le Raspberry Pi 5 et l’électronique associée.",
+            "Travail sur le positionnement, la rigidité, l’encombrement et la fixation.",
+            "Adaptation mécanique de la plaque support en acier pour l’installation du mât."
+          ]
+        },
+        {
+          title:"Atténuation des vibrations du mât",
+          text:"Stabilisateurs mécaniques dédiés aux oscillations avant / arrière et gauche / droite, selon un principe proche d’un absorbeur vibratoire passif accordé.",
+          bullets:[
+            "Deux languettes flexibles en PETG, orientées selon les axes principaux de vibration et chargées par des masses, reprennent une partie du mouvement oscillatoire du mât.",
+            "Longueur, épaisseur et masses choisies selon la flexibilité du PETG et un ordre de grandeur cible autour de 6–7 Hz pour les oscillations susceptibles de perturber la caméra.",
+            "Dispositif inspiré de solutions d’atténuation employées sur des structures souples / câbles, puis adapté au prototype.",
+            "Effet d’atténuation observé qualitativement sur le montage, sans campagne instrumentée complète pour caractériser le gain, la fréquence propre ou le facteur d’amortissement."
+          ]
+        }
+      ],
+      results:[
+        "Chaîne Caméra → Perception → World Model fonctionnelle dans la V1.",
+        "Projection dans le repère terrain par homographie, détection/fusion ArUco + mouvement et suivi temporel.",
+        "Représentation globale destinée à fournir au robot des informations sur les robots et objets présents sur le terrain.",
+        "Essais locaux documentés autour de 5–7 Hz sur Raspberry Pi 5 : valeur indicative, non issue d’un benchmark reproductible.",
+        "CAO et intégration physique du support caméra, du boîtier Raspberry Pi 5 et du mât fixe.",
+        "Stabilisateurs mécaniques PETG réalisés, avec une atténuation observée qualitativement des oscillations du mât dans la zone ciblée.",
+        "Utilisation ponctuelle en compétition, à une occasion.",
+        "Identification des limites de cadence et de couverture mono-caméra, conduisant à envisager une V2 plus performante."
+      ],
+      limits:"La V1 est un prototype fonctionnel expérimenté en conditions réelles. Elle n’est pas suffisamment rapide et couvrante pour constituer un système de perception critique fiable en match.",
+      limitsItems:[
+        "Cadence du pipeline trop faible pour en faire un composant central fiable pendant les matchs.",
+        "Couverture du terrain insuffisante avec une seule caméra dans certaines situations.",
+        "Atténuation mécanique observée qualitativement, sans caractérisation instrumentée complète. Les 6–7 Hz sont la zone visée lors de la conception des stabilisateurs, pas une qualification métrologique du mât."
+      ],
+      nextSteps:"Une prochaine version est envisagée pour le prochain cycle de Coupe de France de Robotique, avec pour priorités la couverture et la cadence.",
+      nextStepsItems:[
+        "Réévaluer une caméra versus deux caméras pour améliorer la couverture du terrain.",
+        "Mesurer la charge réelle du pipeline pour déterminer si un Raspberry Pi 5 reste suffisant ou si un calculateur plus performant est nécessaire.",
+        "Revoir le pipeline pour augmenter la cadence utile avant toute réintégration en compétition.",
+        "Conserver le world model global et ne fournir une nouvelle version à l’équipe qu’après validation de performances et de fiabilité suffisantes."
+      ],
+      environmentGroups:[
+        {title:"Architecture & logiciel",items:["C++","ROS 2 Jazzy","rclcpp","rclcpp_components","Python","rclpy","YAML"]},
+        {title:"Vision & acquisition",items:["OpenCV","ArUco","MOG2","libcamera","Homographie","Suivi multi-objets","World model"]},
+        {title:"Matériel & système",items:["Raspberry Pi 5","Camera Module 3 Wide / IMX708","Linux / Ubuntu 24.04"]},
+        {title:"CAO & intégration",items:["FreeCAD / CAO","Profilé 20 × 20 mm","PETG","Impression 3D","Prototypage mécanique"]},
+        {title:"Interfaces & outils",items:["HTTP / JSON / SSE","Git"]}
+      ],
+      media:{
+        lead:{
+          type:"illustration",
+          src:"./assets/camera-mapper/illustration.png",
+          alt:"Illustration conceptuelle d’une caméra sur mât observant un terrain de 3 × 2 m et de la chaîne de perception jusqu’au world model temporel.",
+          caption:"Illustration conceptuelle de la chaîne de perception",
+          width:1254, height:1254
+        }
+      }
     },
     {
       id:"lidar-2d-3d", group:"systems", kind:"Systèmes / embarqué", status:"POC arrêté",
@@ -587,8 +707,7 @@ window.PORTFOLIO = {
         "Cinématique théorique 22:1 cohérente avec la géométrie 22 lobes / 23 positions et l’inversion du sens de rotation.",
         "Fonctionnement mécanique vérifié manuellement à vide, sans charge instrumentée.",
         "Travail approfondi sur les roulements, guidages, portées et retenues.",
-        "Variantes FDM et mises en plan techniques réalisées.",
-        "Base envisagée pour une future V2 du bras robotique."
+        "Variantes FDM et mises en plan techniques réalisées."
       ],
       limits:"Le prototype démontre la cinématique et l’assemblage, mais pas les performances d’un réducteur industriel qualifié.",
       limitsItems:[
@@ -599,6 +718,7 @@ window.PORTFOLIO = {
         "Pressions de contact, flexions et précharges non complètement dimensionnées.",
         "Comportement du PETG sous charge non qualifié."
       ],
+      nextSteps:"Base envisagée pour une future V2 du bras robotique.",
       environmentGroups:[
         {title:"CAO & conception",items:["FreeCAD","CAO paramétrique","Mises en plan techniques"]},
         {title:"Architecture mécanique",items:["Réducteur cycloïdal","22 lobes / 23 positions","Roulements 6811RS / 6803RS"]},
@@ -693,9 +813,10 @@ window.PORTFOLIO = {
       limitsItems:[
         "Maintenance régulière des collecteurs nécessaire face aux évolutions des interfaces et protections des plateformes.",
         "Gestion des proxies et résilience aux limitations d’accès encore perfectibles.",
-        "Stockage historique limité ; conservation complète et exploitation analytique des métriques restant à approfondir.",
+        "Stockage historique limité dans cette version.",
         "Scoring métier volontairement séparé, réalisé par une autre personne à partir des données exportées."
       ],
+      nextSteps:"Piste d’évolution identifiée à l’époque : le stockage historique et l’exploitation analytique des données auraient pu être approfondis dans une version ultérieure.",
       environmentGroups:[
         {title:"Backend & application",items:["TypeScript","Node.js","NestJS","React","Electron"]},
         {title:"Collecte & supervision",items:["Puppeteer","Chromium","Automatisation de collecte","Supervision de campagnes"]},
