@@ -510,6 +510,22 @@ window.PORTFOLIO = {
             "Acquisition et traitement de données inertiales.",
             "Détection expérimentale de gestes, avec traces historiques de déclenchements START / STOP.",
             "Chaîne hôte ultérieure organisée autour de 8 positions IMU logiques, avec transport sérialisé et traitements de calibration / orientation."
+          ],
+          media:[
+            {
+              type:"document",
+              src:"./assets/gant-IMU/imu-schematic.png",
+              alt:"Schéma électronique du module IMU sous KiCad.",
+              caption:"Schéma du module IMU",
+              width:1628, height:1119
+            },
+            {
+              type:"document",
+              src:"./assets/gant-IMU/hub-schematic.png",
+              alt:"Schéma électronique du hub RP2040 et de ses connexions IMU.",
+              caption:"Schéma du hub RP2040",
+              width:1663, height:1153
+            }
           ]
         },
         {
@@ -518,6 +534,22 @@ window.PORTFOLIO = {
           bullets:[
             "Étude du positionnement des capteurs sur les doigts et le dos de la main.",
             "Distinction entre les 8 positions IMU logiques définies côté logiciel hôte et la capacité physique prévue du hub, jusqu’à 10 ports IMU."
+          ],
+          media:[
+            {
+              type:"document",
+              src:"./assets/gant-IMU/imu-pcb-layout.png",
+              alt:"Implantation et routage du PCB du module IMU sous KiCad.",
+              caption:"Routage du module IMU",
+              width:656, height:827
+            },
+            {
+              type:"document",
+              src:"./assets/gant-IMU/hub-pcb-layout.png",
+              alt:"Implantation et routage du PCB du hub RP2040 à quatre couches.",
+              caption:"Routage du hub RP2040",
+              width:1045, height:822
+            }
           ]
         },
         {
@@ -528,7 +560,13 @@ window.PORTFOLIO = {
             "Module actuel d’environ 10,5 × 12,65 mm dans la CAO / PCB auditée.",
             "Préparation des exports de fabrication, de la BOM et des fichiers de placement.",
             "PCB IMU reçus physiquement, mais non assemblés ni soudés et non testés électriquement avant la mise en pause."
-          ]
+          ],
+          media:[{
+            src:"./assets/gant-IMU/imu-board-photo.png",
+            alt:"Module IMU photographié à côté d’une pièce d’un centime pour donner l’échelle.",
+            caption:"Module IMU — repère d’échelle",
+            width:1254, height:1254
+          }]
         },
         {
           title:"Hub RP2040 4 couches",
@@ -583,7 +621,7 @@ window.PORTFOLIO = {
           src:"./assets/gant-IMU/illustration.png",
           alt:"Illustration conceptuelle de modules IMU reliés à un hub central, avec acquisition inertielle et reconstruction d’orientation.",
           caption:"Illustration conceptuelle de l’architecture multi-capteurs",
-          width:1254, height:1254
+          width:1226, height:1283
         }
       }
     },
