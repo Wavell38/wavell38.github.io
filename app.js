@@ -358,6 +358,13 @@
         '</section>'
       : '';
 
+    const resultsLinks = (Array.isArray(project.resultsLinks) ? project.resultsLinks : [])
+      .filter(link => Array.isArray(link) && hasText(link[0]) && hasText(link[1]))
+      .map(link => '<a class="project-forward" href="' + esc(link[1]) + '"' +
+        (link[1].startsWith('https://github.com/') ? ' target="_blank"' : '') +
+        ' rel="noreferrer">' + esc(link[0]) + ' ↗</a>')
+      .join('');
+
     const resultsBlock = results.length
       ? '<section class="outcome-results" id="results">' +
           '<div class="results-summary"><p class="eyebrow">Bilan</p>' +
@@ -366,7 +373,8 @@
           '</div>' +
           '<div class="result-list">' + results.map(item =>
             '<div class="result-item"><span></span><p>' + esc(item) + '</p></div>'
-          ).join('') + '</div>' +
+          ).join('') +
+          (resultsLinks ? '<div class="project-links">' + resultsLinks + '</div>' : '') + '</div>' +
         '</section>'
       : '';
 

@@ -29,6 +29,7 @@ contenu peuvent aussi être absents selon le template.
 | `sections?` | Tableau de `{ title?, text?, bullets?, media? }` ; `bullets` est un tableau de textes. Sa présence, même `[]`, sélectionne le template détaillé. |
 | `work?` | Tableau de travaux pour le template simple, utilisé en l’absence de `sections`. |
 | `results`, `resultsIntro?` | Tableau de résultats et texte introductif facultatif du template détaillé. |
+| `resultsLinks?` | Paires `[libellé, URL]` affichées sous les résultats du template détaillé, uniquement si `results` contient du texte. |
 | `limits`, `limitsItems?` | Texte de limites et liste facultative de précisions. |
 | `nextSteps?`, `nextStepsItems?` | Texte de perspectives et liste facultative de pistes. |
 | `links?`, `nextStepsLinks?` | Tableaux de paires `[libellé, URL]` ; liens généraux ou liens des perspectives. |

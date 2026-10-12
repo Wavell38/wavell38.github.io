@@ -39,6 +39,26 @@ test('generic labels and optional result introduction', () => {
   assert.doesNotMatch(html, /V1|<p><\/p>/);
 });
 
+test('result links follow the results and escape labels and URLs', () => {
+  const html = render({
+    results: ['Published tool'],
+    resultsLinks: [['<Repository>', 'https://github.com/example/tool?ref="release"']],
+    limits: 'Current limits',
+  });
+  const results = html.match(/<section class="outcome-results"[\s\S]*?<\/section>/)[0];
+  assert.ok(results.indexOf('Published tool') < results.indexOf('class="project-links"'));
+  assert.match(results, /href="https:\/\/github.com\/example\/tool\?ref=&quot;release&quot;" target="_blank" rel="noreferrer">&lt;Repository&gt;/);
+  assert.doesNotMatch(results, /<Repository>/);
+  assertNavigationTargets(html);
+});
+
+test('result links remain optional and do not create an empty results section', () => {
+  for (const resultsLinks of [undefined, null, {}, [], [null, {}, [], [' ', 'url'], ['Label', ' ']]]) {
+    assert.doesNotMatch(render({ results: ['Delivered'], resultsLinks }), /class="project-links"/);
+  }
+  assert.doesNotMatch(render({ resultsLinks: [['Repository', 'https://github.com/example/tool']] }), /id="results"|href="#results"|class="project-links"/);
+});
+
 test('custom labels and result introduction are escaped, including navigation', () => {
   const html = render({
     context: 'Contexte', objective: ['But'], sections: [{ text: 'Travail' }],
