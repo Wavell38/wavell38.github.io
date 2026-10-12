@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Software, systems and robotics</title>
+  <rect width="64" height="64" rx="14" fill="#090d12"/>
+  <g fill="none" stroke="#66e0d0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 10v6m16-6v6M24 48v6m16-6v6M10 24h6m-6 16h6m32-16h6m-6 16h6"/>
+    <rect x="16" y="16" width="32" height="32" rx="6"/>
+    <path d="m28 26-6 6 6 6"/>
+    <path d="m36 26 6 6-6 6" stroke="#8bb8ff"/>
+  </g>
+</svg>
