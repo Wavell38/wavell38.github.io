@@ -72,6 +72,7 @@ export default {
     }
   ],
   results:["Chaîne complète de prototype réalisée.","Reconstruction 3D et scène reconnaissable dans RViz2 rapportées lors des essais.","Compilation micro-ROS Windows attestée par logs et artefacts."],
+  resultsLinks:[["Compilation micro-ROS sous Windows","https://github.com/Wavell38/micro_ros_platformio_windows"]],
   limits:"Projet arrêté après démonstration du concept : densité, précision et coût de calibration insuffisants pour l’usage robotique visé. L’audit ultérieur a aussi révélé des défauts firmware résiduels, confirmant l’état POC non qualifié.",
   environmentGroups:[
     {title:"Logiciel & visualisation",items:["C++","ROS 2","RViz2","micro-ROS Jazzy"]},
