@@ -83,7 +83,7 @@ export default {
     "Deux skills opérationnels et cinq profils de reviewers spécialisés dans la version auditée.",
     "Prompt Archiver développé et publié en open source."
   ],
-  resultsLinks:[["Prompt Archiver sur GitHub","https://github.com/Wavell38/prompts_archiver"]],
+  resultsLinks:[["Prompt Archiver","https://github.com/Wavell38/prompts_archiver"]],
   limits:"Cadre de R&D en amélioration continue, sous pilotage humain. Les validations et reviews apportent des preuves dans le périmètre évalué, sans garantir la qualité.",
   limitsItems:[
     "Les objectifs, les arbitrages structurants, l’architecture acceptée et l’interprétation des résultats restent sous responsabilité humaine.",
