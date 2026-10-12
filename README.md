@@ -8,15 +8,27 @@ Site statique sans dépendance ni build : HTML, CSS et JavaScript.
 
 - index.html : page d’accueil et hiérarchie du portfolio
 - project.html : vue détaillée d’un projet
-- data.js : contenu structuré des projets et expériences
+- main.js : chargement des données puis du rendu via des modules ES natifs
+- data/index.js : assemblage des projets dans leur ordre d’affichage
+- data/projects/*.js : un fichier par projet ou expérience (voir [le schéma](data/README.md))
 - app.js : rendu des cartes et pages projet
 - styles.css : design responsive
 
 Le site est conçu pour être publié directement avec GitHub Pages depuis la branche main, à la racine du dépôt.
 
+## Aperçu local
+
+Sous Windows, double-cliquer sur `preview.cmd` (Python 3 requis, sans paquet à installer).
+Le lanceur ouvre le portfolio dans le navigateur et sert le dépôt sur une adresse locale
+`http://127.0.0.1:…`. Garder sa fenêtre ouverte pendant la consultation ; `Ctrl+C` arrête le serveur.
+Depuis un terminal, `python preview.py` fait la même chose.
+
+L’ouverture directe de `index.html` en `file://` bloque les modules ES dans le navigateur :
+les cartes et la navigation latérale restent alors vides. Utiliser l’aperçu HTTP ci-dessus.
+
 ## Template détaillé des projets
 
-Dans `data.js`, la présence de `sections` sélectionne le template détaillé (`[]` est accepté).
+Dans `data/projects/*.js`, la présence de `sections` sélectionne le template détaillé (`[]` est accepté).
 Les projets sans cette propriété conservent leur template simple.
 
 Les intitulés peuvent être personnalisés avec `labels` ; une valeur absente ou vide utilise le défaut :
@@ -58,5 +70,5 @@ Les chaînes vides ou composées uniquement d’espaces sont ignorées dans ces 
 
 Vérification du template, sans dépendance : `node --test tests/project-template.test.cjs`.
 
-Le contenu du projet Réducteur cycloïdal dans `data.js` est maintenu à partir de
+Le contenu du projet Réducteur cycloïdal dans `data/projects/cycloidal.js` est maintenu à partir de
 `assets/cycloidal-reducer/reducteur-cycloidal-portfolio.md`, source de vérité éditoriale.
