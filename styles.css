@@ -1014,7 +1014,7 @@ main {
   font-size: 0.78rem;
 }
 
-/* Case study: right-side section navigation */
+/* Shared right-side section navigation */
 .case-toc {
   position: fixed;
   top: 50%;
@@ -1061,6 +1061,10 @@ main {
   opacity: 0.82;
 }
 
+body[data-page="home"] .toc-label {
+  white-space: normal;
+}
+
 .toc-link.active .toc-label {
   color: #f2f7fb;
   opacity: 1;
@@ -1086,6 +1090,12 @@ main {
 }
 
 /* Responsive */
+@media (max-width: 1439px) {
+  body[data-page="home"] .case-toc {
+    display: none;
+  }
+}
+
 @media (max-width: 1320px) {
   .case-toc {
     display: none;

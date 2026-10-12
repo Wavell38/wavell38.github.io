@@ -94,6 +94,15 @@
     setGrid("systems-grid", projects.filter(project => project.group === "systems"));
     setGrid("mechanical-grid", projects.filter(project => project.group === "mechanical"));
     setGrid("experience-grid", projects.filter(project => project.group === "experience"));
+
+    document.querySelector("main").insertAdjacentHTML("beforeend", tocHtml([
+      ["Projets phares", "projets"],
+      ["Systèmes & robotique", "systemes"],
+      ["Mécanique", "mecanique"],
+      ["Expériences", "experience"],
+      ["Approche", "approche"],
+    ], { label: "Navigation du portfolio", hidden: true }));
+    setupScrollSpy({ hideBeforeFirst: true });
   }
 
   function renderStandard(project, root) {
@@ -143,11 +152,11 @@
       esc(title.slice(index + accent.length));
   }
 
-  function tocHtml(items) {
+  function tocHtml(items, { label = "Navigation du projet", hidden = false } = {}) {
     if (items.length < 2) return "";
 
     return (
-      '<aside class="case-toc" aria-label="Navigation du projet">' +
+      '<aside class="case-toc" aria-label="' + esc(label) + '"' + (hidden ? ' hidden' : '') + '>' +
       items
         .map(([label, target]) =>
           '<a class="toc-link" href="#' + target + '" data-target="' + target + '">' +
@@ -158,7 +167,7 @@
     );
   }
 
-  function setupScrollSpy() {
+  function setupScrollSpy({ hideBeforeFirst = false } = {}) {
     const toc = document.querySelector(".case-toc");
     if (!toc) return;
 
@@ -176,6 +185,10 @@
       ticking = false;
       const marker = 190;
       let active = entries[0];
+
+      if (hideBeforeFirst) {
+        toc.hidden = !entries.length || entries[0].element.getBoundingClientRect().top > marker;
+      }
 
       for (const entry of entries) {
         if (entry.element.getBoundingClientRect().top <= marker) {

@@ -324,3 +324,57 @@ test('scroll spy selects a short stack at page bottom and updates when scrolling
   handlers.resize();
   assert.deepEqual([...active], ['top']);
 });
+
+test('homepage navigation stays hidden in the intro and tracks all five sections', () => {
+  const positions = { projets: 1000, systemes: 2200, mecanique: 3400, experience: 4600, approche: 5900 };
+  const active = new Set();
+  const handlers = {};
+  const frames = [];
+  const links = Object.keys(positions).map(target => ({
+    dataset: { target },
+    classList: { add: () => active.add(target), remove: () => active.delete(target) },
+  }));
+  const toc = { hidden: true, querySelectorAll: () => links };
+  let html = '';
+  const main = { insertAdjacentHTML: (_, content) => { html = content; } };
+  const windowState = {
+    PORTFOLIO: { projects: [] }, innerHeight: 900, scrollY: 0,
+    addEventListener: (name, handler) => { handlers[name] = handler; },
+  };
+  vm.runInNewContext(source, {
+    window: windowState,
+    requestAnimationFrame: callback => frames.push(callback),
+    document: {
+      body: { dataset: { page: 'home' } },
+      documentElement: { scrollHeight: 6600 },
+      querySelector: selector => selector === 'main' ? main : selector === '.case-toc' ? toc : null,
+      getElementById: id => id in positions ? {
+        getBoundingClientRect: () => ({ top: positions[id] - windowState.scrollY }),
+      } : null,
+    },
+  });
+  const index = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  const targets = [...html.matchAll(/href="#([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(targets, Object.keys(positions));
+  for (const target of targets) assert.ok(index.includes('id="' + target + '"'));
+  assert.match(html, /aria-label="Navigation du portfolio" hidden/);
+  assert.equal(toc.hidden, true);
+  const scrollTo = position => {
+    windowState.scrollY = position;
+    handlers.scroll();
+    while (frames.length) frames.shift()();
+  };
+  scrollTo(809);
+  assert.equal(toc.hidden, true);
+  for (const [target, position] of Object.entries(positions)) {
+    scrollTo(Math.min(position - 190, 5700));
+    assert.equal(toc.hidden, false);
+    assert.deepEqual([...active], [target]);
+  }
+  scrollTo(810);
+  positions.projets = 1200;
+  handlers.resize();
+  assert.equal(toc.hidden, true);
+  scrollTo(0);
+  assert.equal(toc.hidden, true);
+});
