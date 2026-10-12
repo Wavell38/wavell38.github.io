@@ -125,7 +125,7 @@ test('technical images link to originals and share the two-media section limit',
     { src: 'photo.png', alt: 'Photo' },
     { type: 'document', src: 'extra.png' },
   ] }] });
-  assert.match(html, /href="drawing.png\?x=&quot;y&quot;" target="_blank" rel="noreferrer"/);
+  assert.match(html, /href="drawing.png\?x=&quot;y&quot;" rel="noreferrer"/);
   assert.match(html, /project-figure--document/);
   assert.match(html, /<img src="drawing.png\?x=&quot;y&quot;" alt="&lt;Disque&gt;" width="2339" height="1653"/);
   assert.match(html, /<figcaption>&lt;Plan&gt;<\/figcaption>/);
@@ -223,6 +223,28 @@ test('next steps accept a summary, items, or both independently of current limit
     assert.match(html, /<h2>Suite envisagée<\/h2>/);
     assert.match(html, /class="toc-label">Suite envisagée<\/span>/);
     assertNavigationTargets(html);
+  }
+});
+
+test('next-step links appear below the items and escape labels and URLs', () => {
+  const html = render({
+    nextStepsItems: ['Étudier la transmission'],
+    nextStepsLinks: [['<Réducteur>', './project.html?id=cycloidal&ref="v2"']],
+  });
+  assert.ok(html.indexOf('Étudier la transmission') < html.indexOf('class="project-links"'));
+  assert.match(html, /href="\.\/project\.html\?id=cycloidal&amp;ref=&quot;v2&quot;">&lt;Réducteur&gt; →<\/a>/);
+  assert.doesNotMatch(html, /<Réducteur>|target="_blank"/);
+  assertNavigationTargets(html);
+});
+
+test('next-step links can stand alone and invalid entries leave no empty block', () => {
+  const html = render({ nextStepsLinks: [['Réducteur', './project.html?id=cycloidal']] });
+  assert.match(html, /id="next-steps"/);
+  assert.match(html, /href="#next-steps"/);
+  assert.doesNotMatch(html, /outcome-next-steps--summary-only|class="next-step-item"/);
+  assertNavigationTargets(html);
+  for (const nextStepsLinks of [undefined, null, {}, [], [null, {}, [], [' ', 'url'], ['Label', ' ']]]) {
+    assert.doesNotMatch(render({ nextStepsLinks }), /id="next-steps"|class="project-links"/);
   }
 });
 

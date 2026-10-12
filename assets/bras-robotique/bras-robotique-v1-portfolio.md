@@ -157,7 +157,9 @@ La V2 devait évoluer vers une conception mécanique plus rigoureuse :
 - qualification séparée de chaque articulation avant assemblage complet ;
 - mesures de couple, jeu, rigidité et répétabilité.
 
-Cette réflexion a directement conduit au projet suivant de **réducteur cycloïdal**, étudié comme solution de transmission pour une version plus robuste du bras.
+Cette V1 a servi de première itération d’apprentissage : concevoir, fabriquer et assembler le bras a permis de comprendre les mécanismes et d’identifier les limites à reprendre dans une V2 plus ambitieuse.
+
+Cette réflexion a directement conduit au projet de **réducteur cycloïdal**. Développé comme un projet indépendant, il étudie une solution de transmission destinée au futur bras V2, plus robuste.
 
 ## Environnement technique
 **Blender · impression 3D PETG · servomoteurs RC fort couple · engrenages imprimés · axes acier trempé · roulements · Raspberry Pi · PCA9685 · PWM · électronique de puissance préparée**

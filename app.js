@@ -107,7 +107,9 @@
     const links = (project.links || []).length
       ? '<div class="project-links">' +
         project.links
-          .map(link => '<a class="btn secondary" href="' + esc(link[1]) + '" target="_blank" rel="noreferrer">' + esc(link[0]) + " ↗</a>")
+          .map(link => '<a class="btn secondary" href="' + esc(link[1]) + '"' +
+            (link[1].startsWith('https://github.com/') ? ' target="_blank"' : '') +
+            ' rel="noreferrer">' + esc(link[0]) + " ↗</a>")
           .join("") +
         "</div>"
       : "";
@@ -251,7 +253,7 @@
         (media.type === "illustration" ? ' project-figure--illustration' : '') +
         (documentImage ? ' project-figure--document' : '') + '">' +
         (documentImage
-          ? '<a href="' + esc(media.src) + '" target="_blank" rel="noreferrer" title="Ouvrir le plan en taille originale">' + image + '</a>'
+          ? '<a href="' + esc(media.src) + '" rel="noreferrer" title="Ouvrir le plan en taille originale">' + image + '</a>'
           : image) +
         (media.caption ? '<figcaption>' + esc(media.caption) + '</figcaption>' : "") +
       '</figure>'
@@ -264,6 +266,10 @@
     const results = textItems(project.results);
     const limitsItems = textItems(project.limitsItems);
     const nextStepsItems = textItems(project.nextStepsItems);
+    const nextStepsLinks = (Array.isArray(project.nextStepsLinks) ? project.nextStepsLinks : [])
+      .filter(link => Array.isArray(link) && hasText(link[0]) && hasText(link[1]))
+      .map(link => '<a class="project-forward" href="' + esc(link[1]) + '">' + esc(link[0]) + ' →</a>')
+      .join('');
     const hasContext = hasText(project.context);
     const hasLimits = hasText(project.limits);
     const hasNextSteps = hasText(project.nextSteps);
@@ -358,16 +364,17 @@
         '</section>'
       : '';
 
-    const nextStepsBlock = hasNextSteps || nextStepsItems.length
-      ? '<section class="outcome-next-steps' + (nextStepsItems.length ? '' : ' outcome-next-steps--summary-only') + '" id="next-steps">' +
+    const nextStepsBlock = hasNextSteps || nextStepsItems.length || nextStepsLinks
+      ? '<section class="outcome-next-steps' + (nextStepsItems.length || nextStepsLinks ? '' : ' outcome-next-steps--summary-only') + '" id="next-steps">' +
           '<div class="next-steps-summary"><p class="eyebrow">Perspectives</p>' +
             '<h2>' + esc(label('nextSteps', 'Suite envisagée')) + '</h2>' +
             (hasNextSteps ? '<p>' + esc(project.nextSteps) + '</p>' : '') +
           '</div>' +
-          (nextStepsItems.length
+          (nextStepsItems.length || nextStepsLinks
             ? '<div class="next-steps-list">' + nextStepsItems.map(item =>
                 '<div class="next-step-item"><span></span><p>' + esc(item) + '</p></div>'
-              ).join('') + '</div>'
+              ).join('') +
+              (nextStepsLinks ? '<div class="project-links">' + nextStepsLinks + '</div>' : '') + '</div>'
             : '') +
         '</section>'
       : '';
@@ -395,7 +402,9 @@
     const links = (project.links || []).length
       ? '<div class="project-links">' +
         project.links
-          .map(link => '<a class="project-forward" href="' + esc(link[1]) + '" target="_blank" rel="noreferrer">' + esc(link[0]) + " ↗</a>")
+          .map(link => '<a class="project-forward" href="' + esc(link[1]) + '"' +
+            (link[1].startsWith('https://github.com/') ? ' target="_blank"' : '') +
+            ' rel="noreferrer">' + esc(link[0]) + " ↗</a>")
           .join("") +
         "</div>"
       : "";

@@ -40,7 +40,7 @@ Les blocs sans contenu sont omis, ainsi que leurs liens de navigation :
 - `sections` ignore les entrées sans texte, puces ni média ; un titre seul ne suffit pas. Chaque section accepte
   `media: [{ src, alt, width, height, caption? }]`, avec au plus deux médias affichés dans l’ordre du tableau.
   Pour un plan exporté en image, ajouter `type: "document"` : l’image conserve ses couleurs d’origine
-  et un clic ouvre le fichier en taille originale dans un nouvel onglet.
+  et un clic ouvre le fichier en taille originale dans le même onglet.
 - `media.leadPlacement: "before-context"` place le visuel principal après le hero, avant Contexte / Objectif.
   Sans cette option, il reste à côté du contexte. Il est indépendant des deux médias autorisés par section.
 - `results` doit contenir au moins un résultat ; un intitulé ou `resultsIntro` seul ne crée pas de bloc.
