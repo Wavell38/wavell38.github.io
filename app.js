@@ -144,12 +144,19 @@
 
   function projectTitle(project) {
     const title = String(project.title || "");
-    const accent = project.titleAccent;
-    const index = hasText(accent) ? title.indexOf(accent) : -1;
-    if (index < 0) return esc(title);
-
-    return esc(title.slice(0, index)) + '<span class="title-accent">' + esc(accent) + '</span>' +
-      esc(title.slice(index + accent.length));
+    const accents = Array.isArray(project.titleAccent) ? project.titleAccent : [project.titleAccent];
+    const matches = accents.filter(hasText)
+      .map(accent => ({ accent, index: title.indexOf(accent) }))
+      .filter(match => match.index >= 0)
+      .sort((a, b) => a.index - b.index);
+    let cursor = 0;
+    let html = "";
+    for (const { accent, index } of matches) {
+      if (index < cursor) continue;
+      html += esc(title.slice(cursor, index)) + '<span class="title-accent">' + esc(accent) + '</span>';
+      cursor = index + accent.length;
+    }
+    return html + esc(title.slice(cursor));
   }
 
   function tocHtml(items, { label = "Navigation du projet", hidden = false } = {}) {
