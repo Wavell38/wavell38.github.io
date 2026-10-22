@@ -8,6 +8,14 @@ export default {
   tags:["RP2040","PIO","ROS 2","C++","FreeCAD"],
   facts:["POC fonctionnel expérimental","PointCloud2","micro-ROS Windows"],
   context:"Projet personnel conçu et réalisé seul pour explorer la reconstruction 3D à partir d’un LiDAR 2D monté verticalement sur un mécanisme tournant. Le but était d’évaluer ce principe pour la perception robotique embarquée. Le prototype a permis une reconstruction qualitative de l’environnement, mais sa cadence utile, sa densité et sa précision ne répondaient pas au besoin initial.",
+  objective:[
+    "Motoriser la rotation externe d’un LiDAR 2D LD19 pour ajouter un axe de balayage.",
+    "Mesurer l’angle réel de rotation du mécanisme avec un encodeur absolu.",
+    "Synchroniser cet angle avec les mesures LiDAR et transmettre les données associées vers l’hôte / Raspberry Pi.",
+    "Transformer les scans 2D en coordonnées 3D et publier les nuages de points sous ROS 2.",
+    "Permettre une visualisation qualitative de l’environnement dans RViz2.",
+    "Évaluer si cette architecture peut satisfaire les contraintes d’une perception 3D embarquée : cadence utile, densité, précision, calibration, encombrement et complexité."
+  ],
   sections:[
     {
       title:"Mécanique, CAO et fabrication additive",

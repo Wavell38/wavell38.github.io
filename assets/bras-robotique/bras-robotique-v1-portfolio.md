@@ -21,7 +21,7 @@ Concevoir une architecture de bras robotique à coût réduit comprenant :
 - une pince motorisée ;
 - des réductions mécaniques adaptées aux servomoteurs disponibles ;
 - un câblage intégré à la structure ;
-- une électronique de commande basée sur Raspberry Pi et PCA9685.
+- une commande Raspberry Pi → PCA9685 → servomoteurs, envisagée mais non réalisée sur cette V1.
 
 La contrainte principale était de construire un ensemble mécaniquement cohérent en utilisant des servomoteurs relativement peu coûteux et limités en angle, tout en conservant suffisamment de couple aux différentes articulations.
 
@@ -98,24 +98,23 @@ La géométrie de la pince et son mécanisme ont été conçus spécifiquement p
 - Modélisation 3D complète sous **Blender**.
 - Fabrication de la structure principalement en **PETG imprimé en 3D**.
 - Conception des logements de moteurs, axes, roulements, engrenages et passages de câbles directement dans les segments du bras.
-- Acheminement du câblage au plus près de la structure afin de limiter les éléments libres à l’extérieur.
-- Utilisation d’une alimentation principale distribuée le long du bras afin d’éviter de multiplier les lignes de puissance individuelles.
+- Préparation partielle et acheminement du câblage au plus près de la structure afin de limiter les éléments libres à l’extérieur.
+- Préparation de la distribution d’alimentation le long du bras afin d’éviter de multiplier les lignes de puissance individuelles.
 
 Le prototype photographié correspond à un assemblage mécanique complet de la V1.
 
-## Électronique préparée
-L’architecture électrique prévue était basée sur :
+## Intégration électronique et commande envisagée
+L’architecture envisagée confiait au Raspberry Pi le pilotage des servomoteurs via un PCA9685 :
 
 **Raspberry Pi → PCA9685 → servomoteurs**
 
-avec une alimentation de puissance séparée ou dérivée spécifiquement pour les moteurs.
+avec une alimentation séparée ou dérivée prévue spécifiquement pour les moteurs.
 
-Le **PCA9685** était déjà intégré dans la base.
+Le **PCA9685 a été installé dans la base**, mais **aucun Raspberry Pi n’a été intégré ou utilisé** sur cette V1. Aucun logiciel de commande n’a été développé et aucun essai d’actionnement motorisé du bras complet n’a été réalisé. Le projet a été arrêté avant la mise en service et la qualification de cette chaîne.
 
-Le câblage des moteurs avait été préparé, avec :
+La préparation du câblage électrique est restée **partielle** :
 
-- alimentation principale distribuée dans le bras ;
-- lignes de commande PWM ;
+- distribution d’alimentation et lignes de commande PWM partiellement préparées dans le bras ;
 - condensateurs placés à proximité des moteurs ;
 - diodes Schottky prévues pour la protection de l’alimentation ;
 - ajout prévu de condensateurs de forte capacité près de l’entrée d’alimentation.
@@ -124,11 +123,11 @@ Le câblage des moteurs avait été préparé, avec :
 - Conception complète d’un bras robotique à partir d’une feuille blanche.
 - Modélisation, impression et assemblage physique d’un prototype d’environ 70 cm.
 - Réalisation de cinq axes de positionnement et d’une pince.
-- Intégration de servomoteurs, réductions par engrenages, axes acier trempé et roulements.
+- Intégration mécanique de servomoteurs, réductions par engrenages, axes acier trempé et roulements.
 - Rapports de réduction dimensionnés en fonction du couple, du débattement disponible et des contraintes d’impression.
-- Câblage intégré à la structure et électronique de commande préparée.
+- Intégration électronique partielle : PCA9685 installé dans la base et câblage partiellement préparé dans la structure.
 
-Le prototype a été **mécaniquement terminé**, mais aucun actionnement électrique complet ni logiciel de contrôle n’a été réalisé sur cette version.
+Le prototype a été **mécaniquement terminé** : conception, fabrication et assemblage constituent les réalisations principales de cette V1.
 
 ## Limites identifiées
 Avant la phase de test motorisé, plusieurs limites avaient déjà été identifiées :
@@ -140,7 +139,8 @@ Avant la phase de test motorisé, plusieurs limites avaient déjà été identif
 - rotation du poignet directement portée par l’axe moteur ;
 - absence de modularité, notamment pour la pince ;
 - câblage interne non conçu pour une rotation continue ;
-- absence de validation de charge, rigidité, répétabilité ou backlash du système complet.
+- absence de validation de charge, rigidité, répétabilité ou backlash du système complet ;
+- motorisations non testées sur le bras complet, Raspberry Pi non intégré et aucun logiciel de commande développé.
 
 Ces constats ont conduit à ne pas poursuivre l’industrialisation de cette V1 et à envisager directement une architecture plus ambitieuse.
 
@@ -162,10 +162,12 @@ Cette V1 a servi de première itération d’apprentissage : concevoir, fabrique
 Cette réflexion a directement conduit au projet de **réducteur cycloïdal**. Développé comme un projet indépendant, il étudie une solution de transmission destinée au futur bras V2, plus robuste.
 
 ## Environnement technique
-**Blender · impression 3D PETG · servomoteurs RC fort couple · engrenages imprimés · axes acier trempé · roulements · Raspberry Pi · PCA9685 · PWM · électronique de puissance préparée**
+- **Conception, fabrication et assemblage mécanique :** Blender · impression 3D PETG · servomoteurs RC fort couple · engrenages imprimés · axes acier trempé · roulements.
+- **Intégration électronique partielle :** PCA9685 installé dans la base · câblage des servomoteurs et distribution d’alimentation partiellement préparés.
+- **Commande envisagée :** Raspberry Pi → PCA9685 → servomoteurs via les lignes PWM ; Raspberry Pi non intégré, logiciel non développé.
 
 ## Version courte pour CV
 - Conception et fabrication en ~1 mois d’un prototype de bras robotique low-cost d’environ 70 cm, modélisé sous Blender et imprimé en PETG.
 - Architecture 5 axes + pince, avec réductions par engrenages calculées, axes acier trempé et doubles roulements sur les articulations principales.
-- Intégration mécanique et câblage complet des servomoteurs ; électronique Raspberry Pi / PCA9685 préparée, sans validation motorisée finale.
+- Intégration mécanique des servomoteurs, PCA9685 installé dans la base et câblage partiellement préparé ; Raspberry Pi seulement prévu, sans logiciel de commande développé ni essais motorisés du bras complet.
 - Identification des limites de masse, jeu et modularité ayant conduit à une V2 orientée FreeCAD, roulements croisés et réducteurs cycloïdaux.

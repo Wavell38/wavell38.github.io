@@ -6,14 +6,14 @@ export default {
   period:"2025",
   summary:"Un bras d’environ 70 cm, 5 axes + pince, conçu sous Blender et fabriqué en PETG autour de servomoteurs à fort couple.",
   tags:["Blender","PETG","Servos","PCA9685","Mécanique"],
-  facts:["Prototype mécanique assemblé","≈70 cm · 5 axes + pince","Commande préparée, non qualifiée"],
+  facts:["Prototype mécanique assemblé","≈70 cm · 5 axes + pince","Électronique partiellement intégrée"],
   // Editorial source: assets/bras-robotique/bras-robotique-v1-portfolio.md
   context:"Projet personnel réalisé en 2025, sur environ un mois de conception et fabrication effective. L’objectif était de partir de zéro pour concevoir un bras robotique complet avec des composants accessibles et des pièces imprimées en 3D, destiné à terme à manipuler des objets ou à servir de base à de petites tâches automatisées. Cette V1 a été modélisée sous Blender, avant l’utilisation de FreeCAD dans les projets suivants. Le prototype mécanique a été terminé et assemblé, mais le projet a été arrêté avant la phase d’actionnement électrique et de développement logiciel.",
   labels:{objectives:"Objectif", nextSteps:"Évolution envisagée — V2"},
   objective:[
     "Concevoir un bras low-cost avec une base rotative, trois articulations principales, un poignet orientable et une pince motorisée.",
     "Adapter les réductions mécaniques aux servomoteurs disponibles, limités en angle, tout en conservant suffisamment de couple aux articulations.",
-    "Intégrer le câblage à la structure et préparer une commande basée sur Raspberry Pi et PCA9685."
+    "Intégrer le câblage à la structure ; une commande Raspberry Pi → PCA9685 → servomoteurs était envisagée, mais n’a pas été réalisée sur cette V1."
   ],
   sections:[
     {
@@ -69,33 +69,33 @@ export default {
       text:"La structure a été entièrement modélisée sous Blender, puis principalement imprimée en PETG et assemblée.",
       bullets:[
         "Logements des moteurs, axes, roulements, engrenages et passages de câbles intégrés aux segments du bras.",
-        "Câblage acheminé au plus près de la structure pour limiter les éléments libres à l’extérieur.",
-        "Alimentation principale distribuée le long du bras pour éviter de multiplier les lignes de puissance individuelles."
+        "Câblage partiellement préparé et acheminé au plus près de la structure pour limiter les éléments libres à l’extérieur.",
+        "Distribution d’alimentation préparée le long du bras pour éviter de multiplier les lignes de puissance individuelles."
       ]
     },
     {
-      title:"Électronique préparée",
-      text:"La chaîne de commande prévue était Raspberry Pi → PCA9685 → servomoteurs, avec une alimentation de puissance séparée ou dérivée pour les moteurs. Le PCA9685 était déjà intégré dans la base ; la commande complète n’a pas été mise en service.",
+      title:"Intégration électronique et commande envisagée",
+      text:"L’architecture envisagée reposait sur un Raspberry Pi pilotant les servomoteurs via un PCA9685, avec une alimentation séparée ou dérivée pour les moteurs. Le PCA9685 a été installé dans la base et le câblage électrique a été partiellement préparé. Aucun Raspberry Pi n’a été intégré ou utilisé, aucun logiciel de commande n’a été développé et aucun essai d’actionnement motorisé du bras complet n’a été réalisé. Le projet a été arrêté avant la mise en service et la qualification de cette chaîne.",
       bullets:[
-        "Câblage moteur préparé : alimentation principale distribuée, lignes de commande PWM et condensateurs à proximité des moteurs.",
+        "Préparation partielle du câblage moteur : distribution d’alimentation et lignes de commande PWM ; condensateurs placés à proximité des moteurs.",
         "Diodes Schottky prévues pour la protection de l’alimentation.",
         "Ajout prévu de condensateurs de forte capacité près de l’entrée d’alimentation."
       ],
       media:[{
         src:"./assets/bras-robotique/electronics-base.png",
-        alt:"Électronique dans la base du bras robotique, avec le PCA9685 et le câblage préparé.",
+        alt:"Électronique dans la base du bras robotique, avec le PCA9685 installé et le câblage partiellement préparé.",
         width:1254, height:1254,
-        caption:"Photographie de la base réelle — PCA9685 intégré et câblage préparé."
+        caption:"Photographie de la base réelle — PCA9685 intégré et câblage partiellement préparé."
       }]
     }
   ],
-  resultsIntro:"Un prototype mécaniquement terminé, sans actionnement électrique complet ni logiciel de contrôle réalisé sur cette version.",
+  resultsIntro:"Un prototype mécaniquement terminé : conception, fabrication et assemblage constituent les réalisations principales de cette V1.",
   results:[
     "Conception complète, modélisation, impression et assemblage physique d’un bras d’environ 70 cm.",
     "Réalisation de cinq axes de positionnement et d’une pince.",
-    "Intégration de servomoteurs, engrenages, axes acier trempé et doubles roulements sur les articulations principales.",
+    "Intégration mécanique de servomoteurs, engrenages, axes acier trempé et doubles roulements sur les articulations principales.",
     "Réductions dimensionnées selon le couple, le débattement, l’encombrement et les contraintes d’impression.",
-    "Câblage intégré à la structure et électronique de commande préparée."
+    "Intégration électronique partielle : PCA9685 installé dans la base et câblage partiellement préparé dans la structure."
   ],
   limits:"Le projet a été arrêté avant les tests motorisés. Les limites identifiées ont motivé une nouvelle architecture ; les performances du système complet restent non validées.",
   limitsItems:[
@@ -106,7 +106,7 @@ export default {
     "Absence de modularité, notamment pour la pince.",
     "Câblage interne non conçu pour une rotation continue.",
     "Aucune validation de charge, de rigidité, de répétabilité ou de backlash du système complet.",
-    "Aucun actionnement électrique complet ni logiciel de contrôle final réalisé."
+    "Motorisations non testées sur le bras complet, Raspberry Pi non intégré et aucun logiciel de commande développé."
   ],
   nextSteps:"Cette V1 a servi de première itération d’apprentissage : concevoir, fabriquer et assembler le bras a permis de comprendre les mécanismes et d’identifier les limites à reprendre dans une V2 plus ambitieuse. Le réducteur cycloïdal est né de cette réflexion. Développé comme un projet indépendant, il étudie une solution de transmission destinée au futur bras V2, plus robuste.",
   nextStepsItems:[
@@ -121,7 +121,7 @@ export default {
   environmentGroups:[
     {title:"Conception & fabrication", items:["Blender","Impression 3D PETG"]},
     {title:"Mécanique", items:["Servomoteurs RC fort couple","Engrenages imprimés","Axes acier trempé","Roulements"]},
-    {title:"Commande préparée", items:["Raspberry Pi","PCA9685","PWM","Électronique de puissance préparée"]}
+    {title:"Intégration électronique", items:["PCA9685 intégré","Câblage des servomoteurs préparé","Distribution d’alimentation préparée"]}
   ],
   media:{
     lead:{

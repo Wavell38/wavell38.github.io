@@ -421,14 +421,8 @@ main {
   background: var(--bg2);
 }
 
-.principles span {
-  color: var(--accent);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.74rem;
-}
-
 .principles h3 {
-  margin: 18px 0 8px;
+  margin: 0 0 8px;
   font-size: 1.35rem;
 }
 
