@@ -1,7 +1,8 @@
 export default {
   id:"pure-illusion", group:"experience", kind:"Expérience professionnelle", status:"Mission terminée",
-  title:"Pure Illusion", subtitle:"Agrégateur de données SEO",
-  titleAccent:"Illusion",
+  title:"Outil de consultation et d'intégration de données SEO", subtitle:"Interface web Symfony et diagnostic d’un pipeline préexistant",
+  company:"Pure Illusion",
+  titleAccent:"données SEO",
   role:"Développeur full-stack / intégration data SEO",
   period:"2020 — mission de fin d’études prolongée brièvement en freelance",
   summary:"Développement full-stack et diagnostic d’une chaîne de données SEO multi-sources déjà engagée.",

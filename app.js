@@ -68,12 +68,20 @@
     );
   }
 
+  function renderCompany(company) {
+    if (!hasText(company)) return "";
+    return '<p class="project-company">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 21V3h12v18M16 9h4v12M2 21h20M8 7h4M8 11h4M8 15h4M9 21v-3h2v3"/></svg>' +
+      '<span><span class="company-label">Entreprise : </span>' + esc(company.trim()) + '</span></p>';
+  }
+
   function card(project, featured = false) {
     return (
       '<a class="card ' + (featured ? "featured" : "") + '" href="./project.html?id=' + encodeURIComponent(project.id) + '">' +
       '<div class="card-meta"><span>' + esc(project.kind) + "</span>" +
         (hasText(project.status) ? '<span>' + esc(project.status) + '</span>' : '') + "</div>" +
       "<h3>" + esc(project.title) + "</h3>" +
+      renderCompany(project.company) +
       "<p>" + esc(project.summary) + "</p>" +
       tags(project.tags, true) +
       '<div class="card-link">Voir le projet →</div></a>'
@@ -130,6 +138,7 @@
         '<p class="eyebrow">' + esc(project.kind) + " · " + esc(project.period) + "</p>" +
         (hasText(project.status) ? '<p class="status">' + esc(project.status) + '</p>' : '') +
         "<h1>" + esc(project.title) + "</h1>" +
+        renderCompany(project.company) +
         '<p class="project-summary">' + esc(project.subtitle) + "</p>" +
         tags(project.tags) +
         '<div class="project-facts">' + facts + "</div>" +
@@ -450,6 +459,7 @@
           '<div class="case-kicker"><span>' + esc(project.kind) + "</span><span>" + esc(project.period) + '</span>' +
             (hasText(project.status) ? '<span class="status">' + esc(project.status) + '</span>' : '') + "</div>" +
           "<h1>" + projectTitle(project) + "</h1>" +
+          renderCompany(project.company) +
           (hasText(project.subtitle) ? '<p class="project-summary">' + esc(project.subtitle) + "</p>" : '') +
           (hasText(project.role) ? '<p class="project-role">' + esc(project.role) + "</p>" : '') +
           (textItems(project.tags).length ? tags(textItems(project.tags), true) : '') +

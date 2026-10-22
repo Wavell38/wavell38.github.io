@@ -7,24 +7,27 @@ const { pathToFileURL } = require('node:url');
 
 const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 
-function render(fields = {}) {
+function renderPage(fields = {}) {
   const root = { innerHTML: '' };
   const project = {
     id: 'fixture', title: 'Projet de test', kind: 'Projet', period: '2026', status: 'En cours',
     sections: [], ...fields,
   };
+  const document = {
+    body: { dataset: { page: 'project' } },
+    getElementById: id => id === 'project-root' ? root : null,
+    querySelector: () => null,
+  };
   vm.runInNewContext(source, {
     window: { PORTFOLIO: { projects: [project] } },
     location: { search: '?id=' + encodeURIComponent(project.id) },
     URLSearchParams,
-    document: {
-      body: { dataset: { page: 'project' } },
-      getElementById: id => id === 'project-root' ? root : null,
-      querySelector: () => null,
-    },
+    document,
   });
-  return root.innerHTML;
+  return { html: root.innerHTML, title: document.title };
 }
+
+const render = fields => renderPage(fields).html;
 
 function renderHome(projects) {
   const grids = Object.fromEntries(['featured', 'systems', 'mechanical', 'experience']
@@ -79,6 +82,39 @@ test('unknown or blank lifecycle leaves no badge or placeholder on pages and car
   assert.equal((home.match(/&lt;En cours&gt;/g) || []).length, 1);
 });
 
+test('company identity is escaped, labelled and decorative on cards and both templates', () => {
+  const fields = {
+    id: 'fixture', group: 'experience', title: '<Projet & titre>', subtitle: '<Complément>',
+    titleAccent: '& titre', company: '  <Agence> & "Partenaire" O\'Neil  ',
+  };
+  for (const html of [renderHome([fields]), render(fields), render({ ...fields, sections: undefined })]) {
+    const company = html.match(/<p class="project-company">[\s\S]*?<\/p>/)[0];
+    assert.match(company, /Entreprise : <\/span>&lt;Agence&gt; &amp; &quot;Partenaire&quot; O&#039;Neil/);
+    assert.match(company, /<svg[^>]+aria-hidden="true"[^>]+focusable="false"/);
+    assert.doesNotMatch(company, /<a\b|href=|<Agence>/);
+    assert.equal((html.match(/class="project-company"/g) || []).length, 1);
+    assert.doesNotMatch(html, /<Projet|<Complément>/);
+    const headingEnd = html.indexOf(html.includes('<h1>') ? '</h1>' : '</h3>');
+    assert.ok(headingEnd < html.indexOf(company));
+  }
+  assert.match(render(fields), /<h1>&lt;Projet <span class="title-accent">&amp; titre<\/span>&gt;<\/h1>/);
+  assert.match(render(fields), /class="project-summary">&lt;Complément&gt;<\/p>/);
+  assert.equal(renderPage(fields).title, '<Projet & titre> — Vincent Grange');
+});
+
+test('missing or blank company does not change rendering or leave a placeholder', () => {
+  const project = { id: 'fixture', group: 'systems', title: 'Projet personnel' };
+  for (const company of [undefined, null, '', ' \t\n']) {
+    for (const sections of [[], undefined]) {
+      const html = render({ ...project, sections, company });
+      assert.equal(html, render({ ...project, sections }));
+      assert.doesNotMatch(html, /project-company|company-label|Entreprise/);
+    }
+    assert.equal(renderHome([{ ...project, company }]), renderHome([project]));
+    assert.doesNotMatch(renderHome([{ ...project, company }]), /project-company|company-label|Entreprise/);
+  }
+});
+
 test('all twelve real projects preserve identity, editorial metadata, media and navigation', async () => {
   const projects = await loadPortfolio();
   const expected = [
@@ -98,6 +134,17 @@ test('all twelve real projects preserve identity, editorial metadata, media and 
   assert.deepEqual(projects.map(p => [p.id, p.group, p.period, p.status]), expected);
   assert.deepEqual(projects.filter(p => p.group === 'featured').map(p => p.order), [1, 2, 3]);
   const ids = new Set(projects.map(p => p.id));
+  const experiences = {
+    matrice: ['Outil de collecte et de supervision de données sociales', 'Agence Matrice', 'données sociales'],
+    itfs73: ['Plateforme pédagogique multi-écrans', 'ITFS73', 'multi-écrans'],
+    'pure-illusion': ["Outil de consultation et d'intégration de données SEO", 'Pure Illusion', 'données SEO'],
+  };
+  const personalTitles = [
+    'Cards Analyzer', 'Plateforme de recherche quantitative', 'Workflow de développement assisté par agents IA',
+    'Camera Mapper', 'LiDAR 2D → reconstruction 3D', 'Gant IMU', 'Drone semi-autonome',
+    'Bras robotique V1', 'Réducteur cycloïdal',
+  ];
+  assert.deepEqual(projects.filter(p => p.group !== 'experience').map(p => p.title), personalTitles);
   const root = path.join(__dirname, '..');
   for (const project of projects) {
     for (const key of ['title', 'kind', 'subtitle', 'summary', 'context', 'limits']) {
@@ -111,7 +158,28 @@ test('all twelve real projects preserve identity, editorial metadata, media and 
       if (project.status) assert.ok(!fact.includes(project.status), `${project.id}: repeated lifecycle`);
     }
     assert.doesNotMatch(project.facts[0], /^(En cours|En pause|Projet arrêté|R&D|Pipeline)/);
-    const html = render({ status: undefined, ...project });
+    const { html, title } = renderPage({ status: undefined, ...project });
+    const card = renderHome([project]);
+    assert.equal(title, project.title + ' — Vincent Grange');
+    if (experiences[project.id]) {
+      const [expectedTitle, company, accent] = experiences[project.id];
+      assert.equal(project.title, expectedTitle);
+      assert.equal(project.company, company);
+      assert.equal(project.titleAccent, accent);
+      assert.notEqual(project.title, project.subtitle);
+      assert.notEqual(project.title, project.summary);
+      assert.ok(card.includes('<h3>' + expectedTitle.replaceAll("'", '&#039;') + '</h3>'));
+      const heading = html.match(/<h1>([\s\S]*?)<\/h1>/)[1];
+      assert.equal(heading.replace(/<\/?span[^>]*>/g, ''), expectedTitle.replaceAll("'", '&#039;'));
+      assert.ok(heading.includes('<span class="title-accent">' + accent + '</span>'));
+      for (const rendered of [card, html]) {
+        assert.equal((rendered.match(/class="project-company"/g) || []).length, 1);
+        assert.ok(rendered.includes('Entreprise : </span>' + company));
+      }
+    } else {
+      assert.ok(!Object.hasOwn(project, 'company'), project.id);
+      assert.doesNotMatch(card + html, /project-company|company-label|Entreprise :/);
+    }
     assertNavigationTargets(html);
     assert.doesNotMatch(html, /undefined|<span>État<\/span>|<h[12]><\/h[12]>/, project.id);
     const hero = html.match(/<section class="project-hero[\s\S]*?<\/section>/)[0];

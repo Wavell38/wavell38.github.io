@@ -1,7 +1,8 @@
 export default {
   id:"itfs73", group:"experience", kind:"Expérience professionnelle", status:"Projet arrêté",
-  title:"ITFS73", subtitle:"Plateforme pédagogique multi-écrans",
-  titleAccent:"73",
+  title:"Plateforme pédagogique multi-écrans", subtitle:"Éditeur de cours et diffusion coordonnée sur six écrans",
+  company:"ITFS73",
+  titleAccent:"multi-écrans",
   role:"Architecte applicatif / développeur full-stack",
   period:"2020–janvier 2021",
   summary:"Architecture web + locale pour créer des cours interactifs et les exécuter de manière coordonnée sur six écrans tactiles indépendants.",

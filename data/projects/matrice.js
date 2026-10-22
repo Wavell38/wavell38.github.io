@@ -1,7 +1,8 @@
 export default {
   id:"matrice", group:"experience", kind:"Collaboration technique", status:"Collaboration achevée",
-  title:"Agence Matrice", subtitle:"Outil de collecte et supervision de données sociales",
-  titleAccent:"Matrice",
+  title:"Outil de collecte et de supervision de données sociales", subtitle:"Campagnes automatisées de collecte et pilotage métier",
+  company:"Agence Matrice",
+  titleAccent:"données sociales",
   role:"Développeur full-stack / automatisation & supervision de collecte",
   period:"2021–2022",
   summary:"Automatisation de campagnes de collecte de données publiques sur les réseaux sociaux pour environ 150 stations de ski.",

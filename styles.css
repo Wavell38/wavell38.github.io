@@ -489,6 +489,46 @@ main {
   font-size: 1.18rem;
 }
 
+/* Optional company identity, shared by cards and both project templates. */
+.project-company {
+  margin: 18px 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  color: var(--text);
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
+.project-company svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  align-self: flex-start;
+  margin-top: 3px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.company-label {
+  color: var(--muted);
+}
+
+.card .project-company {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.project-hero:has(.project-company) h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
 .project-facts {
   margin-top: 36px;
   display: grid;

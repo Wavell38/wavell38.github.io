@@ -21,6 +21,7 @@ contenu peuvent aussi être absents selon le template.
 | `id`, `group` | Identifiant unique utilisé dans `project.html?id=…` ; groupe `featured`, `systems`, `mechanical` ou `experience`. |
 | `order?` | Nombre utilisé pour trier les projets `featured`. Les autres groupes suivent l’ordre du tableau. |
 | `kind`, `title` | Catégorie du projet et titre ; `kind` ne décrit ni le cycle de vie ni la maturité. |
+| `company?` | Nom de l’entreprise cliente ou partenaire, distinct du titre du projet. Affiché sous le titre sur les cartes et dans les deux templates, avec le libellé « Entreprise » et une icône décorative. Absent, `null`, vide ou composé d’espaces : aucun élément ni espace réservé. |
 | `status?` | Cycle de vie ou situation établie : « En cours », « En pause », « Projet arrêté », « Mission terminée », etc. Omettre si inconnu. |
 | `titleAccent?` | Texte ou tableau de textes à accentuer dans le titre détaillé. |
 | `subtitle`, `role?`, `period`, `summary` | Sous-titre, rôle, période et résumé de la carte. |
@@ -57,6 +58,13 @@ ou document technique. Ne pas déduire une qualification du système à partir d
 - Un projet peut ne comporter aucun média.
 
 ## Convention éditoriale
+
+Pour les expériences professionnelles, `title` désigne la réalisation et `company` nomme
+l’entreprise. `subtitle` apporte un complément fonctionnel sans répéter le titre ; `summary`
+résume le périmètre sur la carte. Les projets personnels conservent leurs titres et n’ont pas
+de champ `company` artificiel. Un `titleAccent` doit cibler un extrait du titre actuel.
+Le nom de l’entreprise est du texte échappé, sans lien implicite ; il ne qualifie pas à lui
+seul la nature contractuelle de l’intervention, qui reste précisée dans le contexte.
 
 `status` apparaît sur la carte et dans l’en-tête détaillé. S’il est absent, vide ou composé
 d’espaces, le rendu omet le badge sans texte de remplacement. Le drone et le réducteur
