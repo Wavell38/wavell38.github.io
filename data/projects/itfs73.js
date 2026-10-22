@@ -1,13 +1,13 @@
 export default {
-  id:"itfs73", group:"experience", kind:"Expérience professionnelle", status:"Prototype avancé",
+  id:"itfs73", group:"experience", kind:"Expérience professionnelle", status:"Projet arrêté",
   title:"ITFS73", subtitle:"Plateforme pédagogique multi-écrans",
   titleAccent:"73",
   role:"Architecte applicatif / développeur full-stack",
   period:"2020–janvier 2021",
   summary:"Architecture web + locale pour créer des cours interactifs et les exécuter de manière coordonnée sur six écrans tactiles indépendants.",
   tags:["NestJS","React","Electron","PostgreSQL","Streaming"],
-  facts:["Projet arrêté","6 PC / 6 écrans","Streaming multi-écrans"],
-  context:"Conception et développement en autonomie d’une plateforme pédagogique destinée à une installation expérimentale composée de six grands écrans tactiles, chacun piloté par un PC Windows distinct. Les enseignants devaient pouvoir préparer des cours à distance, intégrer PDF et vidéos, puis définir des interactions entre les différents écrans.",
+  facts:["Prototype avancé","6 PC / 6 écrans physiques","Streaming multi-écrans"],
+  context:"Mission freelance contractuelle de conception et développement en autonomie d’une plateforme pédagogique destinée à une installation expérimentale composée de six grands écrans tactiles, chacun piloté par un PC Windows distinct. Les enseignants devaient pouvoir préparer des cours à distance, intégrer PDF et vidéos, puis définir des interactions entre les différents écrans.",
   objective:[
     "Concevoir une architecture couvrant création web des cours, distribution locale, exécution coordonnée sur six machines et diffusion multimédia."
   ],
@@ -58,9 +58,9 @@ export default {
     }
   ],
   results:[
-    "Architecture distribuée complète pour une installation à six postes.",
+    "Architecture distribuée conçue et intégrée pour une installation à six postes.",
     "Éditeur V1 fonctionnel : PDF page par page, timeline et interactions inter-écrans.",
-    "Pilotage coordonné d’instances Electron validé sur six machines physiques.",
+    "Pilotage coordonné d’instances Electron et contrôles PDF validés sur six machines physiques dans l’environnement d’essai.",
     "Streaming vidéo multi-écrans fonctionnel dans l’environnement de test.",
     "Téléchargement et distribution locale des contenus mis en place."
   ],

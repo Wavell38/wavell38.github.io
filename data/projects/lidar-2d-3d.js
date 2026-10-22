@@ -1,12 +1,13 @@
 export default {
-  id:"lidar-2d-3d", group:"systems", kind:"Systèmes / embarqué", status:"POC arrêté",
+  id:"lidar-2d-3d", group:"systems", kind:"Systèmes / embarqué", status:"Projet arrêté",
   title:"LiDAR 2D → reconstruction 3D", subtitle:"Prototype motorisé RP2040 / ROS 2",
   titleAccent:["2D","3D"],
+  role:"Concepteur système / développeur embarqué & robotique",
   period:"2026",
   summary:"Transformer un LD19 2D en acquisition 3D via rotation motorisée, encodeur absolu, firmware RP2040/PIO et pipeline PointCloud2.",
   tags:["RP2040","PIO","ROS 2","C++","FreeCAD"],
-  facts:["POC fonctionnel","PointCloud2","micro-ROS Windows"],
-  context:"Exploration d’une reconstruction 3D à partir d’un LiDAR 2D monté verticalement sur un mécanisme tournant, afin d’évaluer l’intérêt du concept pour une future perception robotique.",
+  facts:["POC fonctionnel expérimental","PointCloud2","micro-ROS Windows"],
+  context:"Projet personnel conçu et réalisé seul pour explorer la reconstruction 3D à partir d’un LiDAR 2D monté verticalement sur un mécanisme tournant. Le but était d’évaluer ce principe pour la perception robotique embarquée. Le prototype a permis une reconstruction qualitative de l’environnement, mais sa cadence utile, sa densité et sa précision ne répondaient pas au besoin initial.",
   sections:[
     {
       title:"Mécanique, CAO et fabrication additive",
@@ -71,9 +72,18 @@ export default {
       ]
     }
   ],
-  results:["Chaîne complète de prototype réalisée.","Reconstruction 3D et scène reconnaissable dans RViz2 rapportées lors des essais.","Compilation micro-ROS Windows attestée par logs et artefacts."],
+  results:["Prototype mécanique assemblé, firmware RP2040 et chaîne C++ / ROS 2 de reconstruction intégrés.","Reconstruction qualitative de l’environnement et pièce reconnaissable dans RViz2 rapportées lors des essais : faisabilité du principe démontrée, sans qualification pour l’usage robotique visé.","Compilation micro-ROS / PlatformIO sous Windows attestée par les logs et les artefacts ELF/UF2 conservés."],
   resultsLinks:[["Compilation micro-ROS sous Windows","https://github.com/Wavell38/micro_ros_platformio_windows"]],
-  limits:"Projet arrêté après démonstration du concept : densité, précision et coût de calibration insuffisants pour l’usage robotique visé. L’audit ultérieur a aussi révélé des défauts firmware résiduels, confirmant l’état POC non qualifié.",
+  limits:"Le POC était fonctionnel, mais la cadence utile de reconstruction était trop faible et la densité, la précision et la calibration insuffisantes pour l’objectif robotique initial. Ces limites concernent autant l’intégration et le logiciel que le matériel.",
+  limitsItems:[
+    "Synchronisation imparfaite entre angle externe et mesures LiDAR : le même angle externe est appliqué aux douze points d’un paquet LD19, malgré l’interpolation de leurs angles internes.",
+    "Défaut résiduel de comptage dans le programme PIO et détection de blocage perfectible, relevés lors de l’audit ultérieur du code.",
+    "Absence de compensation du mouvement, de SLAM intégré, de recalage de scans et de fusion inertielle.",
+    "Une reconstruction ou détection lente restait envisageable en théorie, sous réserve de calibration ; son adéquation à un usage concret n’a pas été démontrée."
+  ],
+  labels:{nextSteps:"Décision d’arrêt & enseignements"},
+  nextSteps:"Le projet a été arrêté : poursuivre aurait demandé davantage de matériel et de budget, avec un coût, un volume, un poids et une complexité jugés disproportionnés au bénéfice attendu. Les ressources ont été consacrées à d’autres projets. Aucune V2 LiDAR n’est actuellement planifiée.",
+  nextStepsItems:["Une étude préalable de faisabilité, notamment du temps nécessaire pour couvrir une scène, aurait permis d’identifier plus tôt les limites de vitesse : un enseignement pour dimensionner les projets suivants."],
   environmentGroups:[
     {title:"Logiciel & visualisation",items:["C++","ROS 2","RViz2","micro-ROS Jazzy"]},
     {title:"Matériel & embarqué",items:["RP2040","PIO","LD19","MT6701","A4988","Raspberry Pi 5"]},
@@ -85,8 +95,8 @@ export default {
     lead:{
       type:"illustration",
       src:"./assets/lidar2D-3D/illustration.png",
-      alt:"Vue d’ensemble du prototype LiDAR LD19 monté verticalement sur son mécanisme de rotation motorisé.",
-      caption:"Prototype LiDAR 2D → 3D assemblé",
+      alt:"Photographie du prototype réel LiDAR LD19 sur son mécanisme motorisé, avec éclairage et ombres retravaillés par IA.",
+      caption:"Prototype réel assemblé — photographie retravaillée par IA sur l’éclairage et les ombres",
       width:1254, height:1254
     }
   }

@@ -1,14 +1,14 @@
 # LiDAR 2D → reconstruction 3D — Prototype motorisé RP2040 / ROS 2
 
 ## Intitulé
-**Concepteur / développeur systèmes & robotique — prototype LiDAR 3D**
+**Concepteur système / développeur embarqué & robotique — prototype LiDAR 3D**
 
 ## Contexte
-Projet personnel de R&D visant à évaluer la possibilité de produire des données tridimensionnelles à partir d’un **LiDAR 2D LD19** monté verticalement sur un mécanisme tournant.
+Projet personnel de R&D conçu et réalisé seul, visant à évaluer la possibilité de produire des données tridimensionnelles à partir d’un **LiDAR 2D LD19** monté verticalement sur un mécanisme tournant.
 
 L’idée était d’ajouter un second axe de balayage au LiDAR : le capteur fournit son scan 2D, tandis qu’un mécanisme motorisé fait tourner l’ensemble autour d’un axe externe. La position réelle du mécanisme est mesurée par un encodeur absolu puis associée aux mesures LiDAR afin de reconstruire des points 3D sur un Raspberry Pi 5 et de les visualiser sous ROS 2 / RViz2.
 
-Le projet a été mené jusqu’à un **POC fonctionnel**, puis arrêté après évaluation : la densité de points, la précision géométrique et les contraintes de calibration ne justifiaient pas la complexité de la solution pour l’usage robotique envisagé.
+Le projet a été mené jusqu’à un **POC fonctionnel expérimental**, puis arrêté après évaluation : la cadence utile trop faible, la densité de points, la précision géométrique et les contraintes de calibration rendaient la solution insuffisante pour l’usage robotique envisagé. La reconstruction qualitative démontrait la faisabilité du principe, sans établir son aptitude opérationnelle.
 
 ## Objectif
 Concevoir une chaîne complète permettant de :
@@ -96,7 +96,7 @@ Les logs conservés attestent ensuite d’un build réussi des dépendances hôt
 - Protocole binaire personnalisé permettant d’associer les mesures LiDAR à la position externe du mécanisme.
 - Pipeline C++ / ROS 2 complet de décodage, transformation géométrique et publication de nuages de points.
 - Reconstruction 3D fonctionnelle rapportée pendant les essais, avec une scène reconnaissable dans **RViz2**.
-- Publication de sous-nuages autour de **10 Hz** lors des essais rapportés.
+- Publication de sous-nuages autour de **10 Hz** lors des essais rapportés, valeur non qualifiée : elle ne correspond ni à une reconstruction complète de scène à 10 Hz, ni à une cadence de détection utile démontrée.
 - Chaîne micro-ROS / PlatformIO adaptée à Windows et compilation réussie attestée par les artefacts conservés.
 
 ## Limites et état du projet
@@ -104,6 +104,7 @@ Le système est resté un **POC fonctionnel non qualifié**.
 
 Les principales limites observées étaient :
 
+- cadence utile de reconstruction trop faible pour l’objectif initial ;
 - densité du nuage insuffisante pour l’usage robotique envisagé ;
 - précision géométrique limitée ;
 - calibration extrinsèque délicate ;
@@ -115,7 +116,13 @@ Les principales limites observées étaient :
 
 L’audit ultérieur du code a notamment mis en évidence un défaut résiduel de comptage dans le programme PIO et des limites dans la détection de blocage. Ces points confirment que la solution ne devait pas être présentée comme une chaîne finalisée ou qualifiée.
 
-Le projet a été arrêté après démonstration du concept : le rapport complexité / densité / précision ne paraissait pas suffisamment favorable pour poursuivre cette architecture vers un système de perception robotique opérationnel.
+Le projet a été arrêté après démonstration du concept. Poursuivre aurait demandé davantage de matériel et de budget, avec un coût, un volume, un poids et une complexité jugés disproportionnés au bénéfice attendu. Les ressources ont été consacrées à d’autres projets ; **aucune V2 LiDAR n’est actuellement planifiée**.
+
+Des applications de reconstruction ou de détection lentes restaient envisageables en théorie, sous réserve de calibration ; leur adéquation n’a pas été démontrée. Aucun SLAM n’a été réalisé, testé ou validé.
+
+Une étude préalable de faisabilité, notamment du temps nécessaire pour couvrir une scène, aurait permis d’identifier plus tôt les limites de vitesse. C’est un enseignement de dimensionnement pour les projets suivants.
+
+Le visuel principal montre le prototype physique réel assemblé ; la photographie a été retravaillée par IA sur l’éclairage et les ombres.
 
 ## Environnement technique
 **C++ · ROS 2 · RViz2 · RP2040 · PIO · LD19 · MT6701 · A4988 · Raspberry Pi 5 · PlatformIO · Arduino-Pico · TinyUSB · micro-ROS Jazzy · USB CDC · UART · I²C · CMake · Ninja · MSVC · GCC ARM · FreeCAD · KiCad · PrusaSlicer · impression 3D PETG**

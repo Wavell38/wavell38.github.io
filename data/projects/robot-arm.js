@@ -1,12 +1,12 @@
 export default {
-  id:"robot-arm", group:"mechanical", kind:"Mécanique / prototypage", status:"Prototype mécanique",
+  id:"robot-arm", group:"mechanical", kind:"Mécanique / prototypage", status:"Projet arrêté",
   title:"Bras robotique V1", subtitle:"Prototype mécanique low-cost",
   titleAccent:"V1",
   role:"Concepteur / prototypage mécanique — bras robotique articulé low-cost",
   period:"2025",
   summary:"Un bras d’environ 70 cm, 5 axes + pince, conçu sous Blender et fabriqué en PETG autour de servomoteurs à fort couple.",
   tags:["Blender","PETG","Servos","PCA9685","Mécanique"],
-  facts:["Mécanique assemblée","≈70 cm · 5 axes + pince","≈1 mois de réalisation"],
+  facts:["Prototype mécanique assemblé","≈70 cm · 5 axes + pince","Commande préparée, non qualifiée"],
   // Editorial source: assets/bras-robotique/bras-robotique-v1-portfolio.md
   context:"Projet personnel réalisé en 2025, sur environ un mois de conception et fabrication effective. L’objectif était de partir de zéro pour concevoir un bras robotique complet avec des composants accessibles et des pièces imprimées en 3D, destiné à terme à manipuler des objets ou à servir de base à de petites tâches automatisées. Cette V1 a été modélisée sous Blender, avant l’utilisation de FreeCAD dans les projets suivants. Le prototype mécanique a été terminé et assemblé, mais le projet a été arrêté avant la phase d’actionnement électrique et de développement logiciel.",
   labels:{objectives:"Objectif", nextSteps:"Évolution envisagée — V2"},
@@ -37,7 +37,7 @@ export default {
         src:"./assets/bras-robotique/gear-reduction.png",
         alt:"Transmission d’une articulation du bras : petit engrenage du servo et grand engrenage sur l’axe.",
         width:1254, height:1254,
-        caption:"Réduction mécanique : petit engrenage servo → grand engrenage sur l’axe."
+        caption:"Photographie du montage réel — réduction par engrenages."
       }]
     },
     {
@@ -61,7 +61,7 @@ export default {
         src:"./assets/bras-robotique/gripper.png",
         alt:"Pince du prototype avec ses deux doigts et les engrenages qui les relient.",
         width:1254, height:1254,
-        caption:"Mécanisme de préhension et liaison entre les deux doigts."
+        caption:"Photographie de la pince réelle et de la liaison entre ses doigts."
       }]
     },
     {
@@ -85,7 +85,7 @@ export default {
         src:"./assets/bras-robotique/electronics-base.png",
         alt:"Électronique dans la base du bras robotique, avec le PCA9685 et le câblage préparé.",
         width:1254, height:1254,
-        caption:"PCA9685 intégré et câblage préparé dans la base."
+        caption:"Photographie de la base réelle — PCA9685 intégré et câblage préparé."
       }]
     }
   ],
@@ -126,9 +126,9 @@ export default {
   media:{
     lead:{
       type:"illustration", src:"./assets/bras-robotique/illustration.png",
-      alt:"Vue d’ensemble du prototype mécanique assemblé du bras robotique V1.",
+      alt:"Photographie du prototype mécanique réel assemblé du bras robotique V1.",
       width:1254, height:1254,
-      caption:"Prototype V1 assemblé — environ 70 cm, 5 axes de positionnement + pince."
+      caption:"Prototype mécanique V1 assemblé — photographie du montage réel, environ 70 cm, 5 axes + pince."
     }
   }
 };

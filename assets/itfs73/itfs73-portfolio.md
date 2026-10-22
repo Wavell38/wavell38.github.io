@@ -7,7 +7,7 @@
 **2020 – janvier 2021**
 
 ## Contexte
-Conception et développement en autonomie d’une plateforme pédagogique destinée à une installation expérimentale composée de **six grands écrans tactiles**, chacun piloté par un PC Windows distinct.
+Mission freelance contractuelle de conception et développement en autonomie d’une plateforme pédagogique destinée à une installation expérimentale composée de **six grands écrans tactiles**, chacun piloté par un PC Windows distinct.
 
 Les enseignants devaient pouvoir préparer des cours à distance, intégrer PDF et vidéos, puis définir des interactions entre les différents écrans.
 
@@ -46,14 +46,14 @@ Concevoir une architecture couvrant création web des cours, distribution locale
 - Validation du lancement coordonné, des contrôles de PDF et du streaming vidéo multi-écrans.
 
 ## Résultats
-- Architecture distribuée complète pour une installation à six postes.
+- Architecture distribuée conçue et intégrée pour une installation à six postes.
 - Éditeur V1 fonctionnel : PDF page par page, timeline et interactions inter-écrans.
-- Pilotage coordonné d’instances Electron validé sur six machines physiques.
+- Pilotage coordonné d’instances Electron et contrôles PDF validés sur six machines physiques dans l’environnement d’essai.
 - Streaming vidéo multi-écrans fonctionnel dans l’environnement de test.
 - Téléchargement et distribution locale des contenus mis en place.
 
 ## Limites / état
-Projet arrêté avant qualification complète sur l’installation finale et avant industrialisation de l’éditeur. Avec le recul, le modèle de l’éditeur aurait bénéficié d’un cadrage plus poussé, notamment autour de la séparation **interaction → action → résultat**.
+**Projet arrêté**, au stade de **prototype avancé**, avant qualification complète sur l’installation finale et avant industrialisation de l’éditeur. Avec le recul, le modèle de l’éditeur aurait bénéficié d’un cadrage plus poussé, notamment autour de la séparation **interaction → action → résultat**.
 
 ## Environnement technique
 **TypeScript · Node.js · NestJS · React · Electron · PostgreSQL · JavaScript · HTML/CSS · WebSocket / communications réseau · streaming vidéo · Windows · réseau local**

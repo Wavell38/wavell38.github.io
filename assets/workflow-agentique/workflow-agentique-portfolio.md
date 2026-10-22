@@ -70,6 +70,8 @@ Concevoir un cadre réutilisable permettant de déléguer des travaux logiciels 
 
 Aucun gain chiffré de productivité, coût ou qualité n’est revendiqué sans mesure dédiée.
 
+Le workflow reste en évolution. Les validations et reviews apportent des preuves dans le périmètre évalué, sans garantir la correction du logiciel ni sa qualité globale. Les objectifs, les arbitrages structurants et l’interprétation des résultats restent sous responsabilité humaine.
+
 ## Liens
 - Workflow : https://github.com/Wavell38/ai-assisted-software-engineering-workflow
 - Prompt Archiver : https://github.com/Wavell38/prompts_archiver

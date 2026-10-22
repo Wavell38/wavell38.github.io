@@ -6,6 +6,8 @@
 ## Contexte
 Agence Matrice est une agence de communication travaillant notamment sur la visibilité et l’attractivité de stations de ski.
 
+L’application a été développée de manière autonome dans le cadre d’une **collaboration technique avec l’agence**, avec une perspective de vente de l’application et de partenariat économique et de développement continu. La vente et le partenariat projetés n’ont finalement pas été concrétisés ; il ne s’agissait pas d’une mission freelance client contractualisée.
+
 L’agence réalisait périodiquement, de manière largement manuelle, des relevés de données publiques issues de réseaux sociaux afin d’alimenter un système de scoring interne. L’objectif du projet était d’automatiser cette collecte sur un ordre de grandeur d’environ **150 stations de ski françaises**, principalement sur Facebook et Instagram, puis de restituer les données dans un format directement exploitable par la personne chargée du calcul des scores.
 
 Le développement principal a été réalisé en autonomie sur une période d’environ **trois mois**, en parallèle d’un autre projet professionnel.
@@ -65,6 +67,8 @@ Le calcul du scoring lui-même n’était pas réalisé par l’application : il
 - Projet arrivé à un stade de **POC avancé / pré-V1 fonctionnelle**, sans industrialisation complète ni commercialisation finalisée.
 
 ## Limites / état du projet
+La **collaboration est achevée**. La réalisation reste un **POC avancé / pré-V1 fonctionnelle**, réellement utilisé pendant le développement, sans industrialisation complète ni commercialisation finalisée.
+
 - Les réseaux sociaux modifiant régulièrement leurs interfaces et protections, les collecteurs demandaient encore de la maintenance.
 - La gestion des proxies et de la résilience aux limitations d’accès restait perfectible.
 - Le stockage historique et l’exploitation analytique des données auraient pu être approfondis dans une version ultérieure.

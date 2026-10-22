@@ -6,7 +6,7 @@ export default {
   period:"Depuis janvier 2026",
   summary:"Un cadre réutilisable pour déléguer des tranches de développement bornées à des agents IA, avec pilotage humain, validation par les preuves et reviews proportionnées au risque.",
   tags:["Agents IA","Git","Reviews","Qualification","Prompt Archiver"],
-  facts:["R&D en évolution","Tranches bornées","Pilotage humain"],
+  facts:["Workflow formalisé et réutilisé · outils publiés","Tranches bornées","Pilotage humain"],
   context:"Projet transverse de R&D personnelle consacré à la conception, à l’expérimentation et à l’amélioration continue d’un workflow d’ingénierie logicielle assistée par agents IA. Le passage d’un usage ponctuel d’assistants à la délégation de tâches d’ingénierie plus autonomes impose de contrôler le périmètre confié, le contexte, les décisions structurantes, les critères d’acceptation et les preuves produites. Utilisé sur plusieurs projets logiciels et systèmes, ce cadre s’inscrit dans une logique de Spec-Driven Development au sens large, avec séparation entre raisonnement, autorités documentaires et exécution.",
   objective:[
     "Concevoir un cadre réutilisable pour déléguer des travaux logiciels cohérents à des agents IA tout en conservant sous responsabilité humaine les objectifs, les arbitrages structurants, l’architecture acceptée, l’interprétation des résultats et la trajectoire globale du projet."
@@ -84,7 +84,7 @@ export default {
     "Prompt Archiver développé et publié en open source."
   ],
   resultsLinks:[["Prompt Archiver","https://github.com/Wavell38/prompts_archiver"]],
-  limits:"Cadre de R&D en amélioration continue, sous pilotage humain. Les validations et reviews apportent des preuves dans le périmètre évalué, sans garantir la qualité.",
+  limits:"Cadre de R&D en amélioration continue, sous pilotage humain. Les validations et reviews apportent des preuves dans le périmètre évalué, sans garantir la correction du logiciel ni sa qualité globale.",
   limitsItems:[
     "Les objectifs, les arbitrages structurants, l’architecture acceptée et l’interprétation des résultats restent sous responsabilité humaine.",
     "Aucun gain chiffré de productivité, de coût ou de qualité n’est revendiqué sans mesure dédiée.",
@@ -101,7 +101,8 @@ export default {
     lead:{
       type:"illustration",
       src:"./assets/workflow-agentique/illustration.png",
-      alt:"Illustration du développement assisté par IA : éditeur de code, assistant et étapes de planification, tests et review.",
+      alt:"Illustration conceptuelle du développement assisté par IA : éditeur de code, assistant et étapes de planification, tests et review.",
+      caption:"Illustration conceptuelle du workflow assisté par agents",
       width:1448, height:1086
     }
   }

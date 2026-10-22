@@ -1,12 +1,12 @@
 export default {
-  id:"quant-platform", group:"featured", order:2, kind:"Projet personnel", status:"En cours",
+  id:"quant-platform", group:"featured", order:2, kind:"Projet personnel", status:"R&D en cours",
   title:"Plateforme de recherche quantitative", subtitle:"Backtest, exécution simulée & performance",
   titleAccent:"quantitative",
   role:"Développeur logiciel / architecture & performance",
   period:"Depuis juin 2026",
   summary:"Un projet software centré sur la reproductibilité, la performance et la modélisation explicite de l’exécution, du portefeuille et du risque.",
   tags:["Rust","Python","Architecture","Performance","Profiling"],
-  facts:["R&D en cours","Python → Rust","Streaming borné"],
+  facts:["Python fonctionnel · Rust en qualification","Replay reproductible","Streaming borné"],
   context:"Projet personnel de R&D logicielle visant à rejouer des données de marché historiques, exécuter des stratégies dans un environnement simulé et comparer leurs comportements dans des conditions reproductibles. Une première implémentation Python a permis de qualifier le domaine et les règles d’exécution. Les limites mesurées en benchmark ont ensuite conduit à reprendre le runtime en Rust, avec une qualification systématique des dépendances, des performances et de la mémoire.",
   objective:[
     "Construire un environnement de backtest déterministe et performant pour des campagnes longues, avec modélisation explicite des données de marché, de l’exécution, du portefeuille et du risque."
@@ -67,7 +67,7 @@ export default {
     "Replay reproductible avec vérification de l’état des ordres, des positions et des données de marché.",
     "Streaming borné validé sur des campagnes multi-jours.",
     "Profiling ayant identifié un goulot de rétention mémoire et permis d’adapter la concurrence.",
-    "Base technique prête pour des stratégies paramétrables."
+    "Socle technique préparé pour accueillir des stratégies paramétrables."
   ],
   limits:"Projet de recherche logicielle en cours, non présenté comme une plateforme de trading prête pour production. Les résultats techniques ne constituent pas une validation financière ni une preuve de rentabilité de stratégies.",
   nextSteps:"La cible à long terme est une boucle automatisée de recherche et d’adaptation des stratégies aux conditions de marché. Ces capacités restent des étapes futures du projet.",
@@ -87,6 +87,7 @@ export default {
       type:"illustration",
       src:"./assets/plateforme-quantitative/Pipeline-futuriste.png",
       alt:"Illustration conceptuelle d’un pipeline reliant données de marché, backtest, simulation et stratégies.",
+      caption:"Illustration conceptuelle du pipeline de recherche",
       width:1448, height:1086
     }
   }

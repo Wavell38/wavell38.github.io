@@ -1,12 +1,12 @@
 export default {
-  id:"pure-illusion", group:"experience", kind:"Expérience professionnelle", status:"Livraison partielle",
+  id:"pure-illusion", group:"experience", kind:"Expérience professionnelle", status:"Mission terminée",
   title:"Pure Illusion", subtitle:"Agrégateur de données SEO",
   titleAccent:"Illusion",
   role:"Développeur full-stack / intégration data SEO",
   period:"2020 — mission de fin d’études prolongée brièvement en freelance",
   summary:"Développement full-stack et diagnostic d’une chaîne de données SEO multi-sources déjà engagée.",
   tags:["PHP","Symfony","MongoDB","PostgreSQL","Linux"],
-  facts:["Pipeline multi-source","Debug transversal","Déploiement Linux"],
+  facts:["Version interne exploitable · livraison partielle","Pipeline multi-sources","Diagnostic transversal & déploiement Linux"],
   context:"Pure Illusion est une agence web qui disposait à l’époque d’une activité SEO. Le projet visait à construire un outil interne capable de centraliser et exploiter des données SEO provenant de plusieurs sources. J’ai rejoint un projet déjà engagé comprenant collecte de données, stockage MongoDB, transformation vers PostgreSQL et application web à construire/stabiliser.",
   objective:[
     "Rendre exploitable la chaîne de données et construire l’application web de consultation, tout en diagnostiquant les dysfonctionnements du pipeline existant."
@@ -51,7 +51,8 @@ export default {
     lead:{
       type:"illustration",
       src:"./assets/pure-illusion/illustration.png",
-      alt:"Chaîne de données SEO : sources multiples, collecte Python, MongoDB, ETL Go, PostgreSQL et application web de consultation.",
+      alt:"Illustration de la chaîne de données SEO : sources multiples, collecte Python, MongoDB, ETL Go, PostgreSQL et application web de consultation.",
+      caption:"Illustration de la chaîne de données SEO",
       width:1254, height:1254
     }
   }

@@ -64,7 +64,7 @@ Cette automatisation adaptative et le passage en réel constituent des étapes f
 - Replay reproductible avec vérification de l’état des ordres, positions et données de marché.
 - Streaming borné validé sur des campagnes multi-jours.
 - Profiling ayant permis d’identifier un goulot de rétention mémoire et d’adapter la concurrence.
-- Base technique prête pour des stratégies paramétrables.
+- Socle technique préparé pour accueillir des stratégies paramétrables.
 
 ## Limites / état du projet
 Projet de **recherche logicielle en cours**, non présenté comme une plateforme de trading prête pour production. Les campagnes automatiques récurrentes, la sélection adaptative, l’ajustement automatique des paramètres et le passage en réel restent des étapes futures. Les résultats techniques ne constituent pas une validation financière ni une preuve de rentabilité de stratégies.

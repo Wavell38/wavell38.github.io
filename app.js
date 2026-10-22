@@ -71,7 +71,8 @@
   function card(project, featured = false) {
     return (
       '<a class="card ' + (featured ? "featured" : "") + '" href="./project.html?id=' + encodeURIComponent(project.id) + '">' +
-      '<div class="card-meta"><span>' + esc(project.kind) + "</span><span>" + esc(project.status) + "</span></div>" +
+      '<div class="card-meta"><span>' + esc(project.kind) + "</span>" +
+        (hasText(project.status) ? '<span>' + esc(project.status) + '</span>' : '') + "</div>" +
       "<h3>" + esc(project.title) + "</h3>" +
       "<p>" + esc(project.summary) + "</p>" +
       tags(project.tags, true) +
@@ -106,7 +107,7 @@
   }
 
   function renderStandard(project, root) {
-    const factLabels = ["État", "Repère", "Point clé"];
+    const factLabels = ["Maturité", "Repère", "Point clé"];
     const facts = (project.facts || [])
       .map((fact, index) =>
         "<div><span>" + factLabels[index % factLabels.length] + "</span><strong>" + esc(fact) + "</strong></div>"
@@ -127,6 +128,7 @@
       '<a class="project-back" href="./index.html#projets">← Retour aux projets</a>' +
       '<section class="project-hero">' +
         '<p class="eyebrow">' + esc(project.kind) + " · " + esc(project.period) + "</p>" +
+        (hasText(project.status) ? '<p class="status">' + esc(project.status) + '</p>' : '') +
         "<h1>" + esc(project.title) + "</h1>" +
         '<p class="project-summary">' + esc(project.subtitle) + "</p>" +
         tags(project.tags) +
@@ -297,7 +299,7 @@
     const leadBeforeContext = project.media?.leadPlacement === "before-context";
     const overviewMedia = leadBeforeContext ? "" : leadMedia;
     const environment = renderEnvironment(project);
-    const factLabels = ["État", "Repère", "Point clé"];
+    const factLabels = ["Maturité", "Repère", "Point clé"];
     const facts = (project.facts || [])
       .map((fact, index) =>
         "<div><span>" + factLabels[index] + "</span><strong>" + esc(fact) + "</strong></div>"
@@ -445,7 +447,8 @@
       '</div>' +
       '<section class="project-hero case-hero" id="top">' +
         '<div class="case-hero-copy">' +
-          '<div class="case-kicker"><span>' + esc(project.kind) + "</span><span>" + esc(project.period) + '</span><span class="status">' + esc(project.status) + "</span></div>" +
+          '<div class="case-kicker"><span>' + esc(project.kind) + "</span><span>" + esc(project.period) + '</span>' +
+            (hasText(project.status) ? '<span class="status">' + esc(project.status) + '</span>' : '') + "</div>" +
           "<h1>" + projectTitle(project) + "</h1>" +
           (hasText(project.subtitle) ? '<p class="project-summary">' + esc(project.subtitle) + "</p>" : '') +
           (hasText(project.role) ? '<p class="project-role">' + esc(project.role) + "</p>" : '') +

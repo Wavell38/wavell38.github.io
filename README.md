@@ -70,5 +70,5 @@ Les chaînes vides ou composées uniquement d’espaces sont ignorées dans ces 
 
 Vérification du template, sans dépendance : `node --test tests/project-template.test.cjs`.
 
-Le contenu du projet Réducteur cycloïdal dans `data/projects/cycloidal.js` est maintenu à partir de
-`assets/cycloidal-reducer/reducteur-cycloidal-portfolio.md`, source de vérité éditoriale.
+Pour la séparation cycle de vie / maturité, l’origine des médias et la réconciliation entre
+Markdown éditoriaux et données JS affichées, suivre la [convention éditoriale](data/README.md#convention-éditoriale).

@@ -64,8 +64,8 @@ L’analyse finale automatisée des défauts n’est pas considérée comme qual
 
 ### Traitement d’image
 - Pipeline de données RAW Bayer et traitements CFA.
-- Mise en place progressive de corrections photométriques, notamment dark/flat.
-- Premières étapes de localisation géométrique de la carte.
+- Correction dark et application d’un flat-field compatible intégrées au chemin nominal pour corriger le signal de fond et les variations de réponse lumineuse.
+- Localisateur grossier, raffinement pleine résolution, repères géométriques et vue de localisation développés, encore hors du scénario nominal d’acquisition.
 - Qualification séparée de méthodes candidates pour les bords et coins afin de ne pas considérer prématurément une approche comme acquise.
 
 ### Backend et interface
@@ -76,15 +76,20 @@ L’analyse finale automatisée des défauts n’est pas considérée comme qual
 ## Résultats
 - Prototype V1 mécanique et électronique construit autour d’un dôme d’acquisition.
 - Chaîne multi-éclairage à neuf groupes intégrée.
-- Acquisition haute résolution pilotable et reproductible.
+- Acquisition haute résolution pilotable, avec garde-fous temporels liant les captures aux conditions lumineuses demandées.
 - Orchestration logicielle complète entre ROS 2, backend et interface web.
-- Gestion de profils d’acquisition, captures dark et provenance des sessions.
-- Premiers traitements photométriques et géométriques opérationnels.
+- Profils YAML, séquencement, annulation, captures RAW, métadonnées et publication de sessions implémentés.
+- Chaîne RAW avec correction dark et application d’un flat-field compatible intégrée au chemin nominal.
+- Repères géométriques, vue de localisation, localisateur grossier et raffineur pleine résolution développés.
 
 ## Limites / état du projet
 Le projet est un **prototype V1 avancé en cours**.
 
-La détection finale et la qualification automatisée des défauts de surface ne sont pas encore établies. La géométrie des bords et des coins reste expérimentale, et certaines décisions de la future automatisation mécanique sont volontairement différées.
+Les coins et le contour complet de la carte ne sont pas qualifiés ; les traitements géométriques restent hors du scénario nominal d’acquisition et le choix de correction de la distorsion n’est pas arrêté. Le parcours web reste centré sur l’acquisition : la visualisation analytique complète n’est pas finalisée.
+
+Certaines validations intégrées, dépendantes du matériel ou de l’environnement, restent à compléter. La rectification des images, le recalage entre captures, les cartes multi-éclairages et la détection finale des défauts restent à intégrer et à qualifier.
+
+La qualification progressive de la V1 précède toute automatisation mécanique plus ambitieuse. Rails, acquisition par tuiles, retournement et alimentation automatique restent des pistes exploratoires hors V1.
 
 ## Environnement technique
 **C++20 · ROS 2 Jazzy · rclcpp · libcamera · OpenCV · RAW Bayer RGGB · Raspberry Pi 5 · Arducam 64 MP · PCA9685 · I²C · NestJS · TypeScript · Fastify · rclnodejs · WebSocket · React · Vite · JSON · YAML · FreeCAD · KiCad · PrusaSlicer · impression 3D · tests/qualification · agents IA**

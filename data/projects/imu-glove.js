@@ -6,7 +6,7 @@ export default {
   period:"2025 – janvier 2026",
   summary:"Du prototype à quatre MPU6050 vers des modules IMU miniaturisés et un hub RP2040 4 couches.",
   tags:["RP2040","KiCad","SPI","USB","IMU"],
-  facts:["En pause · PCB non qualifiés","8 positions IMU logiques","Jusqu’à 10 ports IMU physiques"],
+  facts:["V4 · itération de conception","8 positions IMU logiques","Jusqu’à 10 ports IMU physiques prévus"],
   context:"Projet personnel visant à créer une interface gestuelle portable, initialement pensée pour commander rapidement un système semi-autonome sans interface vocale ni contrôleur tenu en main. Le projet a évolué d’un prototype basé sur des IMU du commerce vers une architecture personnalisée : modules inertiels miniaturisés, hub RP2040, transport vers l’hôte, calibration, orientation et reconnaissance de gestes.",
   objective:[
     "Acquérir les mouvements de plusieurs segments de la main et centraliser les données de plusieurs IMU.",
@@ -75,7 +75,7 @@ export default {
       media:[{
         src:"./assets/gant-IMU/imu-board-photo.png",
         alt:"Module IMU photographié à côté d’une pièce d’un centime pour donner l’échelle.",
-        caption:"Module IMU — repère d’échelle",
+        caption:"Photographie du PCB IMU reçu, non soudé — repère d’échelle",
         width:1254, height:1254
       }]
     },
@@ -107,13 +107,13 @@ export default {
     }
   ],
   results:[
-    "Plusieurs générations d’architecture, du prototype MPU6050 aux cartes personnalisées.",
+    "Quatre itérations de conception, du prototype MPU6050 aux cartes personnalisées de la V4.",
     "Acquisition multi-IMU et premières reconnaissances gestuelles démontrées sur les prototypes logiciels historiques.",
     "Modules IMU miniaturisés conçus, fichiers de fabrication préparés et PCB reçus.",
     "Hub RP2040 4 couches conçu pour agréger jusqu’à 10 connexions IMU physiques.",
     "Architecture de transport, calibration et orientation structurée."
   ],
-  limits:"Projet mis en pause avant intégration complète de l’électronique personnalisée.",
+  limits:"Projet mis en pause au stade V4 de conception, avant intégration complète de l’électronique personnalisée. Les reconnaissances gestuelles historiques ne démontrent pas un système V4 entièrement fonctionnel.",
   limitsItems:[
     "Les PCB IMU reçus n’ont pas été soudés ni testés électriquement.",
     "Le hub RP2040 n’a pas été assemblé ni qualifié.",

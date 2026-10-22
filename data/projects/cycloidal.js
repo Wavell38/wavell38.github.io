@@ -1,5 +1,5 @@
 export default {
-  id:"cycloidal", group:"mechanical", kind:"Mécanique / CAO", status:"Prototype assemblé",
+  id:"cycloidal", group:"mechanical", kind:"Mécanique / CAO",
   title:"Réducteur cycloïdal", subtitle:"Transmission expérimentale pour bras robotique V2",
   titleAccent:"cycloïdal",
   role:"Concepteur mécanique / CAO — réducteur cycloïdal imprimé 3D",

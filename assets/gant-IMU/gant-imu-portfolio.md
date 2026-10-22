@@ -64,9 +64,9 @@ Le logiciel hôte audité définit **8 positions IMU logiques** ; cette organisa
 - Architecture de transport, calibration et orientation structurée.
 
 ## Limites / état du projet
-Projet **mis en pause avant intégration complète de l’électronique personnalisée**.
+Projet **en pause**, au stade **V4 — itération de conception**, avant intégration complète de l’électronique personnalisée. Les reconnaissances gestuelles démontrées sur les anciens prototypes ne constituent pas une validation d’un système V4 entièrement fonctionnel.
 
-Les PCB IMU reçus n’ont pas été soudés ni testés. Le hub n’est pas présenté comme une carte assemblée/qualifiée. L’audit électronique a également identifié des points à corriger ou vérifier avant fabrication/usage. Aucune certification d’étanchéité ou IP n’a été réalisée.
+Les PCB IMU reçus n’ont pas été soudés ni testés. Le hub RP2040 4 couches a été conçu, mais n’a pas été assemblé ni qualifié. L’audit électronique a également identifié des points à corriger ou vérifier avant fabrication/usage. Aucune certification d’étanchéité ou IP n’a été réalisée.
 
 ## Environnement technique
 **C++ · ROS 2 · RP2040 · SPI · I²C · USB · MPU6050 · ICM-42688-P · ICM-45686 · KiCad · PCB 4 couches · COBS · CRC32C · FreeCAD · impression 3D · textile / prototypage mécanique**

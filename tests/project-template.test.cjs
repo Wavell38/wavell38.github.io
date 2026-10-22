@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
+const { pathToFileURL } = require('node:url');
 
 const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 
@@ -14,7 +15,7 @@ function render(fields = {}) {
   };
   vm.runInNewContext(source, {
     window: { PORTFOLIO: { projects: [project] } },
-    location: { search: '?id=fixture' },
+    location: { search: '?id=' + encodeURIComponent(project.id) },
     URLSearchParams,
     document: {
       body: { dataset: { page: 'project' } },
@@ -24,6 +25,121 @@ function render(fields = {}) {
   });
   return root.innerHTML;
 }
+
+function renderHome(projects) {
+  const grids = Object.fromEntries(['featured', 'systems', 'mechanical', 'experience']
+    .map(group => [group + '-grid', { innerHTML: '' }]));
+  vm.runInNewContext(source, {
+    window: { PORTFOLIO: { projects } },
+    document: {
+      body: { dataset: { page: 'home' } },
+      getElementById: id => grids[id],
+      querySelector: selector => selector === 'main' ? { insertAdjacentHTML() {} } : null,
+    },
+  });
+  return Object.values(grids).map(grid => grid.innerHTML).join('');
+}
+
+async function loadPortfolio() {
+  const previousWindow = global.window;
+  global.window = {};
+  try {
+    await import(pathToFileURL(path.join(__dirname, '..', 'data', 'index.js')).href);
+    return global.window.PORTFOLIO.projects;
+  } finally {
+    if (previousWindow === undefined) delete global.window;
+    else global.window = previousWindow;
+  }
+}
+
+test('lifecycle and maturity have separate labels in both project templates', () => {
+  for (const sections of [[], undefined]) {
+    const html = render({ sections, status: '<En pause>', facts: ['<Prototype>', 'Capteur', 'Résultat'] });
+    const hero = html.match(/<section class="project-hero[\s\S]*?<\/section>/)[0];
+    assert.equal((hero.match(/&lt;En pause&gt;/g) || []).length, 1);
+    assert.equal((hero.match(/&lt;Prototype&gt;/g) || []).length, 1);
+    assert.match(hero, /<span>Maturité<\/span><strong>&lt;Prototype&gt;<\/strong>/);
+    assert.doesNotMatch(hero, /<span>État<\/span>|<En pause>|<Prototype>/);
+  }
+});
+
+test('unknown or blank lifecycle leaves no badge or placeholder on pages and cards', () => {
+  for (const status of [undefined, null, '', '  ']) {
+    for (const sections of [[], undefined]) {
+      const html = render({ sections, status, facts: ['Prototype', 'Capteur', 'Résultat'] });
+      assert.doesNotMatch(html, /class="status"|undefined|Non précisé/);
+      assert.match(html, /<span>Maturité<\/span><strong>Prototype/);
+    }
+    const home = renderHome([{ id: 'fixture', group: 'systems', kind: 'Robotique', title: 'Test', status }]);
+    assert.match(home, /class="card-meta"><span>Robotique<\/span><\/div>/);
+    assert.doesNotMatch(home, /undefined|Non précisé|<span>\s*<\/span>/);
+  }
+  const home = renderHome([{ id: 'fixture', group: 'systems', status: '<En cours>' }]);
+  assert.match(home, /&lt;En cours&gt;/);
+  assert.equal((home.match(/&lt;En cours&gt;/g) || []).length, 1);
+});
+
+test('all twelve real projects preserve identity, editorial metadata, media and navigation', async () => {
+  const projects = await loadPortfolio();
+  const expected = [
+    ['cards-analyzer', 'featured', 'Depuis mai 2026', 'En cours'],
+    ['quant-platform', 'featured', 'Depuis juin 2026', 'R&D en cours'],
+    ['agentic-workflow', 'featured', 'Depuis janvier 2026', 'En évolution'],
+    ['camera-mapper', 'systems', 'Depuis mars 2026', 'V2 en réflexion pour 2027'],
+    ['lidar-2d-3d', 'systems', '2026', 'Projet arrêté'],
+    ['imu-glove', 'systems', '2025 – janvier 2026', 'En pause'],
+    ['drone', 'systems', '2024–2025', undefined],
+    ['robot-arm', 'mechanical', '2025', 'Projet arrêté'],
+    ['cycloidal', 'mechanical', '2025–2026', undefined],
+    ['matrice', 'experience', '2021–2022', 'Collaboration achevée'],
+    ['itfs73', 'experience', '2020–janvier 2021', 'Projet arrêté'],
+    ['pure-illusion', 'experience', '2020 — mission de fin d’études prolongée brièvement en freelance', 'Mission terminée'],
+  ];
+  assert.deepEqual(projects.map(p => [p.id, p.group, p.period, p.status]), expected);
+  assert.deepEqual(projects.filter(p => p.group === 'featured').map(p => p.order), [1, 2, 3]);
+  const ids = new Set(projects.map(p => p.id));
+  const root = path.join(__dirname, '..');
+  for (const project of projects) {
+    for (const key of ['title', 'kind', 'subtitle', 'summary', 'context', 'limits']) {
+      assert.ok(typeof project[key] === 'string' && project[key].trim(), `${project.id}: ${key}`);
+    }
+    assert.ok(project.results.length && project.tags.length, project.id);
+    assert.equal(project.facts.length, 3, project.id);
+    assert.equal(new Set(project.facts).size, 3, project.id);
+    for (const fact of project.facts) {
+      assert.ok(typeof fact === 'string' && fact.trim(), project.id);
+      if (project.status) assert.ok(!fact.includes(project.status), `${project.id}: repeated lifecycle`);
+    }
+    assert.doesNotMatch(project.facts[0], /^(En cours|En pause|Projet arrêté|R&D|Pipeline)/);
+    const html = render({ status: undefined, ...project });
+    assertNavigationTargets(html);
+    assert.doesNotMatch(html, /undefined|<span>État<\/span>|<h[12]><\/h[12]>/, project.id);
+    const hero = html.match(/<section class="project-hero[\s\S]*?<\/section>/)[0];
+    assert.equal((hero.match(/class="status"/g) || []).length, project.status ? 1 : 0, project.id);
+    assert.equal((hero.match(/<span>Maturité<\/span>/g) || []).length, 1, project.id);
+    assert.equal((hero.match(/<strong>/g) || []).length, 3, project.id);
+    for (const [, href] of html.matchAll(/href="(\.\/[^"#]+)(?:#[^"]*)?"/g)) {
+      const url = new URL(href.replaceAll('&amp;', '&'), 'http://portfolio.local/');
+      assert.ok(fs.existsSync(path.join(root, decodeURIComponent(url.pathname))), href);
+      if (url.pathname === '/project.html') assert.ok(ids.has(url.searchParams.get('id')), href);
+    }
+    const media = [project.media?.lead, ...project.sections.flatMap(section => section.media || [])].filter(Boolean);
+    for (const item of media) {
+      assert.ok(item.alt?.trim(), `${project.id}: missing alt`);
+      const filename = path.join(root, item.src);
+      assert.ok(fs.existsSync(filename), item.src);
+      const bytes = fs.readFileSync(filename);
+      assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', item.src);
+      assert.equal(item.width, bytes.readUInt32BE(16), `${item.src}: width`);
+      assert.equal(item.height, bytes.readUInt32BE(20), `${item.src}: height`);
+      if (item.type === 'document') assert.ok(html.includes('href="' + item.src + '"'), item.src);
+    }
+  }
+  const home = renderHome(projects);
+  const homeIds = [...home.matchAll(/href="\.\/project.html\?id=([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(homeIds, expected.map(([id]) => id));
+  assert.doesNotMatch(home, /undefined|Non précisé/);
+});
 
 function assertNavigationTargets(html) {
   const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]));

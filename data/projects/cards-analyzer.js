@@ -55,7 +55,7 @@ export default {
       text:"La chaîne est découpée pour isoler la logique métier des adaptateurs matériels et permettre de qualifier séparément chaque sous-système.",
       bullets:[
         "Architecture modulaire associant ROS 2 / C++, NestJS / TypeScript et React / TypeScript.",
-        "Composants dédiés à la caméra, l’éclairage, l’acquisition, la calibration, le traitement d’image, les workflows de scan et le bringup.",
+        "Composants dédiés à la caméra, l’éclairage, l’acquisition, la calibration, le traitement d’image, les séquences de scan et le démarrage coordonné du système.",
         "Séparation entre logique métier testable et adaptateurs matériels ou ROS lorsque pertinent.",
         "Contrats versionnés pour les sessions d’acquisition, données RAW, artefacts de calibration et géométrie."
       ]
@@ -95,8 +95,8 @@ export default {
       text:"Le traitement progresse par étapes qualifiées, en conservant séparément méthodes établies, candidates et rejetées.",
       bullets:[
         "Pipeline RAW Bayer et traitements CFA.",
-        "Mise en place progressive de corrections photométriques, notamment dark / flat.",
-        "Premières étapes de localisation géométrique de la carte.",
+        "Correction dark et application d’un flat-field compatible intégrées au chemin nominal pour corriger le signal de fond et les variations de réponse lumineuse.",
+        "Localisateur grossier, raffinement pleine résolution, repères géométriques et vue de localisation développés, encore hors du scénario nominal d’acquisition.",
         "Qualification séparée de méthodes candidates pour les bords et les coins afin d’éviter de figer prématurément une approche."
       ]
     },
@@ -120,13 +120,13 @@ export default {
   ],
   limits:"La V1 sait acquérir et préparer les données de manière traçable ; la qualification géométrique précise et l’analyse finale des défauts restent à aboutir.",
   limitsItems:[
-    "Coins et CardBoundary complet non qualifiés ; géométrie encore hors du runner nominal et politique de distorsion ouverte.",
+    "Coins et contour complet de la carte non qualifiés ; traitements géométriques encore hors du scénario nominal d’acquisition et choix de correction de la distorsion non arrêté.",
     "Le parcours Web reste centré sur l’acquisition ; la visualisation analytique complète n’est pas finalisée.",
-    "Pas de qualification globale complète à HEAD : certaines suites dépendantes de l’environnement n’ont pas été rejouées intégralement."
+    "Certaines validations intégrées, dépendantes du matériel ou de l’environnement, restent à compléter."
   ],
   nextSteps:"Poursuivre la qualification progressive de la V1 avant d’engager une automatisation mécanique plus ambitieuse.",
   nextStepsItems:[
-    "Rectification appliquée, registration multi-captures, cartes multi-lumières et détection finale des défauts encore prévues.",
+    "Rectification des images, recalage entre captures, cartes multi-éclairages et détection finale des défauts restent à intégrer et à qualifier.",
     "Rails, capture par tuiles, retournement et alimentation automatique restent des pistes exploratoires hors V1."
   ],
   environment:["C++20","ROS 2 Jazzy","rclcpp","libcamera","OpenCV","RAW Bayer RGGB","Raspberry Pi 5","Arducam 64 MP","PCA9685","I²C","NestJS","TypeScript","Fastify","rclnodejs","WebSocket","React","Vite","JSON","YAML","FreeCAD","KiCad","PrusaSlicer","Impression 3D","Tests / qualification","Agents IA"],
@@ -142,7 +142,7 @@ export default {
     lead:{
       src:"./assets/cards-analyzer/prototype.png",
       alt:"Prototype V1 réel de Cards Analyzer : dôme optique, structure caméra, éclairages et câblage intégrés.",
-      caption:"Prototype V1 — vue d’ensemble réelle",
+      caption:"Prototype V1 — photographie du banc réel assemblé",
       width:1254, height:1254
     }
   }

@@ -1,12 +1,12 @@
 export default {
-  id:"drone", group:"systems", kind:"Robotique / communications", status:"Prototype expérimental",
+  id:"drone", group:"systems", kind:"Robotique / communications",
   title:"Drone semi-autonome", subtitle:"ArduPilot, MAVLink, ROS 2 et réseau mesh",
   titleAccent:"semi-autonome",
   role:"Concepteur / développeur systèmes & robotique",
   period:"2024–2025",
   summary:"Drone assemblé pièce par pièce, architecture Pi 4 embarqué / Pi 5 au sol et passerelle MAVLink ↔ ROS 2 bidirectionnelle.",
   tags:["ArduPilot","MAVLink","ROS 2","C++","Mesh"],
-  facts:["Prototype expérimental","Pi 4 / Pi 5","Bridge bidirectionnel"],
+  facts:["Prototype expérimental · validation surtout logicielle","Pi 4 / Pi 5","Passerelle MAVLink ↔ ROS 2"],
   context:"Projet personnel de R&D visant à concevoir une plateforme aérienne semi-autonome capable d’exécuter des actions de haut niveau et, à terme, d’assister un opérateur par des fonctions de déplacement, d’observation et de reconnaissance. Première exploration approfondie de l’intégration robotique : choix et assemblage du matériel, autopilote, calcul embarqué, communication avec ROS 2, commandes de haut niveau, réseau sans fil et simulation. Une réflexion parallèle sur l’interface opérateur a ensuite conduit au projet de gant IMU, pour transmettre rapidement des commandes gestuelles sans monopoliser les mains par une interface classique.",
   objective:[
     "Construire une plateforme expérimentale complète à partir de composants sélectionnés individuellement, avec une architecture sol / embarqué.",

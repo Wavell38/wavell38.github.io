@@ -1,14 +1,14 @@
 export default {
-  id:"matrice", group:"experience", kind:"Expérience professionnelle", status:"Pré-V1 fonctionnelle",
+  id:"matrice", group:"experience", kind:"Collaboration technique", status:"Collaboration achevée",
   title:"Agence Matrice", subtitle:"Outil de collecte et supervision de données sociales",
   titleAccent:"Matrice",
   role:"Développeur full-stack / automatisation & supervision de collecte",
   period:"2021–2022",
   summary:"Automatisation de campagnes de collecte de données publiques sur les réseaux sociaux pour environ 150 stations de ski.",
   tags:["TypeScript","NestJS","Electron","React","Puppeteer"],
-  facts:["POC avancé / pré-V1","≈150 stations de ski","Campagnes & export CSV"],
+  facts:["POC avancé / pré-V1 fonctionnelle","≈150 stations de ski","Campagnes & export CSV"],
   // Editorial source: assets/agence-matrice/agence-matrice-portfolio.md
-  context:"Agence Matrice est une agence de communication travaillant notamment sur la visibilité et l’attractivité de stations de ski. Elle réalisait périodiquement des relevés largement manuels de données publiques, principalement sur Facebook et Instagram, pour environ 150 stations de ski françaises. Ces données alimentaient un scoring interne, calculé séparément par une autre personne à partir des exports : l’application ne réalisait pas ce scoring. Le développement principal a été mené en autonomie pendant environ trois mois, en parallèle d’un autre projet professionnel.",
+  context:"Collaboration technique avec l’agence Matrice autour de la conception autonome d’une application métier, avec une perspective de vente de l’application et de partenariat économique et de développement continu qui n’a pas abouti. L’agence de communication réalisait périodiquement des relevés largement manuels de données publiques, principalement sur Facebook et Instagram, pour environ 150 stations de ski françaises. Ces données alimentaient un scoring interne calculé séparément par une autre personne à partir des exports : l’application ne réalisait pas ce scoring. Le développement principal a été mené pendant environ trois mois, en parallèle d’un autre projet professionnel.",
   labels:{objectives:"Objectif"},
   objective:[
     "Automatiser la collecte de métriques publiques sur plusieurs réseaux sociaux.",

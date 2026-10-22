@@ -13,7 +13,7 @@ Le système repose sur une caméra placée en hauteur sur un **mât fixe d’env
 
 Une interface et des outils de visualisation ont également été prévus pour les essais, le debug et l’observation du pipeline, mais ils restent secondaires par rapport au besoin principal de perception.
 
-Une première version a été utilisée ponctuellement en compétition. Cette utilisation réelle a mis en évidence deux limites majeures : couverture insuffisante avec une caméra unique et cadence du pipeline trop faible pour en faire un composant central fiable pendant les matchs. La V1 est donc considérée comme une étape de validation, avec une V2 à repenser autour d’une meilleure couverture et d’un dimensionnement plus adapté du calculateur.
+Une première version a été utilisée une fois ponctuellement en compétition. La chaîne caméra → homographie → détections et suivi → world model était techniquement fonctionnelle, mais pas assez fiable ni assez informative pour devenir centrale pendant les matchs. Trois contraintes distinctes ont été identifiées : résolution et portée de détection des ArUco trop faibles à distance, couverture parfois insuffisante avec une caméra unique et cadence du pipeline trop faible. Une V2 reste en réflexion pour le cycle 2027.
 
 ## Objectif
 Construire une chaîne :
@@ -82,18 +82,20 @@ capable de fournir au robot des informations sur les éléments présents et mob
 - CAO et intégration physique du support caméra, du boîtier Raspberry Pi 5 et du mât fixe.
 - Stabilisateurs mécaniques PETG réalisés pour atténuer qualitativement les oscillations du mât autour de la zone de vibration ciblée.
 - Utilisation en compétition une fois.
-- Identification claire des limites de cadence et de couverture mono-caméra, conduisant à envisager une V2 plus performante.
+- Identification des limites de résolution et de portée des ArUco, de couverture mono-caméra et de cadence, conduisant à envisager une V2.
 
 ## Limites / état du projet
 La V1 est un **prototype fonctionnel expérimenté en conditions réelles**, mais pas un système de perception suffisamment rapide et couvrant pour devenir un composant critique en match.
 
-La couverture mono-caméra reste insuffisante pour certaines situations et la cadence du pipeline ne permettait pas une exploitation centrale fiable pendant toute la durée d’un match. Le système d’atténuation mécanique a montré un effet qualitatif, mais n’a pas fait l’objet d’une caractérisation instrumentée complète. Les valeurs autour de 6–7 Hz correspondent à la zone visée lors de la conception des stabilisateurs, pas à une qualification métrologique du comportement du mât.
+La résolution et la portée de détection des ArUco à distance limitaient les informations disponibles. La couverture mono-caméra restait insuffisante pour certaines situations et la cadence du pipeline ne permettait pas une exploitation centrale fiable pendant toute la durée d’un match ; cette cadence ne se réduit pas au taux de rafraîchissement de la caméra.
+
+Le système d’atténuation mécanique a montré un effet qualitatif, sans caractérisation instrumentée complète. La cible vibratoire de **6–7 Hz** des stabilisateurs est distincte de la cadence de traitement de **5–7 Hz** rapportée lors des essais locaux ; elle ne constitue pas une qualification métrologique du mât.
 
 ## Suite envisagée — V2
-Une **V2 est envisagée pour le prochain cycle de Coupe de France de Robotique**, avec comme priorité de corriger les deux limites principales de la V1 : couverture et cadence.
+Une **V2 est en réflexion pour le cycle 2027 de la Coupe de France de Robotique**, sous réserve du temps disponible, des autres projets et du budget. Elle n’est pas fermement engagée et aucun résultat futur n’est garanti.
 
-Les pistes prévues incluent :
-- réévaluer l’architecture mono-caméra versus **deux caméras** afin d’améliorer la couverture du terrain ;
+Les pistes à étudier incluent :
+- réévaluer caméra, optique et résolution nécessaire à la détection des ArUco à distance, ainsi que l’architecture mono-caméra versus **deux caméras** pour la couverture du terrain ;
 - mesurer la charge réelle du pipeline pour déterminer si un **Raspberry Pi 5** reste suffisant ou si un calculateur plus performant est nécessaire ;
 - revoir le pipeline de perception pour augmenter la cadence utile avant toute réintégration en compétition ;
 - conserver le principe de world model global, mais ne fournir une nouvelle version à l’équipe qu’après validation de performances et de fiabilité suffisantes.

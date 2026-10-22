@@ -1,14 +1,14 @@
 export default {
-  id:"camera-mapper", group:"systems", kind:"Robotique / vision", status:"V1 fonctionnelle",
+  id:"camera-mapper", group:"systems", kind:"Robotique / vision", status:"V2 en réflexion pour 2027",
   title:"Camera Mapper", subtitle:"Perception globale de terrain",
   titleAccent:"Mapper",
   role:"Intégrateur robotique / développeur perception terrain",
   period:"Depuis mars 2026",
   summary:"Caméra sur mât fixe à côté du terrain, homographie, ArUco + mouvement et world model temporel des robots et objets sur Raspberry Pi 5.",
   tags:["ROS 2","C++","OpenCV","ArUco","Raspberry Pi 5"],
-  facts:["V1 fonctionnelle","Terrain 3 × 2 m","Utilisation ponctuelle en compétition"],
+  facts:["V1 technique fonctionnelle · fiabilité en match insuffisante","Terrain 3 × 2 m","Une utilisation ponctuelle en compétition"],
   // Editorial source: assets/camera-mapper/camera-mapper-portfolio.md
-  context:"Projet personnel conçu en autonomie dans le contexte collectif de la Coupe de France de Robotique. Une caméra sur un mât fixe d’environ 1,5 m, placé à côté du terrain, est associée à un Raspberry Pi 5 sous ROS 2. Le module transforme une vue oblique en positions métriques et fournit aux autres composants un état global des robots présents, des marqueurs identifiables et des objets / pièces de jeu détectables. Les interfaces de visualisation servent aux essais et au debug. La V1, utilisée ponctuellement en compétition, constitue une étape de validation ; ses limites de couverture et de cadence motivent une V2 à repenser.",
+  context:"Projet personnel conçu en autonomie dans le contexte collectif de la Coupe de France de Robotique. Une caméra sur un mât fixe d’environ 1,5 m, placé à côté du terrain, est associée à un Raspberry Pi 5 sous ROS 2. Le module transforme une vue oblique en positions métriques et fournit aux autres composants un état global des robots présents, des marqueurs identifiables et des objets / pièces de jeu détectables. Les interfaces de visualisation servent aux essais et au diagnostic. Utilisée une fois ponctuellement en compétition, la V1 a démontré le fonctionnement technique de la chaîne, mais pas une perception assez fiable ni assez informative pour devenir centrale en match. Une V2 reste en réflexion pour 2027.",
   labels:{objectives:"Objectif"},
   objective:[
     "Construire la chaîne Caméra → interprétation de scène → projection terrain → suivi temporel → world model.",
@@ -92,17 +92,18 @@ export default {
     "CAO et intégration physique du support caméra, du boîtier Raspberry Pi 5 et du mât fixe.",
     "Stabilisateurs mécaniques PETG réalisés, avec une atténuation observée qualitativement des oscillations du mât dans la zone ciblée.",
     "Utilisation ponctuelle en compétition, à une occasion.",
-    "Identification des limites de cadence et de couverture mono-caméra, conduisant à envisager une V2 plus performante."
+    "Identification des limites de résolution et de portée des ArUco, de couverture mono-caméra et de cadence, conduisant à envisager une V2."
   ],
   limits:"La V1 est un prototype fonctionnel expérimenté en conditions réelles. Elle n’est pas suffisamment rapide et couvrante pour constituer un système de perception critique fiable en match.",
   limitsItems:[
+    "Résolution et portée de détection des marqueurs ArUco trop faibles à distance pour fournir toutes les informations nécessaires.",
     "Cadence du pipeline trop faible pour en faire un composant central fiable pendant les matchs.",
     "Couverture du terrain insuffisante avec une seule caméra dans certaines situations.",
-    "Atténuation mécanique observée qualitativement, sans caractérisation instrumentée complète. Les 6–7 Hz sont la zone visée lors de la conception des stabilisateurs, pas une qualification métrologique du mât."
+    "Atténuation mécanique observée qualitativement, sans caractérisation instrumentée complète. La cible vibratoire de 6–7 Hz des stabilisateurs est distincte de la cadence de traitement de 5–7 Hz rapportée lors des essais locaux."
   ],
-  nextSteps:"Une prochaine version est envisagée pour le prochain cycle de Coupe de France de Robotique, avec pour priorités la couverture et la cadence.",
+  nextSteps:"Une V2 est en réflexion pour le cycle 2027 de la Coupe de France de Robotique, sous réserve du temps disponible, des autres projets et du budget. Elle n’est pas fermement engagée ; les pistes portent sur l’adéquation du matériel et de l’optique, la couverture et la cadence utile.",
   nextStepsItems:[
-    "Réévaluer une caméra versus deux caméras pour améliorer la couverture du terrain.",
+    "Réévaluer la caméra, l’optique et la résolution nécessaire à la détection des ArUco à distance, ainsi qu’une architecture à une ou deux caméras pour la couverture.",
     "Mesurer la charge réelle du pipeline pour déterminer si un Raspberry Pi 5 reste suffisant ou si un calculateur plus performant est nécessaire.",
     "Revoir le pipeline pour augmenter la cadence utile avant toute réintégration en compétition.",
     "Conserver le world model global et ne fournir une nouvelle version à l’équipe qu’après validation de performances et de fiabilité suffisantes."

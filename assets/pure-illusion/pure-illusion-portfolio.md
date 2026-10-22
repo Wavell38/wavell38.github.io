@@ -34,7 +34,7 @@ Rendre exploitable la chaîne de données et construire l’application web de c
 - Formalisation des limites techniques restantes.
 
 ## Limites / état
-Projet livré **partiellement**, avec une version utilisable mais encore des limites structurelles dans la chaîne existante.
+**Mission terminée**, avec une **version interne exploitable — livraison partielle**. Des limites structurelles subsistaient dans la chaîne existante ; cette livraison ne constitue pas une mise en production aboutie de l’ensemble.
 
 ## Environnement technique
 **PHP · Symfony · Twig · JavaScript · HTML/CSS · PostgreSQL · MongoDB · Python · ETL Go · Linux · Git**
